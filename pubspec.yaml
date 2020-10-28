@@ -1,3 +1,4 @@
+# 包名
 name: gitters
 description: A new Flutter project.
 
@@ -25,6 +26,8 @@ dependencies:
     sdk: flutter
   # 路由框架
   fluro: "^1.7.7"
+  # 状态管理框架
+  provider: "^4.3.2+2"
 
 
   # The following adds the Cupertino Icons font to your application.

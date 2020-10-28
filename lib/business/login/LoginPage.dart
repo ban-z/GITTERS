@@ -56,7 +56,7 @@ class LoginPageState extends State<LoginPage> {
             },
             child: Text("Sign in"))
       ],
-    );,
+    ),
     );
   }
 }

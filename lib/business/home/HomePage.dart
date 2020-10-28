@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gitters/framework/model/BaseModel.dart';
+import 'package:provider/provider.dart';
 import 'HomeSetting.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,17 +22,23 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Gitters"),
-      // ),
       body: Center(
         child: BottomNavigationSetting.Items.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: BottomNavigationSetting.Indexs,
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber,
+        selectedItemColor: context.watch<BaseModel>().themeData.primaryColor,
         onTap: _onItemTapped,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print("click the change theme button!");
+          context
+              .read<BaseModel>()
+              .updateThemeData(ThemeData(primarySwatch: Colors.cyan));
+        },
+        child: Icon(Icons.change_history),
       ),
     );
   }
