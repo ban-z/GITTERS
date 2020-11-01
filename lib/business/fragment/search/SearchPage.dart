@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gitters/framework/constants/language/Localizations.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage({Key key}) : super(key: key);
@@ -12,7 +13,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Search"),
+        title: Text(GittersLocalizations.of(context).SearchName),
       ),
        body: Text("SearchPage..."),
     );

@@ -1,16 +1,10 @@
 # gitters
 
-A new Flutter project.
+# ##################
+# #####问题记录######
+# #################
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# 1.国际化支持的过程中：
+    1.没有明白GlobalKey的作用
+    2.没有用自定义I18nWidget去包含HomePage
+    3.对应着https://www.jianshu.com/p/8356a3bc8f6c，去搞明白其具体意义

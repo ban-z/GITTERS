@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gitters/framework/constants/language/Localizations.dart';
 
 class Marketplace extends StatefulWidget {
   Marketplace({Key key}) : super(key: key);
@@ -12,7 +13,7 @@ class _MarketplaceState extends State<Marketplace> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Marketplace"),
+        title: Text(GittersLocalizations.of(context).Marketplace),
       ),
        body: Text("Marketplace..."),
     );

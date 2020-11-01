@@ -24,6 +24,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  # 国家化支持
+  flutter_localizations:
+    sdk: flutter
   # 路由框架
   fluro: "^1.7.7"
   # 状态管理框架

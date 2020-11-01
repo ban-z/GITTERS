@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gitters/framework/model/BaseModel.dart';
+import 'package:gitters/main.dart';
 import 'package:provider/provider.dart';
 import 'HomeSetting.dart';
 
