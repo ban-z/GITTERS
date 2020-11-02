@@ -31,6 +31,10 @@ dependencies:
   fluro: "^1.7.7"
   # 状态管理框架
   provider: "^4.3.2+2"
+  # 网络框架
+  dio: "3.0.10"
+  # JSON工具
+  json_serializable: "^3.5.0"
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -40,6 +44,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  json_serializable: "^3.5.0"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

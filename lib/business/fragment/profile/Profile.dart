@@ -26,9 +26,12 @@ class ProfileState extends State<Profile> {
         title: Text(GittersLocalizations.of(context).ProfileName),
         actions: [
           IconButton(
-              icon: Icon(Icons.language),
+              icon: Icon(Icons.brush),
               onPressed: () {
+                // TODO:目前因为使用flag的判断方式，所以会导致点击两次BTN才会变换语言
                 changeLocale();
+                Scaffold.of(context).showSnackBar(SnackBar(
+                    content: GittersLocalizations.of(context).Changelanguage));
               })
         ],
       ),

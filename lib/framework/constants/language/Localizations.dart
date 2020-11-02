@@ -11,12 +11,14 @@ class GittersLocalizations {
       'market_place': 'Marketplace',
       'search': 'Search',
       'profile': 'Mine',
+      'change_language': 'You have switched to English!',
     },
     'zh': {
       'Application_name': 'Gitters',
       'market_place': '市场',
       'search': '搜索',
       'profile': '我的',
+      'change_language': '您已切换到中文!',
     },
   };
 
@@ -39,6 +41,10 @@ class GittersLocalizations {
 
   get ProfileName {
     return _localizedValuesMap[locale.languageCode]['profile'];
+  }
+
+  get Changelanguage {
+    return _localizedValuesMap[locale.languageCode]['change_language'];
   }
 
   // GittersLocalizations的实例是在 Localizations中通过 GittersLocalizationsDelegate实例化,
