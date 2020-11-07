@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gitters/business/home/HomePage.dart';
 import 'package:gitters/framework/constants/language/Localizations.dart';
-import 'package:gitters/framework/model/BaseModel.dart';
-import 'package:gitters/framework/model/UserModel.dart';
+import 'package:gitters/framework/global/BaseModel.dart';
+import 'package:gitters/framework/global/Global.dart';
+import 'package:gitters/framework/global/UserModel.dart';
 import 'package:provider/provider.dart';
 import 'application.dart';
 import 'framework/router/RouterConfig.dart';
@@ -13,7 +14,9 @@ import 'framework/utils/I18NWidget.dart';
 
 /* 初始化路由 */
 void main() {
-  FluroRouter router = FluroRouter();
+  WidgetsFlutterBinding.ensureInitialized();
+  Global.init();
+  FluroRouter router = new FluroRouter();
   RouterConfig.configRouter(router);
   Application.router = router;
   runApp(Wrapper(child: MyApp()));
@@ -33,7 +36,7 @@ class Wrapper extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => BaseModel()),
-        ChangeNotifierProvider(create: (_) => UserModel()),
+        ChangeNotifierProvider(create: (_) => UserModel())
       ],
       child: child,
     );
