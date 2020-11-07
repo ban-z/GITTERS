@@ -21,3 +21,7 @@
     4.如何设置一个可用的全局context
 
 # 4.Marketplace的定位为各种仓库的展示(用Tab的方式实现，左右滑动：暂定个人仓，关注仓)，所以登录逻辑也提前到应用打开
+
+# 5.cached_network_image: 图片缓存框架的学习：https://pub.dev/packages/cached_network_image/install
+
+# 6.fluttertoast:Toast展示框架：https://pub.dev/packages/fluttertoast/install

@@ -3,22 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gitters/business/home/HomePage.dart';
 import 'package:gitters/framework/constants/language/Localizations.dart';
-import 'package:gitters/framework/global/BaseModel.dart';
+import 'package:gitters/framework/global/provider/BaseModel.dart';
 import 'package:gitters/framework/global/Global.dart';
-import 'package:gitters/framework/global/UserModel.dart';
+import 'package:gitters/framework/global/provider/UserModel.dart';
 import 'package:provider/provider.dart';
 import 'application.dart';
 import 'framework/router/RouterConfig.dart';
 import 'framework/constants/language/GittersLocalizationsDelegate.dart';
 import 'framework/utils/I18NWidget.dart';
 
-/* 初始化路由 */
+/* main入口方法 */
 void main() {
+  //TODO: 在runApp()执行之前，涉及到异步方法的调用，需要调用次方法，具体原因待查
   WidgetsFlutterBinding.ensureInitialized();
+  // 自定义Global的初始化
   Global.init();
+  // 路由的初始化
   FluroRouter router = new FluroRouter();
-  RouterConfig.configRouter(router);
-  Application.router = router;
+  RouterConfig.configRouter(router); // 关联自定义路由配置
+  Application.router = router; // 存入Application中供全局调用
   runApp(Wrapper(child: MyApp()));
 }
 
@@ -43,8 +46,7 @@ class Wrapper extends StatelessWidget {
   }
 }
 
-/* 国际化配置 */
-/* 根容器 */
+/* 根容器：国际化配置 */
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:gitters/business/fragment/profile/Profile.dart';
 import 'package:gitters/business/home/HomePage.dart';
 import 'package:gitters/business/login/LoginPage.dart';
 import 'package:gitters/framework/utils/pages/EmptyPage.dart';
@@ -13,6 +14,12 @@ var loginHandler = Handler(
 var homeHandler = Handler(
   handlerFunc: (context, parameters) {
     return HomePage();
+  },
+);
+
+var profileHandler = Handler(
+  handlerFunc: (context, parameters) {
+    return Profile();
   },
 );
 

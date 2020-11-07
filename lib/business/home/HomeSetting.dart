@@ -8,9 +8,12 @@ class BottomNavigationSetting {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   static List<BottomNavigationBarItem> Indexs = <BottomNavigationBarItem>[
-    BottomNavigationBarItem(icon: Icon(Icons.shop_two), title: Text('Marketplace')),
-    BottomNavigationBarItem(icon: Icon(Icons.search), title: Text("Search")),
-    BottomNavigationBarItem(icon: Icon(Icons.person), title: Text("Mine")),
+    // BottomNavigationBarItem(icon: Icon(Icons.shop_two), title: Text('Marketplace')),
+    // BottomNavigationBarItem(icon: Icon(Icons.search), title: Text("Search")),
+    // BottomNavigationBarItem(icon: Icon(Icons.person), title: Text("Mine")),
+    BottomNavigationBarItem(icon: Icon(Icons.shop_two), title: Container()),
+    BottomNavigationBarItem(icon: Icon(Icons.search), title: Container()),
+    BottomNavigationBarItem(icon: Icon(Icons.person), title: Container()),
   ];
 
   static List<Widget> Items = <Widget>[

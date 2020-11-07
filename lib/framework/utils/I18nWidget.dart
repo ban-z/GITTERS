@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// 国际化组件，实现语言的切换功能
 class I18nWidget extends StatefulWidget {
   final child;
   I18nWidget({Key key, this.child}) : super(key: key);
