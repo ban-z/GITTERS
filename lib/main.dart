@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:github/github.dart';
 import 'package:gitters/business/home/HomePage.dart';
 import 'package:gitters/framework/constants/language/Localizations.dart';
 import 'package:gitters/framework/global/provider/BaseModel.dart';
@@ -13,7 +14,7 @@ import 'framework/constants/language/GittersLocalizationsDelegate.dart';
 import 'framework/utils/I18NWidget.dart';
 
 /* main入口方法 */
-void main() {
+/* void main() {
   //TODO: 在runApp()执行之前，涉及到异步方法的调用，需要调用次方法，具体原因待查
   WidgetsFlutterBinding.ensureInitialized();
   // 自定义Global的初始化
@@ -21,6 +22,21 @@ void main() {
   // 路由的初始化
   FluroRouter router = new FluroRouter();
   RouterConfig.configRouter(router); // 关联自定义路由配置
+  Application.router = router; // 存入Application中供全局调用
+  runApp(Wrapper(child: MyApp()));
+} */
+
+Future<void> main() async {
+  //TODO: 在runApp()执行之前，涉及到异步方法的调用，需要调用次方法，具体原因待查
+  WidgetsFlutterBinding.ensureInitialized();
+  // 自定义Global的初始化
+  Global.init();
+  // 路由的初始化
+  GitHub github = GitHub(); // 创建一个GitHub Client，TODO:默认情况下使用匿名身份验证，之后可以选择使用此进行登录，或者使用原登录接口，然后注入Token
+  // var github = GitHub(auth: Authentication.basic('username', 'password')); //之后登录替换为此用法
+  FluroRouter router = new FluroRouter();
+  RouterConfig.configRouter(router); // 关联自定义路由配置
+  Application.github = github; // 保存全局变量github
   Application.router = router; // 存入Application中供全局调用
   runApp(Wrapper(child: MyApp()));
 }
