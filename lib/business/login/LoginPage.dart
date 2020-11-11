@@ -1,32 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:github/github.dart';
+import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/toast.dart';
-import 'package:gitters/framework/global/Global.dart';
-import 'package:gitters/framework/global/provider/UserModel.dart';
-import 'package:gitters/framework/network/Git.dart';
-import 'package:gitters/models/index.dart';
-import 'package:provider/provider.dart';
+import 'package:gitters/framework/router/RouterConfig.dart';
 
 class LoginPage extends StatefulWidget {
-  // LoginPage(Set<Object> set, {Key key}) : super(key: key);
 
   @override
   createState() => new LoginPageState();
 }
 
 class LoginPageState extends State<LoginPage> {
-  TextEditingController _unameController = new TextEditingController();
-  TextEditingController _pwdController = new TextEditingController();
-  bool pwdShow = false; //密码是否显示明文
-  GlobalKey _formKey = new GlobalKey<FormState>();
-  bool _nameAutoFocus = true;
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController pwdController = new TextEditingController();
+  bool passwordVisible = false; //密码是否显示明文
+  GlobalKey formKey = new GlobalKey<FormState>();
+  bool nameAutoFocus = true;
 
   @override
   void initState() {
-    // 自动填充上次登录的用户名，填充后将焦点定位到密码输入框
-    _unameController.text = Global.profile.lastLogin;
-    if (_unameController.text != null) {
-      _nameAutoFocus = false;
-    }
     super.initState();
   }
 
@@ -38,56 +30,55 @@ class LoginPageState extends State<LoginPage> {
           leading: Text(''),
         ),
         body: Container(
-          // mainAxisAlignment: MainAxisAlignment.center,
           child: Form(
-              key: _formKey,
+              key: formKey,
               autovalidate: true,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Padding(padding: const EdgeInsets.only(top: 150)),
                   TextFormField(
-                      autofocus: _nameAutoFocus,
-                      controller: _unameController,
+                      autofocus: nameAutoFocus,
+                      controller: nameController,
                       decoration: InputDecoration(
-                        labelText: "用户名～～～～",
-                        hintText: "用户名或邮箱～～～～",
+                        labelText: "用户名",
+                        hintText: "请输入账号....",
                         prefixIcon: Icon(Icons.person),
                       ),
-                      // 校验用户名（不能为空）
                       validator: (v) {
-                        return v.trim().isNotEmpty ? null : "请输入用户名～～～～";
+                        return v.trim().isNotEmpty ? null : "用户名不能为空！";
                       }),
                   TextFormField(
-                    controller: _pwdController,
-                    autofocus: !_nameAutoFocus,
+                    autofocus: !nameAutoFocus,
+                    controller: pwdController,
                     decoration: InputDecoration(
-                        labelText: "密码～～～～",
-                        hintText: "请输入密码～～～～",
+                        labelText: "密码",
+                        hintText: "请输入密码...",
                         prefixIcon: Icon(Icons.lock),
                         suffixIcon: IconButton(
-                          icon: Icon(pwdShow
+                          icon: Icon(passwordVisible
                               ? Icons.visibility_off
                               : Icons.visibility),
                           onPressed: () {
                             setState(() {
-                              pwdShow = !pwdShow;
+                              passwordVisible = !passwordVisible;
                             });
                           },
                         )),
-                    obscureText: !pwdShow,
-                    //校验密码（不能为空）
+                    obscureText: !passwordVisible,
                     validator: (v) {
-                      return v.trim().isNotEmpty ? null : "请输入密码～～～～";
+                      return v.trim().isNotEmpty ? null : "密码不能为空！";
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 25),
+                    padding: const EdgeInsets.only(top: 50),
                     child: ConstrainedBox(
                       constraints: BoxConstraints.expand(height: 55.0),
                       child: RaisedButton(
                         color: Theme.of(context).primaryColor,
                         onPressed: _onLogin,
                         textColor: Colors.white,
-                        child: Text("登录～～～"),
+                        child: Text("登录"),
                       ),
                     ),
                   ),
@@ -97,29 +88,28 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void _onLogin() async {
-    // 提交前，先验证各个表单字段是否合法
-    if ((_formKey.currentState as FormState).validate()) {
+    // 登录前，验证各个表单字段是否合法
+    if ((formKey.currentState as FormState).validate()) {
       showLoading(context);
-      User user;
       try {
-        user = await Git(context)
-            .login(_unameController.text, _pwdController.text);
-        // 因为登录页返回后，首页会build，所以我们传false，更新user后不触发更新
-        Provider.of<UserModel>(context, listen: false).user = user;
+        Application.github = GitHub(
+            auth: Authentication.basic(
+                nameController.text, pwdController.text));
       } catch (e) {
-        //登录失败则提示
+        //登录失败提示
         if (e.response?.statusCode == 401) {
-          showToast("用户名或密码有错误～～～～");
+          showToast("用户名或密码错误，请重试...");
         } else {
           showToast(e.toString());
         }
       } finally {
         // 隐藏loading框
-        Navigator.of(context).pop();
+        Application.router.pop(context);
       }
-      if (user != null) {
+
+      if (Application.github != null) {
         // 返回
-        Navigator.of(context).pop();
+        Application.router.navigateTo(context, RouterList.Home.value);
       }
     }
   }
