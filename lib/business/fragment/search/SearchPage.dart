@@ -1,8 +1,11 @@
 import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
+import 'package:github/github.dart';
 import 'package:gitters/business/widgets/repository.dart';
 import 'package:gitters/framework/constants/language/Localizations.dart';
 import 'package:gitters/models/index.dart';
+
+import '../../../application.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage({Key key}) : super(key: key);
@@ -18,26 +21,36 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         title: Text(GittersLocalizations.of(context).SearchName),
       ),
-      body: Container(
-        child: InfiniteListView<Repo>(
-        // onRetrieveData: (int page, List<Repo> items, bool refresh) async {
-        //   var data = await Git(context).getRepos(
-        //     refresh: refresh,
-        //     queryParameters: {
-        //       'page': page,
-        //       'page_size': 20,
-        //     },
-        //   );
-        //   //把请求到的新数据添加到items中
-        //   items.addAll(data);
-        //   // 如果接口返回的数量等于'page_size'，则认为还有数据，反之则认为最后一页
-        //   return data.length == 20;
-        // },
-        itemBuilder: (List list, int index, BuildContext ctx) {
-          // 项目信息列表项
-          return RepoItem(list[index]);
-        },
-      )),
+      body: FutureBuilder<CurrentUser>(
+          future: Application.github.users.getCurrentUser(),
+          builder: (BuildContext context, AsyncSnapshot<CurrentUser> snapshot) {
+            if (snapshot.connectionState == ConnectionState.active ||
+                snapshot.connectionState == ConnectionState.waiting) {
+              return new Center(
+                child: new CircularProgressIndicator(),
+              );
+            }
+
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              } else if (snapshot.hasData) {
+                CurrentUser user = snapshot.data;
+                print(user.avatarUrl.toString());
+                return Center(
+                  child: Column(
+                    children: [
+                      Text(user.ownedPrivateReposCount.toString() ??
+                          'default count'),
+                      Text(user.avatarUrl.toString() ?? 'default email'),
+                    ],
+                  ),
+                );
+              }
+            }
+            //请求未完成时弹出loading
+            return CircularProgressIndicator();
+          }),
     );
   }
 }
