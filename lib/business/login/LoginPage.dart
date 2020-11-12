@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/toast.dart';
+import 'package:gitters/framework/constants/Constant.dart';
 import 'package:gitters/framework/router/RouterConfig.dart';
 
 class LoginPage extends StatefulWidget {
-
   @override
   createState() => new LoginPageState();
 }
@@ -19,6 +19,8 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
+    nameController.text = diskCache.getString(Constant.USER_NAME) ?? '';
+    pwdController.text = diskCache.getString(Constant.PASSWORD) ?? '';
     super.initState();
   }
 
@@ -92,9 +94,9 @@ class LoginPageState extends State<LoginPage> {
     if ((formKey.currentState as FormState).validate()) {
       showLoading(context);
       try {
-        Application.github = GitHub(
-            auth: Authentication.basic(
-                nameController.text, pwdController.text));
+        gitHubClient = GitHub(
+            auth:
+                Authentication.basic(nameController.text, pwdController.text));
       } catch (e) {
         //登录失败提示
         if (e.response?.statusCode == 401) {
@@ -104,12 +106,14 @@ class LoginPageState extends State<LoginPage> {
         }
       } finally {
         // 隐藏loading框
-        Application.router.pop(context);
+        fluroRouter.pop(context);
       }
 
-      if (Application.github != null) {
+      if (gitHubClient != null) {
         // 返回
-        Application.router.navigateTo(context, RouterList.Home.value);
+        diskCache.setString(Constant.USER_NAME, nameController.text);
+        diskCache.setString(Constant.PASSWORD, pwdController.text);
+        fluroRouter.navigateTo(context, RouterList.Home.value);
       }
     }
   }

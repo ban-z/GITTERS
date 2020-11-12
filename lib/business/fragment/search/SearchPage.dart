@@ -22,7 +22,7 @@ class _SearchPageState extends State<SearchPage> {
         title: Text(GittersLocalizations.of(context).SearchName),
       ),
       body: FutureBuilder<CurrentUser>(
-          future: Application.github.users.getCurrentUser(),
+          future: gitHubClient.users.getCurrentUser(),
           builder: (BuildContext context, AsyncSnapshot<CurrentUser> snapshot) {
             if (snapshot.connectionState == ConnectionState.active ||
                 snapshot.connectionState == ConnectionState.waiting) {

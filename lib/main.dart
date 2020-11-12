@@ -5,17 +5,20 @@ import 'package:gitters/business/login/LoginPage.dart';
 import 'package:gitters/framework/constants/language/Localizations.dart';
 import 'package:gitters/framework/global/provider/BaseModel.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'application.dart';
 import 'framework/router/RouterConfig.dart';
 import 'framework/constants/language/GittersLocalizationsDelegate.dart';
 import 'framework/utils/I18NWidget.dart';
 
 /* main入口方法 */
-void main() {
+Future<void> main() async {
   // 路由的初始化
+  WidgetsFlutterBinding.ensureInitialized();
+  diskCache = await SharedPreferences.getInstance();
   FluroRouter router = new FluroRouter();
   RouterConfig.configRouter(router); // 关联自定义路由配置
-  Application.router = router; // 存入Application中供全局调用
+  fluroRouter = router; // 存入Application中供全局调用
   runApp(Wrapper(child: MyApp()));
 }
 

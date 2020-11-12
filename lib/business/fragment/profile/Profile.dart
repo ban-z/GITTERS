@@ -39,7 +39,7 @@ class ProfileState extends State<Profile> {
         ],
       ),
       body: FutureBuilder<CurrentUser>(
-          future: Application.github.users.getCurrentUser(),
+          future: gitHubClient.users.getCurrentUser(),
           builder: (BuildContext context, AsyncSnapshot<CurrentUser> snapshot) {
             if (snapshot.connectionState == ConnectionState.active ||
                 snapshot.connectionState == ConnectionState.waiting) {

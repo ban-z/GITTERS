@@ -23,7 +23,7 @@ class _MarketplaceState extends State<Marketplace> {
       body: Container(
         alignment: Alignment.center,
         child: FutureBuilder<List<Repository>>(
-            future: Application.github.repositories.listRepositories().toList(),
+            future: gitHubClient.repositories.listRepositories().toList(),
             builder: (BuildContext context,
                 AsyncSnapshot<List<Repository>> snapshot) {
               if (snapshot.connectionState == ConnectionState.active ||
