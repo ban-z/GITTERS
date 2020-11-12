@@ -9,7 +9,7 @@ class Repo {
     num id;
     String name;
     String full_name;
-    User owner;
+    GNUser owner;
     Repo parent;
     bool private;
     String description;

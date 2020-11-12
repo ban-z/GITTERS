@@ -7,7 +7,7 @@ part 'profile.g.dart';
 class Profile {
     Profile();
 
-    User user;
+    GNUser user;
     String token;
     num theme;
     CacheConfig cache;

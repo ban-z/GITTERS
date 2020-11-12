@@ -3,7 +3,9 @@ import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/toast.dart';
 import 'package:gitters/framework/constants/Constant.dart';
+import 'package:gitters/framework/network/Git.dart';
 import 'package:gitters/framework/router/RouterConfig.dart';
+import 'package:gitters/models/user.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -93,12 +95,12 @@ class LoginPageState extends State<LoginPage> {
     // 登录前，验证各个表单字段是否合法
     if ((formKey.currentState as FormState).validate()) {
       showLoading(context);
+      GNUser user;
       try {
-        gitHubClient = GitHub(
-            auth:
-                Authentication.basic(nameController.text, pwdController.text));
+        user = await Git(context)
+            .login(nameController.text, pwdController.text);
       } catch (e) {
-        //登录失败提示
+        //登录失败则提示
         if (e.response?.statusCode == 401) {
           showToast("用户名或密码错误，请重试...");
         } else {
@@ -106,14 +108,24 @@ class LoginPageState extends State<LoginPage> {
         }
       } finally {
         // 隐藏loading框
-        fluroRouter.pop(context);
+        Navigator.of(context).pop();
       }
 
-      if (gitHubClient != null) {
-        // 返回
+      if (user != null) {
+        // 存储用户名与密码
         diskCache.setString(Constant.USER_NAME, nameController.text);
         diskCache.setString(Constant.PASSWORD, pwdController.text);
+        // 创建gitHubClient
+        gitHubClient = GitHub(
+            auth:
+                Authentication.basic(nameController.text, pwdController.text));
+        // 隐藏loading框
+        fluroRouter.pop(context);
         fluroRouter.navigateTo(context, RouterList.Home.value);
+      } else {
+        // 隐藏loading框
+        // fluroRouter.pop(context); // finally 中已经执行过了
+        showToast("用户名或密码错误，请重试...");
       }
     }
   }

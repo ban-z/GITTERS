@@ -22,21 +22,6 @@ Future<void> main() async {
   runApp(Wrapper(child: MyApp()));
 }
 
-// Future<void> main() async {
-//   //TODO: 在runApp()执行之前，涉及到异步方法的调用，需要调用次方法，具体原因待查
-//   WidgetsFlutterBinding.ensureInitialized();
-//   // 自定义Global的初始化
-//   Global.init();
-//   // 路由的初始化
-//   //GitHub github = GitHub(); // 创建一个GitHub Client，TODO:默认情况下使用匿名身份验证，之后可以选择使用此进行登录，或者使用原登录接口，然后注入Token
-//   // var github = GitHub(auth: Authentication.basic('username', 'password')); //之后登录替换为此用法
-//   FluroRouter router = new FluroRouter();
-//   RouterConfig.configRouter(router); // 关联自定义路由配置
-//   //Application.github = github; // 保存全局变量github
-//   Application.router = router; // 存入Application中供全局调用
-//   runApp(Wrapper(child: MyApp()));
-// }
-
 /* 国际化Globalkey设置 */
 GlobalKey<I18nWidgetState> i18nWidgetStateKey = GlobalKey<I18nWidgetState>();
 

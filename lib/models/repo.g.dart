@@ -13,7 +13,7 @@ Repo _$RepoFromJson(Map<String, dynamic> json) {
     ..full_name = json['full_name'] as String
     ..owner = json['owner'] == null
         ? null
-        : User.fromJson(json['owner'] as Map<String, dynamic>)
+        : GNUser.fromJson(json['owner'] as Map<String, dynamic>)
     ..parent = json['parent'] == null
         ? null
         : Repo.fromJson(json['parent'] as Map<String, dynamic>)

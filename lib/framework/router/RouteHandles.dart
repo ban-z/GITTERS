@@ -27,22 +27,3 @@ var emptyHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return EmptyPage();
 });
-
-// 参考
-/* //空页面
-var emptyHandler = new Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return PageEmpty();
-    });
-
-//A页面
-var aHandler = new Handler(
-    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
-      return PageA();
-    });
-
-//B页面
-var bHandler = new Handler(
-    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
-      return PageB();
-    }); */

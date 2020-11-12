@@ -33,7 +33,7 @@ class _RepoItemState extends State<RepoItem> {
             children: <Widget>[
               ListTile(
                 dense: true,
-                leading: gmAvatar(
+                leading: GitterAvatar(
                   //项目owner头像
                   widget.repo.owner.avatar_url,
                   width: 24.0,
