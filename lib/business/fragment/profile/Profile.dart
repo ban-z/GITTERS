@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
+import 'package:gitters/business/widgets/repository.dart';
+import 'package:gitters/business/widgets/userbar.dart';
 import 'package:gitters/framework/constants/language/Localizations.dart';
-import 'package:gitters/framework/router/RouterConfig.dart';
 import 'package:gitters/main.dart';
 
 class Profile extends StatefulWidget {
@@ -12,14 +13,15 @@ class Profile extends StatefulWidget {
 
 class ProfileState extends State<Profile> {
   var flag = false;
-  CurrentUser user;
-  void changeLocale() {
-    if (flag) {
-      i18nWidgetStateKey.currentState.changeLanguage(const Locale('zh', "CH"));
-    } else {
-      i18nWidgetStateKey.currentState.changeLanguage(const Locale('en', "US"));
-    }
-    flag = !flag;
+  var _futureBuilders;
+
+  CurrentUser curUser;
+  List<Repository> repos;
+
+  @override
+  void initState() {
+    _futureBuilders = getProfileFutures();
+    super.initState();
   }
 
   @override
@@ -38,45 +40,63 @@ class ProfileState extends State<Profile> {
               })
         ],
       ),
-      body: FutureBuilder<CurrentUser>(
-          future: gitHubClient.users.getCurrentUser(),
-          builder: (BuildContext context, AsyncSnapshot<CurrentUser> snapshot) {
-            if (snapshot.connectionState == ConnectionState.active ||
-                snapshot.connectionState == ConnectionState.waiting) {
-              return new Center(
-                child: new CircularProgressIndicator(),
-              );
-            }
-
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else if (snapshot.hasData) {
-                user = snapshot.data;
-                print(user.avatarUrl.toString());
-                return Center(
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.network(user.avatarUrl ?? 'https://wx1.sinaimg.cn/mw690/002VTQLVgy1gklq3jwbraj61zo2niqv602.jpg', width: 60, height: 60,),
-                          Column(
-                            children: [
-                              Text(user.name ?? 'default name'),
-                              Text(user.email ?? 'default email'),
-                            ],
-                          ),
-                        ],
-                      )
-                    ],
-                  )
-                );
-              }
-            }
-            //请求未完成时弹出loading
-            return CircularProgressIndicator();
-          }),
+      body: buildBody(),
     );
+  }
+
+  void changeLocale() {
+    if (flag) {
+      i18nWidgetStateKey.currentState.changeLanguage(const Locale('zh', "CH"));
+    } else {
+      i18nWidgetStateKey.currentState.changeLanguage(const Locale('en', "US"));
+    }
+    flag = !flag;
+  }
+
+  Future getProfileFutures() {
+    return Future.wait([getCurrentUser(), getOwnerRepos()]);
+  }
+
+  Future getCurrentUser() async {
+    curUser = await gitHubClient.users.getCurrentUser();
+  }
+
+  Future getOwnerRepos() async {
+    repos = await gitHubClient.repositories.listRepositories().toList();
+  }
+
+  buildBody() {
+    return FutureBuilder(
+        future: getProfileFutures(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.active ||
+              snapshot.connectionState == ConnectionState.waiting) {
+            return new Center(
+              child: new CircularProgressIndicator(),
+            );
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 4,
+                    child: UserBar(user: curUser,)
+                ),
+                Expanded(
+                  flex: 6,
+                  child: ListView.builder(
+                    itemCount: repos.length,
+                    itemBuilder: (context, index) {
+                      Repository repo = repos[index];
+                      return RepoItem(repo);
+                    },
+                  ),
+                )
+              ],
+            );
+          }
+        });
   }
 }

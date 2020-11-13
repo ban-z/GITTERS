@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 Widget GitterAvatar(
   String url, {
   double width = 30,
-  double height,
+  double height = 30,
   BoxFit fit,
   BorderRadius borderRadius,
 }) {

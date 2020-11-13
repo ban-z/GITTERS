@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:github/github.dart';
 import 'package:gitters/business/widgets/avatar.dart';
-import '../../models/index.dart';
 
 class RepoItem extends StatefulWidget {
   // 将`repo.id`作为RepoItem的默认key
   RepoItem(this.repo) : super(key: ValueKey(repo.id));
 
-  final Repo repo;
+  final Repository repo;
 
   @override
   _RepoItemState createState() => _RepoItemState();
@@ -35,7 +35,7 @@ class _RepoItemState extends State<RepoItem> {
                 dense: true,
                 leading: GitterAvatar(
                   //项目owner头像
-                  widget.repo.owner.avatar_url,
+                  widget.repo.owner.avatarUrl,
                   width: 24.0,
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -53,13 +53,13 @@ class _RepoItemState extends State<RepoItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      widget.repo.fork
-                          ? widget.repo.full_name
+                      widget.repo.isFork
+                          ? widget.repo.fullName
                           : widget.repo.name,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        fontStyle: widget.repo.fork
+                        fontStyle: widget.repo.isFork
                             ? FontStyle.italic
                             : FontStyle.normal,
                       ),
@@ -111,24 +111,24 @@ class _RepoItemState extends State<RepoItem> {
             var children = <Widget>[
               Icon(Icons.star),
               Text(" " +
-                  widget.repo.stargazers_count
+                  widget.repo.stargazersCount
                       .toString()
                       .padRight(paddingWidth)),
               Icon(Icons.info_outline),
               Text(" " +
-                  widget.repo.open_issues_count
+                  widget.repo.openIssuesCount
                       .toString()
                       .padRight(paddingWidth)),
 
               Icon(Icons.copy), //我们的自定义图标
-              Text(widget.repo.forks_count.toString().padRight(paddingWidth)),
+              Text(widget.repo.forksCount.toString().padRight(paddingWidth)),
             ];
 
-            if (widget.repo.fork) {
+            if (widget.repo.isFork) {
               children.add(Text("Forked".padRight(paddingWidth)));
             }
 
-            if (widget.repo.private == true) {
+            if (widget.repo.isPrivate == true) {
               children.addAll(<Widget>[
                 Icon(Icons.lock),
                 Text(" private".padRight(paddingWidth))

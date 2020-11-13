@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
+import 'package:gitters/business/widgets/repository.dart';
 import 'package:gitters/framework/constants/language/Localizations.dart';
 
 class Marketplace extends StatefulWidget {
@@ -42,10 +43,7 @@ class _MarketplaceState extends State<Marketplace> {
                     itemCount: repos.length,
                     itemBuilder: (context, index) {
                       Repository repo = repos[index];
-                      return ListTile(
-                        title: Text(repo.archived.toString()),
-                        subtitle: Text(repo.defaultBranch.toString()),
-                      );
+                      return RepoItem(repo);
                     },
                   );
                 }
