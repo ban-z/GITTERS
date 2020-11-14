@@ -37,22 +37,31 @@ class LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              constraints: BoxConstraints.expand(
-                height: 125,
+              padding: EdgeInsets.symmetric(vertical: 24.0),
+              margin: EdgeInsets.only(top: 24.0, left: 12.0, right: 12.0),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor,
+                  borderRadius: BorderRadius.all(Radius.circular(24.0))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Hello Gitter',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 32,
+                        fontStyle: FontStyle.italic),
+                  ),
+                  Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
+                  Image.asset("images/gitters-logo.png", //头像占位图，加载过程中显示
+                      width: 96.0,
+                      height: 96.0),
+                ],
               ),
-              padding: const EdgeInsets.all(12.0),
-              color: Theme.of(context).primaryColor,
-              child: Text(
-                'Hello Gitter',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 32,
-                    fontStyle: FontStyle.italic),
-              ),
-              transform: Matrix4.rotationZ(0.04),
+              // transform: Matrix4.rotationZ(0.00),
             ),
             Container(
-              padding: EdgeInsets.only(bottom: 192.0),
+              padding: EdgeInsets.only(bottom: 248.0),
               child: Form(
                   key: formKey,
                   autovalidate: true,
@@ -108,7 +117,7 @@ class LoginPageState extends State<LoginPage> {
                   )),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 24.0),
+              padding: EdgeInsets.only(bottom: 32.0),
               child: Text('注册问题｜关于应用'),
             )
           ],
@@ -135,7 +144,7 @@ class LoginPageState extends State<LoginPage> {
         Navigator.of(context).pop();
       }
 
-      // TODO:login方法在1114不能使用，问题待查
+      // TODO:login方法在1114不能使用，问题已查，安全合规，必须使用Token为密码登录
       if (user != null) {
         // 存储用户名与密码
         diskCache.setString(Constant.USER_NAME, nameController.text);
