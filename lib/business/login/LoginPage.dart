@@ -118,7 +118,7 @@ class LoginPageState extends State<LoginPage> {
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 32.0),
-              child: Text('注册问题｜关于应用'),
+              child: Text('登录问题｜关于应用'),
             )
           ],
         ));

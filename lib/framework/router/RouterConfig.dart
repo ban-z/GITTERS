@@ -1,4 +1,5 @@
 import 'package:fluro/fluro.dart';
+import 'package:gitters/business/widgets/pages/UserHelper.dart';
 import 'RouteHandles.dart';
 
 // 定义路由列表，收敛相关常量定义
@@ -11,17 +12,20 @@ class RouterList {
   static const Home = const RouterList._internal("/");
   static const Login = const RouterList._internal('/login');
   static const Profile = const RouterList._internal('/profile');
+  static const UserHelperCenter = const RouterList._internal('/user_helper');
 }
 
 class RouterConfig {
   static String homePage = RouterList.Home.value; // 一定要配置默认主页 "/"顶级根路由
   static String loginPage = RouterList.Login.value;
   static String profilePage = RouterList.Profile.value;
+  static String userHelperPage = RouterList.UserHelperCenter.value;
 
   static void configRouter(FluroRouter router) {
     router.define(homePage, handler: homeHandler);
     router.define(loginPage, handler: loginHandler);
     router.define(profilePage, handler: profileHandler);
+    router.define(userHelperPage, handler: userHelperHandler);
     router.notFoundHandler = emptyHandler; //空页面
   }
 }

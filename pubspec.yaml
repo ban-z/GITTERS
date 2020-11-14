@@ -48,6 +48,8 @@ dependencies:
   flukit: ^1.0.2
   # Github for Dart库
   github: ^7.0.3
+  # Flutter中WebView
+  webview_flutter: ^1.0.7
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
