@@ -14,46 +14,52 @@ class UserBar extends StatefulWidget {
 class _UserBarState extends State<UserBar> {
   @override
   Widget build(BuildContext context) {
+    return buildUserbar();
+  }
+
+  Widget buildUserbar() {
     return Container(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          image: DecorationImage(image: NetworkImage(widget.user.avatarUrl)),
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black38,
-              blurRadius: 24,
-            )
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            GitterAvatar(widget.user.avatarUrl, width: 48, height: 48),
-            Column(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        // image: DecorationImage(image: NetworkImage(widget.user.avatarUrl)),
+        gradient: LinearGradient(colors: [Colors.grey, Colors.grey[100]]),
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(24.0),
+            bottomRight: Radius.circular(24.0)),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: 48.0),
+            child: Container(
+              width: 96,
+              height: 96,
+              // color: Colors.cyan,
+              child: GitterAvatar(widget.user.avatarUrl, width: 48, height: 48),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 24.0),
+            child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 5),
-                  child: Text(
-                    widget.user.name ?? 'default',
-                    style: TextStyle(
-                      fontSize: 32,
-                    ),
-                  ),
+                Text(
+                  widget.user.login ?? 'default',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 48.0),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(
-                    widget.user.email ?? 'No registered email address',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
+                Padding(padding: EdgeInsets.all(5.0)),
+                Text(
+                  widget.user.htmlUrl ?? 'No registered email address',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 24.0),
                 ),
               ],
-            )
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }
