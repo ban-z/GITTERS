@@ -29,6 +29,16 @@ var userHelperHandler = Handler(
   return UserHelperCenter();
 });
 
+var personalAccessTokenHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return PersonalAcessTokensWebView();
+});
+
+var aboutGitHubAppHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return AboutGitHubApp();
+});
+
 var emptyHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return EmptyPage();

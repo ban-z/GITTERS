@@ -13,19 +13,27 @@ class RouterList {
   static const Login = const RouterList._internal('/login');
   static const Profile = const RouterList._internal('/profile');
   static const UserHelperCenter = const RouterList._internal('/user_helper');
+  static const PersonalAcessTokensWebView =
+      const RouterList._internal('/user_helper/personal_access_token');
+  static const AboutGitHubApp = const RouterList._internal('/about_github_app');
 }
 
 class RouterConfig {
-  static String homePage = RouterList.Home.value; // 一定要配置默认主页 "/"顶级根路由
-  static String loginPage = RouterList.Login.value;
-  static String profilePage = RouterList.Profile.value;
-  static String userHelperPage = RouterList.UserHelperCenter.value;
+  // static String homePage = RouterList.Home.value; // 一定要配置默认主页 "/"顶级根路由
+  // static String loginPage = RouterList.Login.value;
+  // static String profilePage = RouterList.Profile.value;
+  // static String userHelperPage = RouterList.UserHelperCenter.value;
 
   static void configRouter(FluroRouter router) {
-    router.define(homePage, handler: homeHandler);
-    router.define(loginPage, handler: loginHandler);
-    router.define(profilePage, handler: profileHandler);
-    router.define(userHelperPage, handler: userHelperHandler);
+    router.define(RouterList.Home.value, handler: homeHandler);
+    router.define(RouterList.Login.value, handler: loginHandler);
+    router.define(RouterList.Profile.value, handler: profileHandler);
+    router.define(RouterList.UserHelperCenter.value,
+        handler: userHelperHandler);
+    router.define(RouterList.PersonalAcessTokensWebView.value,
+        handler: personalAccessTokenHandler);
+    router.define(RouterList.AboutGitHubApp.value,
+        handler: aboutGitHubAppHandler);
     router.notFoundHandler = emptyHandler; //空页面
   }
 }

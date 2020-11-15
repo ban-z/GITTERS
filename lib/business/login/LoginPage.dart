@@ -30,7 +30,7 @@ class LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Login"),
+          title: Text("Gitters"),
           leading: Text(''),
         ),
         body: Column(
@@ -104,7 +104,8 @@ class LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 50),
                         child: ConstrainedBox(
-                          constraints: BoxConstraints.expand(height: 55.0),
+                          constraints:
+                              BoxConstraints.expand(height: 55.0, width: 248.0),
                           child: RaisedButton(
                             color: Theme.of(context).primaryColor,
                             onPressed: _onLogin,
@@ -118,7 +119,23 @@ class LoginPageState extends State<LoginPage> {
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 32.0),
-              child: Text('登录问题｜关于应用'),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                GestureDetector(
+                  onTap: () {
+                    onUserHelperClick(context);
+                  },
+                  child: Text('登录问题'),
+                ),
+                Text(' | '),
+                GestureDetector(
+                  onTap: () {
+                    fluroRouter.navigateTo(
+                        context, RouterList.AboutGitHubApp.value);
+                  },
+                  child: Text('关于应用'),
+                ),
+              ]),
             )
           ],
         ));
@@ -162,5 +179,13 @@ class LoginPageState extends State<LoginPage> {
         showToast("用户名或密码错误，请重试...");
       }
     }
+  }
+
+  void onUserHelperClick(BuildContext context) {
+    fluroRouter.navigateTo(context, RouterList.UserHelperCenter.value);
+  }
+
+  void onAppInfoClick(BuildContext context) {
+    fluroRouter.navigateTo(context, null);
   }
 }
