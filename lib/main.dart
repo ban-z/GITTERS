@@ -2,13 +2,13 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gitters/business/login/LoginPage.dart';
-import 'package:gitters/framework/constants/language/Localizations.dart';
 import 'package:gitters/framework/global/provider/BaseModel.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'application.dart';
+import 'framework/global/constants/language/GittersLocalizationsDelegate.dart';
+import 'framework/global/constants/language/Localizations.dart';
 import 'framework/router/RouterConfig.dart';
-import 'framework/constants/language/GittersLocalizationsDelegate.dart';
 import 'framework/utils/I18NWidget.dart';
 
 /* main入口方法 */
@@ -36,7 +36,6 @@ class Wrapper extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => BaseModel()),
-        // ChangeNotifierProvider(create: (_) => UserModel())
       ],
       child: child,
     );

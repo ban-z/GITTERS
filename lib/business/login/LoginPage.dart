@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/toast.dart';
-import 'package:gitters/framework/constants/Constant.dart';
+import 'package:gitters/framework/global/constants/Constant.dart';
+import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/network/Git.dart';
 import 'package:gitters/framework/router/RouterConfig.dart';
 import 'package:gitters/models/user.dart';
@@ -30,7 +31,7 @@ class LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Gitters"),
+          title: Text(GittersLocalizations.of(context).ApplicationName),
           leading: Text(''),
         ),
         body: Column(
@@ -72,19 +73,26 @@ class LoginPageState extends State<LoginPage> {
                           autofocus: nameAutoFocus,
                           controller: nameController,
                           decoration: InputDecoration(
-                            labelText: "用户名",
-                            hintText: "请输入账号....",
+                            labelText:
+                                GittersLocalizations.of(context).HintAccount,
+                            hintText: GittersLocalizations.of(context)
+                                .HintInputAccount,
                             prefixIcon: Icon(Icons.person),
                           ),
                           validator: (v) {
-                            return v.trim().isNotEmpty ? null : "用户名不能为空！";
+                            return v.trim().isNotEmpty
+                                ? null
+                                : GittersLocalizations.of(context)
+                                    .WarningNullAccount;
                           }),
                       TextFormField(
                         autofocus: !nameAutoFocus,
                         controller: pwdController,
                         decoration: InputDecoration(
-                            labelText: "密码",
-                            hintText: "请输入密码...",
+                            labelText:
+                                GittersLocalizations.of(context).HintPassword,
+                            hintText: GittersLocalizations.of(context)
+                                .HintInputPassword,
                             prefixIcon: Icon(Icons.lock),
                             suffixIcon: IconButton(
                               icon: Icon(passwordVisible
@@ -98,7 +106,10 @@ class LoginPageState extends State<LoginPage> {
                             )),
                         obscureText: !passwordVisible,
                         validator: (v) {
-                          return v.trim().isNotEmpty ? null : "密码不能为空！";
+                          return v.trim().isNotEmpty
+                              ? null
+                              : GittersLocalizations.of(context)
+                                  .WarningNullPassword;
                         },
                       ),
                       Padding(
@@ -110,7 +121,8 @@ class LoginPageState extends State<LoginPage> {
                             color: Theme.of(context).primaryColor,
                             onPressed: _onLogin,
                             textColor: Colors.white,
-                            child: Text("登录"),
+                            child: Text(
+                                GittersLocalizations.of(context).LoginContent),
                           ),
                         ),
                       ),
@@ -125,7 +137,7 @@ class LoginPageState extends State<LoginPage> {
                   onTap: () {
                     onUserHelperClick(context);
                   },
-                  child: Text('登录问题'),
+                  child: Text(GittersLocalizations.of(context).LoginProblem),
                 ),
                 Text(' | '),
                 GestureDetector(
@@ -133,7 +145,7 @@ class LoginPageState extends State<LoginPage> {
                     fluroRouter.navigateTo(
                         context, RouterList.AboutGitHubApp.value);
                   },
-                  child: Text('关于应用'),
+                  child: Text(GittersLocalizations.of(context).AboutGitters),
                 ),
               ]),
             )

@@ -2,7 +2,7 @@ import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/business/widgets/repository.dart';
-import 'package:gitters/framework/constants/language/Localizations.dart';
+import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/models/index.dart';
 
 import '../../../application.dart';

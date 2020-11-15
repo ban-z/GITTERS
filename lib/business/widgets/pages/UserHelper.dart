@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class UserHelperCenter extends StatefulWidget {
@@ -62,7 +63,7 @@ class _UserHelperCenterState extends State<UserHelperCenter> {
                       }));
                     },
                     child: Text(
-                      '| 解决办法 |',
+                      GittersLocalizations.of(context).SolveProblem,
                       style: TextStyle(
                         fontSize: 24.0,
                       ),
@@ -82,7 +83,7 @@ class PersonalAcessTokensWebView extends StatelessWidget {
     return Container(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("User Helper"),
+          title: Text(GittersLocalizations.of(context).UserHelperCenter),
         ),
         body: Container(
           child: WebView(
@@ -102,7 +103,7 @@ class AboutGitHubApp extends StatelessWidget {
     return Container(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("User Helper"),
+          title:Text(GittersLocalizations.of(context).UserHelperCenter),
         ),
         body: Container(
           child: WebView(

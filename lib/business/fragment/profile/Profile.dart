@@ -3,7 +3,7 @@ import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/repository.dart';
 import 'package:gitters/business/widgets/userbar.dart';
-import 'package:gitters/framework/constants/language/Localizations.dart';
+import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/main.dart';
 
 class Profile extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/repository.dart';
-import 'package:gitters/framework/constants/language/Localizations.dart';
+import 'package:gitters/framework/global/constants/language/Localizations.dart';
 
 class Marketplace extends StatefulWidget {
   Marketplace({Key key}) : super(key: key);
