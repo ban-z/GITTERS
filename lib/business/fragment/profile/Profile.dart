@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
+import 'package:gitters/business/widgets/iconBtn.dart';
 import 'package:gitters/business/widgets/repository.dart';
 import 'package:gitters/business/widgets/userbar.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
@@ -81,18 +82,44 @@ class ProfileState extends State<Profile> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
-                  flex: 4,
-                    child: UserBar(user: curUser,)
-                ),
+                    flex: 4,
+                    child: UserBar(
+                      user: curUser,
+                    )),
                 Expanded(
                   flex: 6,
-                  child: ListView.builder(
-                    itemCount: repos.length,
-                    itemBuilder: (context, index) {
-                      Repository repo = repos[index];
-                      return RepoItem(repo);
-                    },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      GitterIconButton(
+                        '主题',
+                        Icons.keyboard_arrow_right,
+                        onClick: null,
+                      ),
+                      GitterIconButton(
+                        '国际化',
+                        Icons.keyboard_arrow_right,
+                        onClick: null,
+                      ),
+                      GitterIconButton(
+                        '关于应用',
+                        Icons.keyboard_arrow_right,
+                        onClick: null,
+                      ),
+                      GitterIconButton(
+                        '用户反馈',
+                        Icons.keyboard_arrow_right,
+                        onClick: null,
+                      ),
+                    ],
                   ),
+                  // child: ListView.builder(
+                  //   itemCount: repos.length,
+                  //   itemBuilder: (context, index) {
+                  //     Repository repo = repos[index];
+                  //     return RepoItem(repo);
+                  //   },
+                  // ),
                 )
               ],
             );
