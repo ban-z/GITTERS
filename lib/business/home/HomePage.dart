@@ -37,18 +37,18 @@ class HomePageState extends State<HomePage> {
         items: BottomNavigationSetting.Indexs,
         currentIndex: _selectedIndex,
         // selectedItemColor: context.watch<BaseModel>().themeData.primaryColor,
-        selectedItemColor: Colors.lightBlue,
+        selectedItemColor: context.watch<BaseModel>().themeData.primaryColor,
         onTap: _onItemTapped,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print("click the change theme button!");
-          context
-              .read<BaseModel>()
-              .updateThemeData(ThemeData(primarySwatch: Colors.cyan));
-        },
-        child: Icon(Icons.change_history),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     print("click the change theme button!");
+      //     context
+      //         .read<BaseModel>()
+      //         .updateThemeData(ThemeData(primarySwatch: Colors.cyan));
+      //   },
+      //   child: Icon(Icons.change_history),
+      // ),
     );
   }
 

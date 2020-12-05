@@ -5,6 +5,7 @@ import 'package:gitters/business/widgets/iconBtn.dart';
 import 'package:gitters/business/widgets/repository.dart';
 import 'package:gitters/business/widgets/userbar.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
+import 'package:gitters/framework/router/RouterConfig.dart';
 import 'package:gitters/main.dart';
 
 class Profile extends StatefulWidget {
@@ -92,34 +93,39 @@ class ProfileState extends State<Profile> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       GitterIconButton(
-                        '主题',
+                        GittersLocalizations.of(context).MyRepository,
                         Icons.keyboard_arrow_right,
                         onClick: null,
                       ),
                       GitterIconButton(
-                        '国际化',
+                        GittersLocalizations.of(context).UserInformation,
                         Icons.keyboard_arrow_right,
                         onClick: null,
                       ),
                       GitterIconButton(
-                        '关于应用',
+                        GittersLocalizations.of(context).AppThemeSetting,
+                        Icons.keyboard_arrow_right,
+                        onClick: () {
+                          fluroRouter.navigateTo(
+                              context, RouterList.Internationalization.value);
+                        },
+                      ),
+                      GitterIconButton(
+                        GittersLocalizations.of(context).Internationalization,
+                        Icons.keyboard_arrow_right,
+                      ),
+                      GitterIconButton(
+                        GittersLocalizations.of(context).UserFeedBack,
                         Icons.keyboard_arrow_right,
                         onClick: null,
                       ),
                       GitterIconButton(
-                        '用户反馈',
+                        GittersLocalizations.of(context).AboutApp,
                         Icons.keyboard_arrow_right,
                         onClick: null,
                       ),
                     ],
                   ),
-                  // child: ListView.builder(
-                  //   itemCount: repos.length,
-                  //   itemBuilder: (context, index) {
-                  //     Repository repo = repos[index];
-                  //     return RepoItem(repo);
-                  //   },
-                  // ),
                 )
               ],
             );

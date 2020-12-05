@@ -16,6 +16,8 @@ class RouterList {
   static const PersonalAcessTokensWebView =
       const RouterList._internal('/user_helper/personal_access_token');
   static const AboutGitHubApp = const RouterList._internal('/about_github_app');
+  static const AppThemeSetting =
+      const RouterList._internal('/profile/app_theme_setting');
 }
 
 class RouterConfig {
@@ -34,6 +36,8 @@ class RouterConfig {
         handler: personalAccessTokenHandler);
     router.define(RouterList.AboutGitHubApp.value,
         handler: aboutGitHubAppHandler);
+    router.define(RouterList.AppThemeSetting.value,
+        handler: internationalization);
     router.notFoundHandler = emptyHandler; //空页面
   }
 }

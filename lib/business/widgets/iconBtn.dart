@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gitters/framework/global/provider/BaseModel.dart';
+import 'package:provider/provider.dart';
 
 class GitterIconButton extends StatelessWidget {
   GitterIconButton(
@@ -22,7 +24,7 @@ class GitterIconButton extends StatelessWidget {
         height: 48.0,
         margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
         decoration: BoxDecoration(
-          color: Colors.grey[300],
+          color: context.watch<BaseModel>().themeData.backgroundColor,
           borderRadius: BorderRadius.all(Radius.circular(12.0)),
         ),
         child: Row(

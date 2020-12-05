@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/business/widgets/avatar.dart';
+import 'package:gitters/framework/global/provider/BaseModel.dart';
+import 'package:provider/provider.dart';
 
 class UserBar extends StatefulWidget {
   User user;
@@ -22,7 +24,10 @@ class _UserBarState extends State<UserBar> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         // image: DecorationImage(image: NetworkImage(widget.user.avatarUrl)),
-        gradient: LinearGradient(colors: [Colors.grey, Colors.grey[100]]),
+        gradient: LinearGradient(colors: [
+          context.watch<BaseModel>().themeData.primaryColor,
+          context.watch<BaseModel>().themeData.backgroundColor
+        ]),
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(24.0),
             bottomRight: Radius.circular(24.0)),

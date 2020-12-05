@@ -24,6 +24,12 @@ class GittersLocalizations {
       'warning_null_account': 'The account cannot be empty!',
       'warning_null_password': 'The password cannot be empty!',
       'solve_problem': '|Solve problem|',
+      'app_theme_setting': 'App Theme Setting',
+      'internationalization': 'internationalization',
+      'about_app': 'About App',
+      'user_feedback': 'User FeedBack',
+      'my_repos': 'My Repository',
+      'user_information': 'User Information',
     },
     'zh': {
       'Application_name': 'Gitters',
@@ -42,18 +48,51 @@ class GittersLocalizations {
       'warning_null_account': '账号不能为空!',
       'warning_null_password': '密码不能为空!',
       'solve_problem': '|解决问题|',
+      'app_theme_setting': '应用主题设置',
+      'internationalization': '国际化',
+      'about_app': '关于应用',
+      'user_feedback': '用户反馈',
+      'my_repos': '我的仓库',
+      'user_information': '用户信息',
     },
   };
+  
+  // 使用示🌰
+  // GittersLocalizations.of(context).ProfileName
 
   get testText {
     // 注意用 locale.toString()而非locale
     return _localizedValuesMap[locale.languageCode]['test_text'];
   }
 
+  get AppThemeSetting {
+    return _localizedValuesMap[locale.languageCode]['app_theme_setting'];
+  }
+
+  get Internationalization {
+    return _localizedValuesMap[locale.languageCode]['internationalization'];
+  }
+
+  get AboutApp {
+    return _localizedValuesMap[locale.languageCode]['about_app'];
+  }
+
+  get UserFeedBack {
+    return _localizedValuesMap[locale.languageCode]['user_feedback'];
+  }
+
+  get MyRepository {
+    return _localizedValuesMap[locale.languageCode]['my_repos'];
+  }
+
+  get UserInformation {
+    return _localizedValuesMap[locale.languageCode]['user_information'];
+  }
+
   get SolveProblem {
     return _localizedValuesMap[locale.languageCode]['solve_problem'];
   }
-  
+
   get LoginProblem {
     return _localizedValuesMap[locale.languageCode]['login_problem'];
   }
