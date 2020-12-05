@@ -1,11 +1,9 @@
-import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
-import 'package:gitters/business/widgets/repository.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
-import 'package:gitters/models/index.dart';
-
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../../application.dart';
+import './SearchDelegate.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage({Key key}) : super(key: key);
@@ -20,37 +18,25 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(GittersLocalizations.of(context).SearchName),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: SearchBarDelegate());
+              }),
+        ],
+        centerTitle: true,
       ),
-      body: FutureBuilder<CurrentUser>(
-          future: gitHubClient.users.getCurrentUser(),
-          builder: (BuildContext context, AsyncSnapshot<CurrentUser> snapshot) {
-            if (snapshot.connectionState == ConnectionState.active ||
-                snapshot.connectionState == ConnectionState.waiting) {
-              return new Center(
-                child: new CircularProgressIndicator(),
-              );
-            }
+      body: buildBody(),
+    );
+  }
 
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else if (snapshot.hasData) {
-                CurrentUser user = snapshot.data;
-                print(user.avatarUrl.toString());
-                return Center(
-                  child: Column(
-                    children: [
-                      Text(user.ownedPrivateReposCount.toString() ??
-                          'default count'),
-                      Text(user.avatarUrl.toString() ?? 'default email'),
-                    ],
-                  ),
-                );
-              }
-            }
-            //请求未完成时弹出loading
-            return CircularProgressIndicator();
-          }),
+  Widget buildBody() {
+    return Container(
+      child: WebView(
+        initialUrl: 'https://github.com/trending',
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
     );
   }
 }
