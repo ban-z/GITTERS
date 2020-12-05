@@ -5,6 +5,7 @@ import 'package:gitters/business/home/HomePage.dart';
 import 'package:gitters/business/login/LoginPage.dart';
 import 'package:gitters/business/widgets/pages/EmptyPage.dart';
 import 'package:gitters/business/widgets/pages/Internationalization.dart';
+import 'package:gitters/business/widgets/pages/appThemeSetting.dart';
 import 'package:gitters/business/widgets/pages/UserHelper.dart';
 
 var loginHandler = Handler(
@@ -30,9 +31,14 @@ var userHelperHandler = Handler(
   return UserHelperCenter();
 });
 
-var internationalization = Handler(
+var appThemeSetting = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return AppThemeSetting();
+});
+
+var internationalization = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return Internationalization();
 });
 
 var personalAccessTokenHandler = Handler(

@@ -1,71 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
-import 'package:gitters/framework/global/provider/BaseModel.dart';
-import 'package:provider/provider.dart';
+import '../../../main.dart';
 
-class AppThemeSetting extends StatefulWidget {
-  AppThemeSetting({Key key}) : super(key: key);
+class Internationalization extends StatefulWidget {
+  Internationalization({Key key}) : super(key: key);
 
   @override
-  _AppThemeSettingState createState() => _AppThemeSettingState();
+  _InternationalizationState createState() => _InternationalizationState();
 }
 
-class _AppThemeSettingState extends State<AppThemeSetting> {
-  List<MaterialColor> materialColors = [
-    Colors.amber,
-    Colors.blue,
-    Colors.blueGrey,
-    Colors.brown,
-    Colors.cyan,
-    Colors.deepOrange,
-    Colors.green,
-    Colors.grey,
-    Colors.indigo,
-    Colors.lightBlue,
-    Colors.lightGreen,
-    Colors.lime,
-    Colors.orange,
-    Colors.pink,
-    Colors.purple,
-    Colors.red,
-    Colors.teal,
-    Colors.yellow,
-  ];
-
-  void changeAppTheme(BuildContext context, MaterialColor color) {
-    context.read<BaseModel>().updateThemeData(ThemeData(primarySwatch: color));
-  }
-
-  List<Widget> buildthemeColorsList(
-      BuildContext context, List<MaterialColor> themeColors) {
-    List<Widget> widgets = new List<Widget>();
-
-    themeColors.forEach((color) {
-      widgets.add(new FlatButton(
-        onPressed: () {
-          changeAppTheme(context, color);
-        },
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 45.0, vertical: 8.0),
-          height: 40,
-          color: color,
-        ),
-      ));
-    });
-    return widgets;
-  }
-
+class _InternationalizationState extends State<Internationalization> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Container(
+        child: Scaffold(
       appBar: AppBar(
-        title: Text(GittersLocalizations.of(context).AppThemeSetting),
+        title: Text(GittersLocalizations.of(context).Internationalization),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: buildthemeColorsList(context, materialColors),
-        ),
+      body: Column(
+        children: [
+          FlatButton(
+              onPressed: () {
+                i18nWidgetStateKey.currentState
+                    .changeLanguage(const Locale('zh', "CH"));
+              },
+              child: Text(
+                '中文',
+              )),
+          FlatButton(
+              onPressed: () {
+                i18nWidgetStateKey.currentState
+                    .changeLanguage(const Locale('en', "US"));
+              },
+              child: Text(
+                'Englist',
+              )),
+        ],
       ),
-    );
+    ));
   }
 }

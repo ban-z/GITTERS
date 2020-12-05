@@ -9,7 +9,7 @@ import 'application.dart';
 import 'framework/global/constants/language/GittersLocalizationsDelegate.dart';
 import 'framework/global/constants/language/Localizations.dart';
 import 'framework/router/RouterConfig.dart';
-import 'framework/utils/I18NWidget.dart';
+import 'framework/utils/I18n.dart';
 
 /* main入口方法 */
 Future<void> main() async {
@@ -55,13 +55,13 @@ class MyApp extends StatelessWidget {
       home: new Builder(builder: (context) {
         return I18nWidget(
           key: i18nWidgetStateKey,
-          //child: HomePage(),
           child: LoginPage(),
         );
       }),
       localizationsDelegates: [
         GlobalMaterialLocalizations
             .delegate, // 为Material Components库提供了本地化的字符串和其他值
+        GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate, // 定义widget默认的文本方向，从左到右或从右到左
         GittersLocalizationsDelegate.delegate, // 自定义LocalizationsDelegate协议
       ],

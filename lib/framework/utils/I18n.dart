@@ -10,7 +10,9 @@ class I18nWidget extends StatefulWidget {
 }
 
 class I18nWidgetState extends State<I18nWidget> {
-  Locale _locale = const Locale('zh','CH');
+  var _locale;
+
+  Locale get locale => _locale;
 
   @override
   void didChangeDependencies() {

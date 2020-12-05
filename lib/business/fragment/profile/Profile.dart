@@ -31,28 +31,9 @@ class ProfileState extends State<Profile> {
     return Scaffold(
       appBar: AppBar(
         title: Text(GittersLocalizations.of(context).ProfileName),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.brush),
-              onPressed: () {
-                // TODO:目前因为使用flag的判断方式，所以会导致点击两次BTN才会变换语言
-                changeLocale();
-                Scaffold.of(context).showSnackBar(SnackBar(
-                    content: GittersLocalizations.of(context).Changelanguage));
-              })
-        ],
       ),
       body: buildBody(),
     );
-  }
-
-  void changeLocale() {
-    if (flag) {
-      i18nWidgetStateKey.currentState.changeLanguage(const Locale('zh', "CH"));
-    } else {
-      i18nWidgetStateKey.currentState.changeLanguage(const Locale('en', "US"));
-    }
-    flag = !flag;
   }
 
   Future getProfileFutures() {
@@ -107,12 +88,16 @@ class ProfileState extends State<Profile> {
                         Icons.keyboard_arrow_right,
                         onClick: () {
                           fluroRouter.navigateTo(
-                              context, RouterList.Internationalization.value);
+                              context, RouterList.AppThemeSetting.value);
                         },
                       ),
                       GitterIconButton(
                         GittersLocalizations.of(context).Internationalization,
                         Icons.keyboard_arrow_right,
+                        onClick: () {
+                          fluroRouter.navigateTo(
+                              context, RouterList.Internationalization.value);
+                        },
                       ),
                       GitterIconButton(
                         GittersLocalizations.of(context).UserFeedBack,
