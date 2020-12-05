@@ -9,7 +9,6 @@ import 'application.dart';
 import 'framework/global/constants/language/GittersLocalizationsDelegate.dart';
 import 'framework/global/constants/language/Localizations.dart';
 import 'framework/router/RouterConfig.dart';
-import 'framework/utils/I18n.dart';
 
 /* main入口方法 */
 Future<void> main() async {

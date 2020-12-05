@@ -6,6 +6,7 @@ import 'package:gitters/framework/global/constants/Constant.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/network/Git.dart';
 import 'package:gitters/framework/router/RouterConfig.dart';
+import 'package:gitters/framework/utils/I18n.dart';
 import 'package:gitters/models/user.dart';
 
 class LoginPage extends StatefulWidget {
@@ -33,6 +34,13 @@ class LoginPageState extends State<LoginPage> {
         appBar: AppBar(
           title: Text(GittersLocalizations.of(context).ApplicationName),
           leading: Text(''),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.language),
+                onPressed: () {
+                  changeLanguage(context);
+                })
+          ],
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

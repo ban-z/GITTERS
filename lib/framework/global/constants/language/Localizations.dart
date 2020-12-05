@@ -10,7 +10,7 @@ class GittersLocalizations {
     'en': {
       'Application_name': 'Gitters',
       'login_content': "Log In",
-      'market_place': 'Marketplace',
+      'market_place': 'Home',
       'search': 'Search',
       'profile': 'Mine',
       'change_language': 'You have switched to English!',
@@ -34,7 +34,7 @@ class GittersLocalizations {
     'zh': {
       'Application_name': 'Gitters',
       'login_content': "登录",
-      'market_place': '市场',
+      'market_place': '主页',
       'search': '搜索',
       'profile': '我的',
       'change_language': '您已切换到中文!',

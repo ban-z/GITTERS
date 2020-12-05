@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gitters/application.dart';
-import 'package:gitters/framework/global/constants/Constant.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
-import 'package:gitters/framework/global/provider/BaseModel.dart';
-import 'package:provider/provider.dart';
+import 'package:gitters/framework/utils/I18n.dart';
 
 class Internationalization extends StatefulWidget {
   Internationalization({Key key}) : super(key: key);
@@ -24,24 +21,14 @@ class _InternationalizationState extends State<Internationalization> {
         children: [
           FlatButton(
               onPressed: () {
-                context
-                    .read<BaseModel>()
-                    .changeLanuage(const Locale('zh', "CH"));
-                print('设置为中文');
-                diskCache.setString(Constant.LANGUAGE, 'zh');
-                diskCache.setString(Constant.COUNTER, 'CH');
+                changeLanguage(context);
               },
               child: Text(
                 '中文',
               )),
           FlatButton(
               onPressed: () {
-                context
-                    .read<BaseModel>()
-                    .changeLanuage(const Locale('en', "US"));
-                print('设置为英文');
-                diskCache.setString(Constant.LANGUAGE, 'en');
-                diskCache.setString(Constant.COUNTER, 'US');
+                changeLanguage(context);
               },
               child: Text(
                 'Englist',
