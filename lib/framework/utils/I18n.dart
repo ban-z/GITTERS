@@ -1,9 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/framework/global/constants/Constant.dart';
+import 'package:gitters/framework/global/provider/BaseModel.dart';
+import 'package:provider/provider.dart';
+
+void changeLanguage(BuildContext context) {
+  Locale locale = Localizations.localeOf(context);
+  Locale Chinese = Locale('zh', 'CH');
+  Locale English = Locale('en', 'US');
+  Locale currentLanguage;
+
+  if (locale == English) {
+    currentLanguage = Chinese;
+  } else if (locale == Chinese) {
+    currentLanguage = English;
+  }
+  context.read<BaseModel>().changeLanuage(currentLanguage);
+  diskCache.setString(Constant.LANGUAGE, currentLanguage.languageCode);
+  print("缓存的语言: " + currentLanguage.languageCode);
+  diskCache.setString(Constant.COUNTER, currentLanguage.countryCode);
+  print("缓存的国家: " + currentLanguage.countryCode);
+}
 
 // 废弃...
-
 // 国际化组件，实现语言的切换功能
 class I18nWidget extends StatefulWidget {
   final child;

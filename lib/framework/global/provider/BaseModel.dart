@@ -27,5 +27,6 @@ class BaseModel with ChangeNotifier, DiagnosticableTreeMixin {
 
   void changeLanuage(Locale locale) {
     _locale = locale;
+    notifyListeners();
   }
 }
