@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gitters/application.dart';
+import 'package:gitters/framework/global/constants/Constant.dart';
+
+// 废弃...
 
 // 国际化组件，实现语言的切换功能
 class I18nWidget extends StatefulWidget {
@@ -10,7 +14,8 @@ class I18nWidget extends StatefulWidget {
 }
 
 class I18nWidgetState extends State<I18nWidget> {
-  var _locale;
+  Locale _locale = Locale(diskCache.get(Constant.LANGUAGE) ?? 'en',
+      diskCache.get(Constant.COUNTER) ?? 'US');
 
   Locale get locale => _locale;
 

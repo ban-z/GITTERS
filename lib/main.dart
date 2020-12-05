@@ -22,9 +22,6 @@ Future<void> main() async {
   runApp(Wrapper(child: MyApp()));
 }
 
-/* 国际化Globalkey设置 */
-GlobalKey<I18nWidgetState> i18nWidgetStateKey = GlobalKey<I18nWidgetState>();
-
 /* 初始化Provider */
 class Wrapper extends StatelessWidget {
   final Widget child;
@@ -51,13 +48,9 @@ class MyApp extends StatelessWidget {
         // //默认的build()的context对象无法获得 GittersLocalizations对象，所以这里引用 onGenerateTitle的context对象
         return GittersLocalizations.of(context).ApplicationName;
       },
+      locale: context.watch<BaseModel>().locale,
       theme: context.watch<BaseModel>().themeData,
-      home: new Builder(builder: (context) {
-        return I18nWidget(
-          key: i18nWidgetStateKey,
-          child: LoginPage(),
-        );
-      }),
+      home: LoginPage(),
       localizationsDelegates: [
         GlobalMaterialLocalizations
             .delegate, // 为Material Components库提供了本地化的字符串和其他值

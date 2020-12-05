@@ -29,21 +29,18 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return I18nWidget(
-      key: i18nWidgetStateKey,
-      child: Scaffold(
-        // body: _buildBody(),
-        body: IndexedStack(
-          index: _selectedIndex,
-          children: _bodyList,
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: BottomNavigationSetting.Indexs,
-          currentIndex: _selectedIndex,
-          // selectedItemColor: context.watch<BaseModel>().themeData.primaryColor,
-          selectedItemColor: context.watch<BaseModel>().themeData.primaryColor,
-          onTap: _onItemTapped,
-        ),
+    return Scaffold(
+      // body: _buildBody(),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _bodyList,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: BottomNavigationSetting.Indexs,
+        currentIndex: _selectedIndex,
+        // selectedItemColor: context.watch<BaseModel>().themeData.primaryColor,
+        selectedItemColor: context.watch<BaseModel>().themeData.primaryColor,
+        onTap: _onItemTapped,
       ),
     );
   }
