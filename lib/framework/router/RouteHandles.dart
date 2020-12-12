@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:github/github.dart';
 import 'package:gitters/business/fragment/profile/Profile.dart';
 import 'package:gitters/business/home/HomePage.dart';
 import 'package:gitters/business/login/LoginPage.dart';
@@ -7,6 +8,7 @@ import 'package:gitters/business/widgets/pages/EmptyPage.dart';
 import 'package:gitters/business/widgets/pages/Internationalization.dart';
 import 'package:gitters/business/widgets/pages/appThemeSetting.dart';
 import 'package:gitters/business/widgets/pages/UserHelper.dart';
+import 'package:gitters/business/widgets/pages/repos.dart';
 
 var loginHandler = Handler(
   handlerFunc: (context, parameters) {
@@ -30,6 +32,13 @@ var userHelperHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return UserHelperCenter();
 });
+
+var followingReposHandler = Handler(
+  handlerFunc: (BuildContext context, Map<String, List<String>> parameters) {
+    String curUserLogin = parameters['curUser'].first;
+    return FollowingRepos(curUserLogin);
+  },
+);
 
 var appThemeSetting = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {

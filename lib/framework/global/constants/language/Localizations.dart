@@ -33,6 +33,7 @@ class GittersLocalizations {
       'tab_follow': 'Follow',
       'tab_popular': 'Popular',
       'tab_mine': 'Mine',
+      'following_user': 'Following User',
     },
     'zh': {
       'Application_name': 'Gitters',
@@ -60,6 +61,7 @@ class GittersLocalizations {
       'tab_follow': '关注',
       'tab_popular': '推荐',
       'tab_mine': '我的',
+      'following_user': '关注的人',
     },
   };
 
@@ -74,6 +76,10 @@ class GittersLocalizations {
   get TabFollow {
     // 注意用 locale.toString()而非locale
     return _localizedValuesMap[locale.languageCode]['tab_follow'];
+  }
+
+  get FollowingUser {
+    return _localizedValuesMap[locale.languageCode]['following_user'];
   }
 
   get TabPopular {

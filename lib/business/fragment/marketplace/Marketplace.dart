@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/repository.dart';
+import 'package:gitters/business/widgets/usercard.dart';
+import 'package:gitters/framework/global/constants/Constant.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
+import 'package:gitters/framework/router/RouterConfig.dart';
 
 class Marketplace extends StatefulWidget {
   Marketplace({Key key}) : super(key: key);
@@ -46,23 +49,18 @@ class _MarketplaceState extends State<Marketplace> {
         });
   }
 
-  Future setCurUserFollows() async {
+  Future<List<Repository>> getFollowsRepos() async {
     followingUsers =
         await gitHubClient.users.listCurrentUserFollowing().toList();
-  }
-
-  Future<List<Repository>> getFollowsRepos() async {
-    await setCurUserFollows();
     return gitHubClient.repositories
         .listUserRepositories(followingUsers[0].login)
         .toList();
   }
 
   Widget buildFollowTabContent() {
-    return FutureBuilder<List<Repository>>(
-        future: getFollowsRepos(),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<Repository>> snapshot) {
+    return FutureBuilder<List<User>>(
+        future: gitHubClient.users.listCurrentUserFollowing().toList(),
+        builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
           if (snapshot.connectionState == ConnectionState.active ||
               snapshot.connectionState == ConnectionState.waiting) {
             return new Center(
@@ -74,12 +72,22 @@ class _MarketplaceState extends State<Marketplace> {
             if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             } else if (snapshot.hasData) {
-              List<Repository> repos = snapshot.data;
+              List<User> followings = snapshot.data;
               return ListView.builder(
-                itemCount: repos.length,
+                itemCount: followings.length,
                 itemBuilder: (context, index) {
-                  Repository repo = repos[index];
-                  return RepoItem(repo);
+                  User curUser = followings[index];
+                  return UserCard(
+                    curUser,
+                    onClick: () {
+                      fluroRouter.navigateTo(
+                        context,
+                        RouterList.FollowingRepos.value +
+                            Constant.ROUTER_GOTO_FOLLOWING +
+                            curUser.login,
+                      );
+                    },
+                  );
                 },
               );
             }
