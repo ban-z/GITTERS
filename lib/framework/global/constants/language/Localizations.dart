@@ -30,6 +30,9 @@ class GittersLocalizations {
       'user_feedback': 'User FeedBack',
       'my_repos': 'My Repository',
       'user_information': 'User Information',
+      'tab_follow': 'Follow',
+      'tab_popular': 'Popular',
+      'tab_mine': 'Mine',
     },
     'zh': {
       'Application_name': 'Gitters',
@@ -54,15 +57,33 @@ class GittersLocalizations {
       'user_feedback': '用户反馈',
       'my_repos': '我的仓库',
       'user_information': '用户信息',
+      'tab_follow': '关注',
+      'tab_popular': '推荐',
+      'tab_mine': '我的',
     },
   };
-  
+
   // 使用示🌰
   // GittersLocalizations.of(context).ProfileName
 
   get testText {
     // 注意用 locale.toString()而非locale
     return _localizedValuesMap[locale.languageCode]['test_text'];
+  }
+
+  get TabFollow {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['tab_follow'];
+  }
+
+  get TabPopular {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['tab_popular'];
+  }
+
+  get TabMine {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['tab_mine'];
   }
 
   get AppThemeSetting {
