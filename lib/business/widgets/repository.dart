@@ -44,22 +44,24 @@ class _RepoItemState extends State<RepoItem> {
                 dense: true,
                 leading: GitterAvatar(
                   //项目owner头像
-                  widget.repo.owner.avatarUrl,
+                  widget.repo?.owner?.avatarUrl ?? '',
                   width: 36.0,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 title: Text(
-                  widget.repo.owner.login,
+                  widget.repo?.owner?.login ?? '',
                   textScaleFactor: .9,
                   style: TextStyle(
                     fontSize: 22.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                subtitle: Text(formatDate(widget.repo.createdAt,
-                    [yyyy, '-', mm, '-', dd, ' - ', hh, ':', nn, ':', ss])),
+                subtitle: Text(widget.repo.createdAt != null
+                    ? formatDate(widget.repo?.createdAt,
+                        [yyyy, '-', mm, '-', dd, ' - ', hh, ':', nn, ':', ss])
+                    : ''),
                 trailing: Text(
-                  widget.repo.language ?? "",
+                  widget.repo?.language ?? '',
                   style: TextStyle(
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
@@ -71,9 +73,9 @@ class _RepoItemState extends State<RepoItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      widget.repo.isFork
-                          ? widget.repo.fullName
-                          : widget.repo.name,
+                      widget.repo?.isFork
+                          ? widget.repo?.fullName
+                          : widget.repo?.name ?? '',
                       style: TextStyle(
                         fontSize: 22.0,
                         color: Colors.blueAccent,
@@ -135,9 +137,9 @@ class _RepoItemState extends State<RepoItem> {
               ),
               Text(
                 " " +
-                    widget.repo.stargazersCount
+                    widget.repo?.stargazersCount
                         .toString()
-                        .padRight(paddingWidth),
+                        .padRight(paddingWidth) ?? '',
                 style: TextStyle(
                   fontSize: 18.0,
                 ),
@@ -149,9 +151,9 @@ class _RepoItemState extends State<RepoItem> {
               ),
               Text(
                 " " +
-                    widget.repo.openIssuesCount
+                    widget.repo?.openIssuesCount
                         .toString()
-                        .padRight(paddingWidth),
+                        .padRight(paddingWidth) ?? '',
                 style: TextStyle(
                   fontSize: 18.0,
                 ),
@@ -163,7 +165,7 @@ class _RepoItemState extends State<RepoItem> {
                 size: 18.0,
               ), //我们的自定义图标
               Text(
-                widget.repo.forksCount.toString().padRight(paddingWidth),
+                widget.repo?.forksCount.toString().padRight(paddingWidth) ?? '',
                 style: TextStyle(
                   fontSize: 18.0,
                 ),

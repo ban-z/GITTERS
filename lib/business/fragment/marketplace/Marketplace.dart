@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
@@ -7,6 +6,9 @@ import 'package:gitters/business/widgets/usercard.dart';
 import 'package:gitters/framework/global/constants/Constant.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/router/RouterConfig.dart';
+import 'package:gitters/models/repos.dart';
+import 'dart:convert';
+import 'dart:typed_data'; // Uint8List需要导入这个
 
 class Marketplace extends StatefulWidget {
   Marketplace({Key key}) : super(key: key);
@@ -98,11 +100,11 @@ class _MarketplaceState extends State<Marketplace> {
   }
 
   Widget buildPopularTabContent() {
-    return FutureBuilder<List<Repository>>(
-        future: gitHubClient.repositories.listPublicRepositories().toList(),
-        // gitHubClient.request('GET', '/repositories').asStream().toList(),
-        builder:
-            (BuildContext context, AsyncSnapshot<List<Repository>> snapshot) {
+    // return buildCommonTabContent(
+    //     gitHubClient.repositories.listRepositories().toList());
+    return FutureBuilder(
+        future: gitHubClient.request('GET', '/repositories'),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.active ||
               snapshot.connectionState == ConnectionState.waiting) {
             return new Center(
@@ -114,11 +116,12 @@ class _MarketplaceState extends State<Marketplace> {
             if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             } else if (snapshot.hasData) {
-              List<Repository> repos = snapshot.data;
+              List<dynamic> response = jsonDecode(snapshot.data.body);
+              PopularRepos popularRepos = PopularRepos.fromJson(response);
               return ListView.builder(
-                itemCount: repos.length,
+                itemCount: popularRepos.populars.length,
                 itemBuilder: (context, index) {
-                  Repository repo = repos[index];
+                  Repository repo = popularRepos.populars[index];
                   return RepoItem(repo);
                 },
               );
