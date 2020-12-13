@@ -1,3 +1,4 @@
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/business/widgets/avatar.dart';
@@ -55,8 +56,13 @@ class _RepoItemState extends State<RepoItem> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                subtitle: subtitle,
-                trailing: Text(widget.repo.language ?? ""),
+                subtitle: Text(formatDate(widget.repo.createdAt,
+                    [yyyy, '-', mm, '-', dd, ' - ', hh, ':', nn, ':', ss])),
+                trailing: Text(
+                  widget.repo.language ?? "",
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
               ),
               // 构建项目标题和简介
               Padding(
