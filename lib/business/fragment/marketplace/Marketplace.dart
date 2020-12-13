@@ -101,7 +101,7 @@ class _MarketplaceState extends State<Marketplace> {
 
   Widget buildPopularTabContent() {
     // return buildCommonTabContent(
-    //     gitHubClient.repositories.listRepositories().toList());
+    //     gitHubClient.repositories.listPublicRepositories().toList());
     return FutureBuilder(
         future: gitHubClient.request('GET', '/repositories'),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -116,12 +116,15 @@ class _MarketplaceState extends State<Marketplace> {
             if (snapshot.hasError) {
               return Text(snapshot.error.toString());
             } else if (snapshot.hasData) {
-              List<dynamic> response = jsonDecode(snapshot.data.body);
-              PopularRepos popularRepos = PopularRepos.fromJson(response);
+              List<Map<String, dynamic>> response =
+                  jsonDecode(snapshot.data.body).cast<Map<String, dynamic>>();
+              List<Repository> repos = response
+                  .map((Map<String, dynamic> it) => Repository.fromJson(it))
+                  .toList();
               return ListView.builder(
-                itemCount: popularRepos.populars.length,
+                itemCount: repos.length,
                 itemBuilder: (context, index) {
-                  Repository repo = popularRepos.populars[index];
+                  Repository repo = repos[index];
                   return RepoItem(repo);
                 },
               );
