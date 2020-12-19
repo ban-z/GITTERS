@@ -3,7 +3,12 @@ import 'package:gitters/application.dart';
 
 class SearchBarDelegate extends SearchDelegate {
   String selectedResult;
-  List<String> suggestions = ["sug1", "sug2"];
+  List<String> suggestions = [
+    "User...",
+    "Repository...",
+    "Code...",
+    "Issues..."
+  ];
 
   // 方法返回一个控件列表，显示为搜索框右边的图标按钮
   @override
@@ -48,7 +53,7 @@ class SearchBarDelegate extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     return ListView.builder(
-        itemCount: 2,
+        itemCount: 4,
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(suggestions[index]),

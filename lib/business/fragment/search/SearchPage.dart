@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
+import 'package:gitters/business/widgets/event.dart';
+import 'package:gitters/business/widgets/repository.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../../../application.dart';
@@ -32,11 +35,33 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget buildBody() {
-    return Container(
-      child: WebView(
-        initialUrl: 'https://github.com/trending',
-        javascriptMode: JavascriptMode.unrestricted,
-      ),
-    );
+    return FutureBuilder<List<Event>>(
+        future: gitHubClient.activity.listPublicEvents().toList(),
+        builder: (BuildContext context, AsyncSnapshot<List<Event>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.active ||
+              snapshot.connectionState == ConnectionState.waiting) {
+            return new Center(
+              child: new CircularProgressIndicator(),
+            );
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            } else if (snapshot.hasData) {
+              List<Event> events = snapshot.data;
+              return ListView.builder(
+                itemCount: events.length,
+                itemBuilder: (context, index) {
+                  Event event = events[index];
+                  print(event.payload);
+                  return EventItem(event);
+                },
+              );
+            }
+          }
+          //请求未完成时弹出loading
+          return CircularProgressIndicator();
+        });
   }
 }
