@@ -11,8 +11,8 @@ class BaseModel with ChangeNotifier, DiagnosticableTreeMixin {
   Locale _locale;
 
   BaseModel() {
-    language = diskCache.getString(Constant.LANGUAGE);
-    country = diskCache.getString(Constant.COUNTER);
+    language = diskCache.getString(Constant.LANGUAGE) ?? 'en';
+    country = diskCache.getString(Constant.COUNTER) ?? 'US';
     _locale = Locale(language, country);
   }
 
