@@ -8,6 +8,8 @@ import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/router/RouterConfig.dart';
 import 'dart:convert';
 
+import 'package:gitters/framework/utils/utils.dart';
+
 class Marketplace extends StatefulWidget {
   Marketplace({Key key}) : super(key: key);
 
@@ -82,9 +84,11 @@ class _MarketplaceState extends State<Marketplace> {
                     onClick: () {
                       fluroRouter.navigateTo(
                         context,
-                        RouterList.FollowingRepos.value +
-                            Constant.ROUTER_GOTO_FOLLOWING +
-                            curUser.login,
+                        RouterList.FollowingRepos.value,
+                        routeSettings: RouteSettings(
+                            arguments: FollowingPageRouterArguments(
+                                curUser: curUser.login,
+                                pageTitle: curUser.login)),
                       );
                     },
                   );

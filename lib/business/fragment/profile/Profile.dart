@@ -3,8 +3,10 @@ import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/iconBtn.dart';
 import 'package:gitters/business/widgets/userbar.dart';
+import 'package:gitters/framework/global/constants/Constant.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/router/RouterConfig.dart';
+import 'package:gitters/framework/utils/utils.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -74,13 +76,20 @@ class ProfileState extends State<Profile> {
                       GitterIconButton(
                         GittersLocalizations.of(context).MyRepository,
                         Icons.keyboard_arrow_right,
-                        onClick: null,
+                        onClick: () {
+                          fluroRouter.navigateTo(
+                              context, RouterList.FollowingRepos.value,
+                              routeSettings: RouteSettings(
+                                  arguments: FollowingPageRouterArguments(
+                                      curUser: curUser.login,
+                                      pageTitle: 'CeShi')));
+                        },
                       ),
-                      GitterIconButton(
-                        GittersLocalizations.of(context).UserInformation,
-                        Icons.keyboard_arrow_right,
-                        onClick: null,
-                      ),
+                      // GitterIconButton(
+                      //   GittersLocalizations.of(context).UserInformation,
+                      //   Icons.keyboard_arrow_right,
+                      //   onClick: null,
+                      // ),
                       GitterIconButton(
                         GittersLocalizations.of(context).AppThemeSetting,
                         Icons.keyboard_arrow_right,
@@ -100,12 +109,18 @@ class ProfileState extends State<Profile> {
                       GitterIconButton(
                         GittersLocalizations.of(context).UserFeedBack,
                         Icons.keyboard_arrow_right,
-                        onClick: null,
+                        onClick: () {
+                          fluroRouter.navigateTo(
+                              context, RouterList.UserHelperCenter.value);
+                        },
                       ),
                       GitterIconButton(
                         GittersLocalizations.of(context).AboutApp,
                         Icons.keyboard_arrow_right,
-                        onClick: null,
+                        onClick: () {
+                          fluroRouter.navigateTo(
+                              context, RouterList.AboutGitHubApp.value);
+                        },
                       ),
                     ],
                   ),

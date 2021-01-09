@@ -6,19 +6,24 @@ import 'package:gitters/framework/global/constants/language/Localizations.dart';
 
 class FollowingRepos extends StatefulWidget {
   String user;
-  FollowingRepos(this.user, {Key key}) : super(key: key);
+  String title;
+  FollowingRepos(this.user, {this.title, Key key}) : super(key: key);
 
   @override
   _FollowingReposState createState() => _FollowingReposState();
 }
 
 class _FollowingReposState extends State<FollowingRepos> {
+  String getPageTitle(BuildContext context) {
+    return widget.title ??
+        (GittersLocalizations.of(context).FollowingUser ?? 'Following');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-              GittersLocalizations.of(context).FollowingUser ?? 'Following'),
+          title: Text(getPageTitle(context)),
         ),
         body: FutureBuilder<List<Repository>>(
             future: gitHubClient.repositories

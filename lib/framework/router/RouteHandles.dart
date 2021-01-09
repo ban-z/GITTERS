@@ -8,6 +8,7 @@ import 'package:gitters/business/widgets/pages/Internationalization.dart';
 import 'package:gitters/business/widgets/pages/appThemeSetting.dart';
 import 'package:gitters/business/widgets/pages/UserHelper.dart';
 import 'package:gitters/business/widgets/pages/repos.dart';
+import 'package:gitters/framework/utils/utils.dart';
 
 var loginHandler = Handler(
   handlerFunc: (context, parameters) {
@@ -27,39 +28,38 @@ var profileHandler = Handler(
   },
 );
 
-var userHelperHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+var userHelperHandler = Handler(handlerFunc: (context, parameters) {
   return UserHelperCenter();
 });
 
 var followingReposHandler = Handler(
-  handlerFunc: (BuildContext context, Map<String, List<String>> parameters) {
-    String curUserLogin = parameters['curUser'].first;
-    return FollowingRepos(curUserLogin);
+  handlerFunc: (context, parameters) {
+    final args = context.settings.arguments as FollowingPageRouterArguments;
+    String curUserLogin = args.curUser;
+    String pageTitle = args?.pageTitle ?? '';
+    return FollowingRepos(
+      curUserLogin,
+      title: pageTitle,
+    );
   },
 );
 
-var appThemeSetting = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+var appThemeSetting = Handler(handlerFunc: (context, parameters) {
   return AppThemeSetting();
 });
 
-var internationalization = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+var internationalization = Handler(handlerFunc: (context, parameters) {
   return Internationalization();
 });
 
-var personalAccessTokenHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+var personalAccessTokenHandler = Handler(handlerFunc: (context, parameters) {
   return PersonalAcessTokensWebView();
 });
 
-var aboutGitHubAppHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+var aboutGitHubAppHandler = Handler(handlerFunc: (context, parameters) {
   return AboutGitHubApp();
 });
 
-var emptyHandler = Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+var emptyHandler = Handler(handlerFunc: (context, parameters) {
   return EmptyPage();
 });
