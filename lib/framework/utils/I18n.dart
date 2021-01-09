@@ -17,9 +17,7 @@ void changeLanguage(BuildContext context) {
   }
   context.read<BaseModel>().changeLanuage(currentLanguage);
   diskCache.setString(Constant.LANGUAGE, currentLanguage.languageCode);
-  print("缓存的语言: " + currentLanguage.languageCode);
   diskCache.setString(Constant.COUNTER, currentLanguage.countryCode);
-  print("缓存的国家: " + currentLanguage.countryCode);
 }
 
 // 废弃...
