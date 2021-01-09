@@ -30,9 +30,12 @@ class GittersLocalizations {
       'my_repos': 'My Repository',
       'user_information': 'User Information',
       'tab_follow': 'Follow',
+      'tab_star': "Star",
       'tab_popular': 'Popular',
       'tab_mine': 'Mine',
       'following_user': 'Following User',
+      'tab_about_me': 'About Me',
+      'tab_pulic': 'Public Event',
     },
     'zh': {
       'Application_name': 'Gitters',
@@ -58,9 +61,12 @@ class GittersLocalizations {
       'my_repos': '我的仓库',
       'user_information': '用户信息',
       'tab_follow': '关注',
+      'tab_star': "Star",
       'tab_popular': '推荐',
       'tab_mine': '我的',
       'following_user': '关注的人',
+      'tab_about_me': '与我相关',
+      'tab_pulic': '公开事件',
     },
   };
 
@@ -77,6 +83,11 @@ class GittersLocalizations {
     return _localizedValuesMap[locale.languageCode]['tab_follow'];
   }
 
+  get TabStar {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['tab_star'];
+  }
+
   get FollowingUser {
     return _localizedValuesMap[locale.languageCode]['following_user'];
   }
@@ -89,6 +100,16 @@ class GittersLocalizations {
   get TabMine {
     // 注意用 locale.toString()而非locale
     return _localizedValuesMap[locale.languageCode]['tab_mine'];
+  }
+
+  get TabAboutMe {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['tab_about_me'];
+  }
+
+  get TabPulic {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['tab_pulic'];
   }
 
   get AppThemeSetting {
