@@ -11,7 +11,7 @@ class GittersLocalizations {
       'Application_name': 'Gitters',
       'login_content': "Log In",
       'market_place': 'Home',
-      'search': 'Search',
+      'search': 'Search in GitHub',
       'profile': 'Mine',
       'change_language': 'You have switched to English!',
       'user_helper_center': 'User Helper Center',
@@ -30,12 +30,16 @@ class GittersLocalizations {
       'user_feedback': 'User FeedBack',
       'my_repos': 'My Repository',
       'user_information': 'User Information',
+      'tab_follow': 'Follow',
+      'tab_popular': 'Popular',
+      'tab_mine': 'Mine',
+      'following_user': 'Following User',
     },
     'zh': {
       'Application_name': 'Gitters',
       'login_content': "登录",
       'market_place': '主页',
-      'search': '搜索',
+      'search': '搜索GitHub',
       'profile': '我的',
       'change_language': '您已切换到中文!',
       'user_helper_center': '用户帮助中心',
@@ -54,15 +58,38 @@ class GittersLocalizations {
       'user_feedback': '用户反馈',
       'my_repos': '我的仓库',
       'user_information': '用户信息',
+      'tab_follow': '关注',
+      'tab_popular': '推荐',
+      'tab_mine': '我的',
+      'following_user': '关注的人',
     },
   };
-  
+
   // 使用示🌰
   // GittersLocalizations.of(context).ProfileName
 
   get testText {
     // 注意用 locale.toString()而非locale
     return _localizedValuesMap[locale.languageCode]['test_text'];
+  }
+
+  get TabFollow {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['tab_follow'];
+  }
+
+  get FollowingUser {
+    return _localizedValuesMap[locale.languageCode]['following_user'];
+  }
+
+  get TabPopular {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['tab_popular'];
+  }
+
+  get TabMine {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['tab_mine'];
   }
 
   get AppThemeSetting {

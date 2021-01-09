@@ -1,6 +1,4 @@
 import 'package:fluro/fluro.dart';
-import 'package:gitters/business/widgets/pages/Internationalization.dart';
-import 'package:gitters/business/widgets/pages/UserHelper.dart';
 import 'RouteHandles.dart';
 
 // 定义路由列表，收敛相关常量定义
@@ -19,8 +17,10 @@ class RouterList {
   static const AboutGitHubApp = const RouterList._internal('/about_github_app');
   static const AppThemeSetting =
       const RouterList._internal('/profile/app_theme_setting');
-      static const Internationalization =
+  static const Internationalization =
       const RouterList._internal('/profile/internationalization');
+  static const FollowingRepos =
+      const RouterList._internal('/marketPlace/following/repos');
 }
 
 class RouterConfig {
@@ -42,6 +42,7 @@ class RouterConfig {
     router.define(RouterList.AppThemeSetting.value, handler: appThemeSetting);
     router.define(RouterList.Internationalization.value,
         handler: internationalization);
+    router.define(RouterList.FollowingRepos.value, handler: followingReposHandler);
     router.notFoundHandler = emptyHandler; //空页面
   }
 }
