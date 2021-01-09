@@ -15,6 +15,54 @@ class EventItem extends StatefulWidget {
 }
 
 class _EventItemState extends State<EventItem> {
+  String getIdByWidget() {
+    return widget.event.id ?? 'Empty Id';
+  }
+
+  String getEventTypeByWidget() {
+    return widget.event.type ?? 'Empty Type';
+  }
+
+  String getSubmitTimeByWidget() {
+    return (widget.event.createdAt != null
+            ? formatDate(widget.event?.createdAt,
+                [yyyy, '-', mm, '-', dd, ' - ', hh, ':', nn, ':', ss])
+            : '') ??
+        'yyyy - mm -- dd';
+  }
+
+  String getSubmitRepositoryByWidget() {
+    return widget.event.repo?.name ?? 'Empty Repository';
+  }
+
+  String getPayloadBranchByWidget() {
+    return (widget.event?.payload.containsKey('ref')
+            ? (widget.event?.payload['ref'] ?? '')
+            : '') ??
+        'Empty Branch';
+  }
+
+  String getPayloadActionByWidget() {
+    return (widget.event?.payload.containsKey('action')
+            ? (widget.event?.payload['action'] ?? '')
+            : '') ??
+        'Empty Action';
+  }
+
+  String getPayloadHead() {
+    return (widget.event?.payload.containsKey('head')
+            ? (widget.event?.payload['head'] ?? '')
+            : '') ??
+        'Empty Payload Head';
+  }
+
+  String getPayloadBeforeByWdget() {
+    return (widget.event?.payload.containsKey('before')
+            ? (widget.event?.payload['before'] ?? '')
+            : '') ??
+        'Empty Payload Before';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,35 +92,14 @@ class _EventItemState extends State<EventItem> {
             ],
           ),
           Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-          EventText('Event ID: ' + widget.event?.id ?? ''),
-          EventText('Event Name: ' + widget.event?.type ?? ''),
-          EventText('Submit Time: ' +
-                  (widget.event.createdAt != null
-                      ? formatDate(widget.event?.createdAt,
-                          [yyyy, '-', mm, '-', dd, ' - ', hh, ':', nn, ':', ss])
-                      : '') ??
-              ''),
-          EventText('Submit Repository: ' + widget.event.repo?.name ?? ''),
-          EventText('Payload Branch: ' +
-                  (widget.event?.payload.containsKey('ref')
-                      ? (widget.event?.payload['ref'] ?? '')
-                      : '') ??
-              ''),
-          EventText('Payload Action: ' +
-                  (widget.event?.payload.containsKey('action')
-                      ? (widget.event?.payload['action'] ?? '')
-                      : '') ??
-              ''),
-          EventText('Payload Head: ' +
-                  (widget.event?.payload.containsKey('head')
-                      ? (widget.event?.payload['head'] ?? '')
-                      : '') ??
-              ''),
-          EventText('Payload Before: ' +
-                  (widget.event?.payload.containsKey('before')
-                      ? (widget.event?.payload['before'] ?? '')
-                      : '') ??
-              ''),
+          EventText('Event ID: ' + getIdByWidget()),
+          EventText('Event Name: ' + getEventTypeByWidget()),
+          EventText('Submit Repository: ' + getSubmitRepositoryByWidget()),
+          EventText('Payload Branch: ' + getPayloadBranchByWidget()),
+          EventText('Submit Time: ' + getSubmitTimeByWidget()),
+          // EventText('Payload Action: ' + getPayloadActionByWidget()),
+          EventText('Payload Head: ' + getPayloadHead()),
+          EventText('Payload Before: ' + getPayloadBeforeByWdget()),
         ],
       ),
     );

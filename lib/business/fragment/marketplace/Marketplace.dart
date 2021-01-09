@@ -6,9 +6,7 @@ import 'package:gitters/business/widgets/usercard.dart';
 import 'package:gitters/framework/global/constants/Constant.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/router/RouterConfig.dart';
-import 'package:gitters/models/repos.dart';
 import 'dart:convert';
-import 'dart:typed_data'; // Uint8List需要导入这个
 
 class Marketplace extends StatefulWidget {
   Marketplace({Key key}) : super(key: key);

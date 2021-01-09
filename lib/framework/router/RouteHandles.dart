@@ -1,6 +1,5 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:github/github.dart';
 import 'package:gitters/business/fragment/profile/Profile.dart';
 import 'package:gitters/business/home/HomePage.dart';
 import 'package:gitters/business/login/LoginPage.dart';
