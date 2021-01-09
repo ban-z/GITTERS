@@ -82,7 +82,7 @@ class ProfileState extends State<Profile> {
                               routeSettings: RouteSettings(
                                   arguments: FollowingPageRouterArguments(
                                       curUser: curUser.login,
-                                      pageTitle: 'CeShi')));
+                                      pageTitle: curUser.login)));
                         },
                       ),
                       // GitterIconButton(
