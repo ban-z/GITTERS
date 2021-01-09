@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:gitters/business/fragment/profile/Profile.dart';
 import 'package:gitters/business/home/HomePage.dart';
 import 'package:gitters/business/login/LoginPage.dart';
-import 'package:gitters/framework/utils/pages/EmptyPage.dart';
+import 'package:gitters/business/widgets/pages/EmptyPage.dart';
+import 'package:gitters/business/widgets/pages/Internationalization.dart';
+import 'package:gitters/business/widgets/pages/appThemeSetting.dart';
+import 'package:gitters/business/widgets/pages/UserHelper.dart';
+import 'package:gitters/business/widgets/pages/repos.dart';
 
 var loginHandler = Handler(
   handlerFunc: (context, parameters) {
@@ -23,26 +27,39 @@ var profileHandler = Handler(
   },
 );
 
+var userHelperHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return UserHelperCenter();
+});
+
+var followingReposHandler = Handler(
+  handlerFunc: (BuildContext context, Map<String, List<String>> parameters) {
+    String curUserLogin = parameters['curUser'].first;
+    return FollowingRepos(curUserLogin);
+  },
+);
+
+var appThemeSetting = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return AppThemeSetting();
+});
+
+var internationalization = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return Internationalization();
+});
+
+var personalAccessTokenHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return PersonalAcessTokensWebView();
+});
+
+var aboutGitHubAppHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return AboutGitHubApp();
+});
+
 var emptyHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return EmptyPage();
 });
-
-// 参考
-/* //空页面
-var emptyHandler = new Handler(
-    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return PageEmpty();
-    });
-
-//A页面
-var aHandler = new Handler(
-    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
-      return PageA();
-    });
-
-//B页面
-var bHandler = new Handler(
-    handlerFunc: (BuildContext context, Map<String, List<Object>> params) {
-      return PageB();
-    }); */

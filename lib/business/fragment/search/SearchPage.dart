@@ -1,9 +1,9 @@
-import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
-import 'package:gitters/business/widgets/repository.dart';
-import 'package:gitters/framework/constants/language/Localizations.dart';
-import 'package:gitters/framework/network/Git.dart';
-import 'package:gitters/models/index.dart';
+import 'package:github/github.dart';
+import 'package:gitters/business/widgets/event.dart';
+import 'package:gitters/framework/global/constants/language/Localizations.dart';
+import '../../../application.dart';
+import './SearchDelegate.dart';
 
 class SearchPage extends StatefulWidget {
   SearchPage({Key key}) : super(key: key);
@@ -18,27 +18,46 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(GittersLocalizations.of(context).SearchName),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: SearchBarDelegate());
+              }),
+        ],
+        centerTitle: true,
       ),
-      body: Container(
-        child: InfiniteListView<Repo>(
-        onRetrieveData: (int page, List<Repo> items, bool refresh) async {
-          var data = await Git(context).getRepos(
-            refresh: refresh,
-            queryParameters: {
-              'page': page,
-              'page_size': 20,
-            },
-          );
-          //把请求到的新数据添加到items中
-          items.addAll(data);
-          // 如果接口返回的数量等于'page_size'，则认为还有数据，反之则认为最后一页
-          return data.length == 20;
-        },
-        itemBuilder: (List list, int index, BuildContext ctx) {
-          // 项目信息列表项
-          return RepoItem(list[index]);
-        },
-      )),
+      body: buildBody(),
     );
+  }
+
+  Widget buildBody() {
+    return FutureBuilder<List<Event>>(
+        future: gitHubClient.activity.listPublicEvents().toList(),
+        builder: (BuildContext context, AsyncSnapshot<List<Event>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.active ||
+              snapshot.connectionState == ConnectionState.waiting) {
+            return new Center(
+              child: new CircularProgressIndicator(),
+            );
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            } else if (snapshot.hasData) {
+              List<Event> events = snapshot.data;
+              return ListView.builder(
+                itemCount: events.length,
+                itemBuilder: (context, index) {
+                  Event event = events[index];
+                  return EventItem(event);
+                },
+              );
+            }
+          }
+          //请求未完成时弹出loading
+          return CircularProgressIndicator();
+        });
   }
 }
