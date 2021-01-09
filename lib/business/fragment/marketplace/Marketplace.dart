@@ -128,10 +128,14 @@ class _MarketplaceState extends State<Marketplace> {
         gitHubClient.repositories.listRepositories().toList());
   }
 
+  Widget buildStarTabContent() {
+    return buildCommonTabContent(gitHubClient.request('GET', '/user/starred'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           appBar: AppBar(
             title: Text(GittersLocalizations.of(context).Marketplace),
@@ -139,13 +143,14 @@ class _MarketplaceState extends State<Marketplace> {
             // 如果想手动创建 TabController，那必须将它作为参数传给 TabBar
             bottom: TabBar(tabs: [
               Tab(text: GittersLocalizations.of(context).TabFollow.toString()),
-              // Tab(text: GittersLocalizations.of(context).TabStar.toString()),
+              Tab(text: GittersLocalizations.of(context).TabStar.toString()),
               Tab(text: GittersLocalizations.of(context).TabPopular.toString()),
               Tab(text: GittersLocalizations.of(context).TabMine.toString()),
             ]),
           ),
           body: TabBarView(children: [
             buildFollowTabContent(),
+            buildStarTabContent(),
             buildPopularTabContent(),
             buildMineTabContent(),
           ]),
