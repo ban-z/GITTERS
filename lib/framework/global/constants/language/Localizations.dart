@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gitters/business/widgets/pages/UserHelper.dart';
 
 class GittersLocalizations {
   final Locale locale;

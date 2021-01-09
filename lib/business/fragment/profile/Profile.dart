@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/iconBtn.dart';
-import 'package:gitters/business/widgets/repository.dart';
 import 'package:gitters/business/widgets/userbar.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/router/RouterConfig.dart';
-import 'package:gitters/main.dart';
 
 class Profile extends StatefulWidget {
   @override

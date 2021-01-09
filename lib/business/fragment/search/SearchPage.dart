@@ -1,10 +1,7 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/business/widgets/event.dart';
-import 'package:gitters/business/widgets/repository.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import '../../../application.dart';
 import './SearchDelegate.dart';
 

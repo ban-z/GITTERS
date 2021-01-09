@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gitters/application.dart';
 import 'package:gitters/business/fragment/marketplace/Marketplace.dart';
 import 'package:gitters/business/fragment/profile/Profile.dart';
 import 'package:gitters/business/fragment/search/SearchPage.dart';
 import 'package:gitters/framework/global/provider/BaseModel.dart';
-import 'package:gitters/framework/utils/I18n.dart';
-import 'package:gitters/main.dart';
 import 'package:provider/provider.dart';
 import 'HomeSetting.dart';
 
