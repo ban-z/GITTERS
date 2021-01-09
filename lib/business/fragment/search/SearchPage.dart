@@ -54,7 +54,6 @@ class _SearchPageState extends State<SearchPage> {
                 itemCount: events.length,
                 itemBuilder: (context, index) {
                   Event event = events[index];
-                  print(event.payload);
                   return EventItem(event);
                 },
               );
