@@ -5,8 +5,6 @@ import 'package:gitters/business/widgets/repository.dart';
 import 'package:gitters/business/widgets/usercard.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/router/RouterConfig.dart';
-import 'dart:convert';
-
 import 'package:gitters/framework/utils/utils.dart';
 
 class Marketplace extends StatefulWidget {
@@ -19,17 +17,6 @@ class Marketplace extends StatefulWidget {
 class _MarketplaceState extends State<Marketplace> {
   List<User> followingUsers;
 
-  bool isSnapshotHasBody(AsyncSnapshot snapshot) {
-    bool hasBody = false;
-    // 利用 try catch 判断是否有body
-    try {
-      hasBody = snapshot.data.body == null ? false : true;
-    } catch (err) {
-      hasBody = false;
-    }
-    return hasBody;
-  }
-
   Future<List<Repository>> getFollowsRepos() async {
     followingUsers =
         await gitHubClient.users.listCurrentUserFollowing().toList();
@@ -38,98 +25,52 @@ class _MarketplaceState extends State<Marketplace> {
         .toList();
   }
 
-  Widget buildCommonTabContent<T>(Future future) {
-    return FutureBuilder(
-        future: future,
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.active ||
-              snapshot.connectionState == ConnectionState.waiting) {
-            return new Center(
-              child: new CircularProgressIndicator(),
-            );
-          }
-
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            } else if (snapshot.hasData) {
-              List<Repository> repos;
-              if (isSnapshotHasBody(snapshot)) {
-                List<Map<String, dynamic>> response =
-                    jsonDecode(snapshot.data.body).cast<Map<String, dynamic>>();
-                repos = response
-                    .map((Map<String, dynamic> it) => Repository.fromJson(it))
-                    .toList();
-              } else {
-                repos = snapshot.data;
-              }
-              return ListView.builder(
-                itemCount: repos.length,
-                itemBuilder: (context, index) {
-                  Repository repo = repos[index];
-                  return RepoItem(repo);
-                },
-              );
-            }
-          }
-          //请求未完成时弹出loading
-          return CircularProgressIndicator();
-        });
-  }
-
   Widget buildFollowTabContent() {
-    return FutureBuilder<List<User>>(
-        future: gitHubClient.users.listCurrentUserFollowing().toList(),
-        builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-          if (snapshot.connectionState == ConnectionState.active ||
-              snapshot.connectionState == ConnectionState.waiting) {
-            return new Center(
-              child: new CircularProgressIndicator(),
-            );
-          }
-
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            } else if (snapshot.hasData) {
-              List<User> followings = snapshot.data;
-              return ListView.builder(
-                itemCount: followings.length,
-                itemBuilder: (context, index) {
-                  User curUser = followings[index];
-                  return UserCard(
-                    curUser,
-                    onClick: () {
-                      fluroRouter.navigateTo(
-                        context,
-                        RouterList.FollowingRepos.value,
-                        routeSettings: RouteSettings(
-                            arguments: FollowingPageRouterArguments(
-                                curUser: curUser.login,
-                                pageTitle: curUser.login)),
-                      );
-                    },
-                  );
-                },
+    var buildList = (AsyncSnapshot snapshot) {
+      List<User> followings = snapshot.data;
+      return ListView.builder(
+        itemCount: followings.length,
+        itemBuilder: (context, index) {
+          User curUser = followings[index];
+          return UserCard(
+            curUser,
+            onClick: () {
+              fluroRouter.navigateTo(
+                context,
+                RouterList.FollowingRepos.value,
+                routeSettings: RouteSettings(
+                    arguments: FollowingPageRouterArguments(
+                        curUser: curUser.login, pageTitle: curUser.login)),
               );
-            }
-          }
-          //请求未完成时弹出loading
-          return CircularProgressIndicator();
-        });
+            },
+          );
+        },
+      );
+    };
+
+    return buildBaseCommonList(
+        gitHubClient.users.listCurrentUserFollowing().toList(), buildList);
   }
 
   Widget buildPopularTabContent() {
-    return buildCommonTabContent(gitHubClient.request('GET', '/repositories'));
+    return buildCommonList<Repository, RepoItem>(
+        gitHubClient.request('GET', '/repositories'),
+        (Repository repo) => RepoItem(repo),
+        (Map<String, dynamic> json) => Repository.fromJson(json));
   }
 
   Widget buildMineTabContent() {
-    return buildCommonTabContent(
-        gitHubClient.repositories.listRepositories().toList());
+    return buildCommonList<Repository, RepoItem>(
+        gitHubClient.repositories.listRepositories().toList(),
+        (Repository repo) => RepoItem(repo),
+        (Map<String, dynamic> json) => Repository.fromJson(json));
   }
 
   Widget buildStarTabContent() {
-    return buildCommonTabContent(gitHubClient.request('GET', '/user/starred'));
+    return buildCommonList<Repository, RepoItem>(
+        gitHubClient.request('GET', '/user/starred'),
+        (Repository repo) => RepoItem(repo),
+        (Map<String, dynamic> json) => Repository.fromJson(json));
   }
 
   @override
