@@ -28,24 +28,29 @@ class _MarketplaceState extends State<Marketplace> {
   Widget buildFollowTabContent() {
     var buildList = (AsyncSnapshot snapshot) {
       List<User> followings = snapshot.data;
-      return ListView.builder(
-        itemCount: followings.length,
-        itemBuilder: (context, index) {
-          User curUser = followings[index];
-          return UserCard(
-            curUser,
-            onClick: () {
-              fluroRouter.navigateTo(
-                context,
-                RouterList.FollowingRepos.value,
-                routeSettings: RouteSettings(
-                    arguments: FollowingPageRouterArguments(
-                        curUser: curUser.login, pageTitle: curUser.login)),
+      return RefreshIndicator(
+          onRefresh: () {
+            setState(() {});
+          },
+          color: Theme.of(context).primaryColor,
+          child: ListView.builder(
+            itemCount: followings.length,
+            itemBuilder: (context, index) {
+              User curUser = followings[index];
+              return UserCard(
+                curUser,
+                onClick: () {
+                  fluroRouter.navigateTo(
+                    context,
+                    RouterList.FollowingRepos.value,
+                    routeSettings: RouteSettings(
+                        arguments: FollowingPageRouterArguments(
+                            curUser: curUser.login, pageTitle: curUser.login)),
+                  );
+                },
               );
             },
-          );
-        },
-      );
+          ));
     };
 
     return buildBaseCommonList(

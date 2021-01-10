@@ -13,7 +13,7 @@ typedef Widget CardCreator<W, M>(M m);
 
 typedef M ModelCreator<M>(Map<String, dynamic> json);
 
-typedef ListView ItemCreator(AsyncSnapshot snapshot);
+typedef Widget ItemCreator(AsyncSnapshot snapshot);
 
 Widget buildBaseCommonList(Future future, ItemCreator creator) {
   return FutureBuilder(
