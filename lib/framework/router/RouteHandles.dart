@@ -1,6 +1,8 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:github/github.dart';
 import 'package:gitters/business/fragment/profile/Profile.dart';
+import 'package:gitters/business/fragment/user-repo/Repository.dart';
 import 'package:gitters/business/home/HomePage.dart';
 import 'package:gitters/business/login/LoginPage.dart';
 import 'package:gitters/business/widgets/pages/EmptyPage.dart';
@@ -41,6 +43,13 @@ var followingReposHandler = Handler(
       curUserLogin,
       title: pageTitle,
     );
+  },
+);
+
+var userRepositoryHome = Handler(
+  handlerFunc: (context, parameters) {
+    final slug = context.settings.arguments as RepositorySlug;
+    return UserRepositoryHome(slug);
   },
 );
 

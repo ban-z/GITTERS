@@ -21,6 +21,8 @@ class RouterList {
       const RouterList._internal('/profile/internationalization');
   static const FollowingRepos =
       const RouterList._internal('/marketPlace/following/repos');
+  static const UserRepositoryHome =
+      const RouterList._internal('/user/repository/home');
 }
 
 class RouterConfig {
@@ -42,7 +44,10 @@ class RouterConfig {
     router.define(RouterList.AppThemeSetting.value, handler: appThemeSetting);
     router.define(RouterList.Internationalization.value,
         handler: internationalization);
-    router.define(RouterList.FollowingRepos.value, handler: followingReposHandler);
+    router.define(RouterList.FollowingRepos.value,
+        handler: followingReposHandler);
+    router.define(RouterList.UserRepositoryHome.value,
+        handler: userRepositoryHome);
     router.notFoundHandler = emptyHandler; //空页面
   }
 }

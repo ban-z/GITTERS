@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:github/github.dart';
+import 'package:gitters/application.dart';
+import 'package:gitters/framework/router/RouterConfig.dart';
 
 class FollowingPageRouterArguments {
   String curUser;
@@ -96,3 +99,12 @@ bool isSnapshotHasBody(AsyncSnapshot snapshot) {
   }
   return hasBody;
 }
+
+void gotoUserRepository(BuildContext context, RepositorySlug slug) {
+  fluroRouter.navigateTo(context, RouterList.UserRepositoryHome.value,
+      routeSettings: RouteSettings(
+        arguments: slug,
+      ));
+}
+
+var MINE_REPO = RepositorySlug('ban-z', 'andHttps');
