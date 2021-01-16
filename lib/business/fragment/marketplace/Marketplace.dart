@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/repository.dart';
+import 'package:gitters/business/widgets/toast.dart';
 import 'package:gitters/business/widgets/usercard.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/router/RouterConfig.dart';
@@ -97,7 +98,14 @@ class _MarketplaceState extends State<Marketplace> {
     return buildCommonList<Repository, RepoItem>(
       context,
       gitHubClient.request('GET', '/repositories'),
-      (Repository repo) => RepoItem(repo),
+      (Repository repo) => RepoItem(repo, () {
+        if (repo.isPrivate) {
+          showToast('似有仓库，不可查看');
+        } else {
+          gotoUserRepository(
+              context, RepositorySlug(repo.owner.login, repo.name));
+        }
+      }),
       (Map<String, dynamic> json) => Repository.fromJson(json),
       () {
         updateState();
@@ -109,7 +117,14 @@ class _MarketplaceState extends State<Marketplace> {
     return buildCommonList<Repository, RepoItem>(
         context,
         gitHubClient.repositories.listRepositories().toList(),
-        (Repository repo) => RepoItem(repo),
+        (Repository repo) => RepoItem(repo, () {
+              if (repo.isPrivate) {
+                showToast('似有仓库，不可查看');
+              } else {
+                gotoUserRepository(
+                    context, RepositorySlug(repo.owner.login, repo.name));
+              }
+            }),
         (Map<String, dynamic> json) => Repository.fromJson(json), () {
       updateState();
     });
@@ -119,7 +134,14 @@ class _MarketplaceState extends State<Marketplace> {
     return buildCommonList<Repository, RepoItem>(
         context,
         gitHubClient.request('GET', '/user/starred'),
-        (Repository repo) => RepoItem(repo),
+        (Repository repo) => RepoItem(repo, () {
+              if (repo.isPrivate) {
+                showToast('似有仓库，不可查看');
+              } else {
+                gotoUserRepository(
+                    context, RepositorySlug(repo.owner.login, repo.name));
+              }
+            }),
         (Map<String, dynamic> json) => Repository.fromJson(json), () {
       updateState();
     });

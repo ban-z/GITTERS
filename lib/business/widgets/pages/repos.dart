@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/repository.dart';
+import 'package:gitters/business/widgets/toast.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
+import 'package:gitters/framework/utils/utils.dart';
 
 class FollowingRepos extends StatefulWidget {
   String user;
@@ -47,7 +49,14 @@ class _FollowingReposState extends State<FollowingRepos> {
                     itemCount: followingRepos.length,
                     itemBuilder: (context, index) {
                       Repository repo = followingRepos[index];
-                      return RepoItem(repo);
+                      return RepoItem(repo, () {
+                        if (repo.isPrivate) {
+                          showToast('似有仓库，不可查看');
+                        } else {
+                          gotoUserRepository(context,
+                              RepositorySlug(repo.owner.login, repo.name));
+                        }
+                      });
                     },
                   );
                 }

@@ -40,6 +40,7 @@ class GittersLocalizations {
       'icon_following': "Following",
       'icon_followers': "Followers",
       'icon_repo': "Repositories",
+      'repository': "Repository",
     },
     'zh': {
       'Application_name': 'Gitters',
@@ -75,6 +76,7 @@ class GittersLocalizations {
       'icon_following': "关注",
       'icon_followers': "粉丝",
       'icon_repo': "仓库",
+      'repository': "仓库",
     },
   };
 
@@ -84,6 +86,11 @@ class GittersLocalizations {
   get testText {
     // 注意用 locale.toString()而非locale
     return _localizedValuesMap[locale.languageCode]['test_text'];
+  }
+
+  get Repository {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['repository'];
   }
 
   get IconFollowingDes {
