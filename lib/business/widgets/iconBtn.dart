@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gitters/framework/global/provider/BaseModel.dart';
 import 'package:provider/provider.dart';
 
-class GitterIconButton extends StatelessWidget {
-  GitterIconButton(
+class GitterIconButtonLR extends StatelessWidget {
+  GitterIconButtonLR(
     this.btnContent,
     this.btnIconData, {
     Key key,
@@ -42,6 +42,41 @@ class GitterIconButton extends StatelessWidget {
               child: Icon(btnIconData),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class GitterIconButtonTB extends StatelessWidget {
+  IconData iconData;
+  String iconDes;
+  String iconContent;
+
+  GitterIconButtonTB(this.iconData, this.iconDes, this.iconContent, {Key key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        child: Container(
+          child: Column(
+            children: [
+              Icon(iconData),
+              Row(
+                children: [
+                  Text(iconDes),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 3.0),
+                    child: Text(''),
+                  ),
+                  Text(iconContent),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

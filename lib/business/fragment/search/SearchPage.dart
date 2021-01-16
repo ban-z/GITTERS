@@ -58,13 +58,19 @@ class _SearchPageState extends State<SearchPage> {
               return Text(snapshot.error.toString());
             } else if (snapshot.hasData) {
               List<Event> events = snapshot.data;
-              return ListView.builder(
-                itemCount: events.length,
-                itemBuilder: (context, index) {
-                  Event event = events[index];
-                  return EventItem(event);
-                },
-              );
+
+              return RefreshIndicator(
+                  onRefresh: () {
+                    setState(() {});
+                  },
+                  color: Theme.of(context).primaryColor,
+                  child: ListView.builder(
+                    itemCount: events.length,
+                    itemBuilder: (context, index) {
+                      Event event = events[index];
+                      return EventItem(event);
+                    },
+                  ));
             }
           }
           //请求未完成时弹出loading
@@ -94,12 +100,18 @@ class _SearchPageState extends State<SearchPage> {
               List<Event> events = response
                   .map((Map<String, dynamic> it) => Event.fromJson(it))
                   .toList();
-              return ListView.builder(
-                itemCount: events.length,
-                itemBuilder: (context, index) {
-                  Event event = events[index];
-                  return EventItem(event);
+              return RefreshIndicator(
+                onRefresh: () {
+                  setState(() {});
                 },
+                color: Theme.of(context).primaryColor,
+                child: ListView.builder(
+                  itemCount: events.length,
+                  itemBuilder: (context, index) {
+                    Event event = events[index];
+                    return EventItem(event);
+                  },
+                ),
               );
             }
           }

@@ -28,7 +28,7 @@ class _UserCardState extends State<UserCard> {
             borderRadius: BorderRadius.all(Radius.circular(24.0)),
             boxShadow: [
               BoxShadow(
-                color: context.watch<BaseModel>().themeData.primaryColor,
+                color: context.watch<BaseModel>().themeData.backgroundColor,
                 offset: Offset(-5, -5),
                 blurRadius: 1.0,
                 spreadRadius: 1.0,
