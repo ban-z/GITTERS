@@ -64,16 +64,16 @@ class ProfileState extends State<Profile> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
-                    flex: 4,
+                    flex: 5,
                     child: UserBar(
                       user: curUser,
                     )),
                 Expanded(
-                  flex: 6,
+                  flex: 7,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      GitterIconButton(
+                      GitterIconButtonLR(
                         GittersLocalizations.of(context).MyRepository,
                         Icons.keyboard_arrow_right,
                         onClick: () {
@@ -90,7 +90,7 @@ class ProfileState extends State<Profile> {
                       //   Icons.keyboard_arrow_right,
                       //   onClick: null,
                       // ),
-                      GitterIconButton(
+                      GitterIconButtonLR(
                         GittersLocalizations.of(context).AppThemeSetting,
                         Icons.keyboard_arrow_right,
                         onClick: () {
@@ -98,7 +98,7 @@ class ProfileState extends State<Profile> {
                               context, RouterList.AppThemeSetting.value);
                         },
                       ),
-                      GitterIconButton(
+                      GitterIconButtonLR(
                         GittersLocalizations.of(context).Internationalization,
                         Icons.keyboard_arrow_right,
                         onClick: () {
@@ -106,7 +106,7 @@ class ProfileState extends State<Profile> {
                               context, RouterList.Internationalization.value);
                         },
                       ),
-                      GitterIconButton(
+                      GitterIconButtonLR(
                         GittersLocalizations.of(context).UserFeedBack,
                         Icons.keyboard_arrow_right,
                         onClick: () {
@@ -114,7 +114,7 @@ class ProfileState extends State<Profile> {
                               context, RouterList.UserHelperCenter.value);
                         },
                       ),
-                      GitterIconButton(
+                      GitterIconButtonLR(
                         GittersLocalizations.of(context).AboutApp,
                         Icons.keyboard_arrow_right,
                         onClick: () {

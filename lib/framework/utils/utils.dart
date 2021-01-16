@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 
 class FollowingPageRouterArguments {
@@ -14,6 +15,8 @@ typedef Widget CardCreator<W, M>(M m);
 typedef M ModelCreator<M>(Map<String, dynamic> json);
 
 typedef Widget ItemCreator(AsyncSnapshot snapshot);
+
+typedef Void UpdateState();
 
 Widget buildBaseCommonList(Future future, ItemCreator creator) {
   return FutureBuilder(
@@ -38,8 +41,8 @@ Widget buildBaseCommonList(Future future, ItemCreator creator) {
       });
 }
 
-Widget buildCommonList<M, W>(
-    Future future, CardCreator<W, M> card, ModelCreator<M> model) {
+Widget buildCommonList<M, W>(BuildContext context, Future future,
+    CardCreator<W, M> card, ModelCreator<M> model, UpdateState updateState) {
   return FutureBuilder(
       future: future,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -63,12 +66,18 @@ Widget buildCommonList<M, W>(
             } else {
               items = snapshot.data;
             }
-            return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                M item = items[index];
-                return card(item);
+            return RefreshIndicator(
+              onRefresh: () {
+                updateState();
               },
+              color: Theme.of(context).primaryColor,
+              child: ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  M item = items[index];
+                  return card(item);
+                },
+              ),
             );
           }
         }

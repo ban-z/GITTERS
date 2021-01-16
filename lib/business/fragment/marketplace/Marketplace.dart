@@ -17,6 +17,10 @@ class Marketplace extends StatefulWidget {
 class _MarketplaceState extends State<Marketplace> {
   List<User> followingUsers;
 
+  void updateState() {
+    setState(() {});
+  }
+
   Future<List<Repository>> getFollowsRepos() async {
     followingUsers =
         await gitHubClient.users.listCurrentUserFollowing().toList();
@@ -25,12 +29,12 @@ class _MarketplaceState extends State<Marketplace> {
         .toList();
   }
 
-  Widget buildFollowTabContent() {
+  Widget buildFollowTabContent(BuildContext context) {
     var buildList = (AsyncSnapshot snapshot) {
       List<User> followings = snapshot.data;
       return RefreshIndicator(
           onRefresh: () {
-            setState(() {});
+            updateState();
           },
           color: Theme.of(context).primaryColor,
           child: ListView.builder(
@@ -57,31 +61,74 @@ class _MarketplaceState extends State<Marketplace> {
         gitHubClient.users.listCurrentUserFollowing().toList(), buildList);
   }
 
-  Widget buildPopularTabContent() {
-    return buildCommonList<Repository, RepoItem>(
-        gitHubClient.request('GET', '/repositories'),
-        (Repository repo) => RepoItem(repo),
-        (Map<String, dynamic> json) => Repository.fromJson(json));
+  Widget buildFollowersTabContent(BuildContext context) {
+    var buildList = (AsyncSnapshot snapshot) {
+      List<User> followings = snapshot.data;
+      return RefreshIndicator(
+          onRefresh: () {
+            updateState();
+          },
+          color: Theme.of(context).primaryColor,
+          child: ListView.builder(
+            itemCount: followings.length,
+            itemBuilder: (context, index) {
+              User curUser = followings[index];
+              return UserCard(
+                curUser,
+                onClick: () {
+                  fluroRouter.navigateTo(
+                    context,
+                    RouterList.FollowingRepos.value,
+                    routeSettings: RouteSettings(
+                        arguments: FollowingPageRouterArguments(
+                            curUser: curUser.login, pageTitle: curUser.login)),
+                  );
+                },
+              );
+            },
+          ));
+    };
+
+    return buildBaseCommonList(
+        gitHubClient.users.listCurrentUserFollowers().toList(), buildList);
   }
 
-  Widget buildMineTabContent() {
+  Widget buildPopularTabContent(BuildContext context) {
     return buildCommonList<Repository, RepoItem>(
+      context,
+      gitHubClient.request('GET', '/repositories'),
+      (Repository repo) => RepoItem(repo),
+      (Map<String, dynamic> json) => Repository.fromJson(json),
+      () {
+        updateState();
+      },
+    );
+  }
+
+  Widget buildMineTabContent(BuildContext context) {
+    return buildCommonList<Repository, RepoItem>(
+        context,
         gitHubClient.repositories.listRepositories().toList(),
         (Repository repo) => RepoItem(repo),
-        (Map<String, dynamic> json) => Repository.fromJson(json));
+        (Map<String, dynamic> json) => Repository.fromJson(json), () {
+      updateState();
+    });
   }
 
-  Widget buildStarTabContent() {
+  Widget buildStarTabContent(BuildContext context) {
     return buildCommonList<Repository, RepoItem>(
+        context,
         gitHubClient.request('GET', '/user/starred'),
         (Repository repo) => RepoItem(repo),
-        (Map<String, dynamic> json) => Repository.fromJson(json));
+        (Map<String, dynamic> json) => Repository.fromJson(json), () {
+      updateState();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 4,
+        length: 5,
         child: Scaffold(
           appBar: AppBar(
             title: Text(GittersLocalizations.of(context).Marketplace),
@@ -89,16 +136,20 @@ class _MarketplaceState extends State<Marketplace> {
             // 如果想手动创建 TabController，那必须将它作为参数传给 TabBar
             bottom: TabBar(tabs: [
               Tab(text: GittersLocalizations.of(context).TabFollow.toString()),
+              Tab(
+                  text:
+                      GittersLocalizations.of(context).TabFollowers.toString()),
               Tab(text: GittersLocalizations.of(context).TabStar.toString()),
               Tab(text: GittersLocalizations.of(context).TabPopular.toString()),
               Tab(text: GittersLocalizations.of(context).TabMine.toString()),
             ]),
           ),
           body: TabBarView(children: [
-            buildFollowTabContent(),
-            buildStarTabContent(),
-            buildPopularTabContent(),
-            buildMineTabContent(),
+            buildFollowTabContent(context),
+            buildFollowersTabContent(context),
+            buildStarTabContent(context),
+            buildPopularTabContent(context),
+            buildMineTabContent(context),
           ]),
         ));
   }

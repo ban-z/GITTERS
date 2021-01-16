@@ -30,12 +30,16 @@ class GittersLocalizations {
       'my_repos': 'My Repository',
       'user_information': 'User Information',
       'tab_follow': 'Follow',
+      'tab_followers': 'Followers',
       'tab_star': "Star",
       'tab_popular': 'Popular',
       'tab_mine': 'Mine',
       'following_user': 'Following User',
       'tab_about_me': 'About Me',
       'tab_pulic': 'Public Event',
+      'icon_following': "Following",
+      'icon_followers': "Followers",
+      'icon_repo': "Repositories",
     },
     'zh': {
       'Application_name': 'Gitters',
@@ -61,12 +65,16 @@ class GittersLocalizations {
       'my_repos': '我的仓库',
       'user_information': '用户信息',
       'tab_follow': '关注',
+      'tab_followers': '粉丝',
       'tab_star': "Star",
       'tab_popular': '推荐',
       'tab_mine': '我的',
       'following_user': '关注的人',
       'tab_about_me': '与我相关',
       'tab_pulic': '公开事件',
+      'icon_following': "关注",
+      'icon_followers': "粉丝",
+      'icon_repo': "仓库",
     },
   };
 
@@ -78,9 +86,29 @@ class GittersLocalizations {
     return _localizedValuesMap[locale.languageCode]['test_text'];
   }
 
+  get IconFollowingDes {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['icon_following'];
+  }
+
+  get IconFollowersDes {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['icon_followers'];
+  }
+
+  get IconRepositoryDes {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['icon_repo'];
+  }
+
   get TabFollow {
     // 注意用 locale.toString()而非locale
     return _localizedValuesMap[locale.languageCode]['tab_follow'];
+  }
+
+  get TabFollowers {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['tab_followers'];
   }
 
   get TabStar {
