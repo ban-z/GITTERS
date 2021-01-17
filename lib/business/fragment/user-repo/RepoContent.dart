@@ -3,15 +3,14 @@ import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 
 class RepoContent extends StatelessWidget {
-  RepositorySlug slug;
-  String branch;
-  String path;
+  String treePath;
 
-  RepoContent(this.slug, this.branch, this.path, {Key key})
-      : super(key: key);
+  RepoContent(this.treePath, {Key key}) : super(key: key);
 
-  String getRequestPath(String branch, String path) {
-    return '/repos/${slug.fullName}/branches/${branch}/';
+  String getCurTreePath(String treePath) {
+    String res;
+    res = treePath.substring(22); // 截掉域名部分，使用GitHubClient进行网络请求
+    return res;
   }
 
   @override
@@ -21,7 +20,7 @@ class RepoContent extends StatelessWidget {
         title: Text('分支'),
       ),
       body: FutureBuilder(
-          future: gitHubClient.request('GET', getRequestPath(branch, path)),
+          future: gitHubClient.request('GET', getCurTreePath(treePath)),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.active ||
                 snapshot.connectionState == ConnectionState.waiting) {
@@ -34,11 +33,7 @@ class RepoContent extends StatelessWidget {
               if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               } else if (snapshot.hasData) {
-                RepositoryContents cotents = snapshot.data.body;
-                return ListView.builder(
-                  itemCount: 11,
-                  itemBuilder: (context, index) {},
-                );
+                return Text(snapshot.data.body);
               }
             }
             //请求未完成时弹出loading
