@@ -100,8 +100,15 @@ bool isSnapshotHasBody(AsyncSnapshot snapshot) {
   return hasBody;
 }
 
-void gotoUserRepository(BuildContext context, RepositorySlug slug) {
-  fluroRouter.navigateTo(context, RouterList.UserRepositoryHome.value,
+Future gotoUserRepository(BuildContext context, RepositorySlug slug) {
+  return fluroRouter.navigateTo(context, RouterList.UserRepositoryHome.value,
+      routeSettings: RouteSettings(
+        arguments: slug,
+      ));
+}
+
+Future gotoUserRepositoryBranch(BuildContext context, RepositorySlug slug) {
+  return fluroRouter.navigateTo(context, RouterList.UserRepositoryBranch.value,
       routeSettings: RouteSettings(
         arguments: slug,
       ));

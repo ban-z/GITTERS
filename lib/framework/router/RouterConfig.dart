@@ -23,6 +23,8 @@ class RouterList {
       const RouterList._internal('/marketPlace/following/repos');
   static const UserRepositoryHome =
       const RouterList._internal('/user/repository/home');
+  static const UserRepositoryBranch =
+      const RouterList._internal('/user/repository/branch');
 }
 
 class RouterConfig {
@@ -48,6 +50,8 @@ class RouterConfig {
         handler: followingReposHandler);
     router.define(RouterList.UserRepositoryHome.value,
         handler: userRepositoryHome);
+    router.define(RouterList.UserRepositoryBranch.value,
+        handler: userRepositoryBranch);
     router.notFoundHandler = emptyHandler; //空页面
   }
 }

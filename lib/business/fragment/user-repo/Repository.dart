@@ -22,6 +22,9 @@ class UserRepositoryHome extends StatefulWidget {
 
 class _UserRepositoryHomeState extends State<UserRepositoryHome> {
   GitHubFile readMe = GitHubFile();
+  String curBranch = '';
+  String SHA = '';
+  Future repoInfo;
 
   Future getRepositoryInfo(RepositorySlug slug) async {
     String refsPath = '/repos/${slug.fullName}/git/refs';
@@ -30,11 +33,23 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
     String readMePath = '/repos/${slug.fullName}/contents/README.md';
     return Future.wait([
       gitHubClient.repositories.getRepository(slug),
-      gitHubClient.request('GET', refsPath),
-      gitHubClient.request('GET', tagsPath),
-      gitHubClient.request('GET', branchesPath),
+      // gitHubClient.request('GET', refsPath),
+      // gitHubClient.request('GET', tagsPath),
+      // gitHubClient.request('GET', branchesPath),
       gitHubClient.request('GET', readMePath),
     ]);
+  }
+
+  void refreshRepoInfo() {
+    setState(() {
+      repoInfo = getRepositoryInfo(widget.slug);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    repoInfo = getRepositoryInfo(widget.slug);
   }
 
   @override
@@ -44,7 +59,7 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
         title: Text(GittersLocalizations.of(context).Repository.toString()),
       ),
       body: FutureBuilder(
-          future: getRepositoryInfo(widget.slug),
+          future: repoInfo,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.active ||
                 snapshot.connectionState == ConnectionState.waiting) {
@@ -59,7 +74,8 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
               } else if (snapshot.hasData) {
                 Repository repo = snapshot.data[0];
                 GitHubFile readMeFile =
-                    GitHubFile.fromJson(stringToJsonMap(snapshot.data[4].body));
+                    GitHubFile.fromJson(stringToJsonMap(snapshot.data[1].body));
+                SHA = readMeFile.sha;
                 return buildRepoHome(repo, readMeFile);
               }
             }
@@ -153,8 +169,16 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
                 ),
               ),
               buildDivider(context),
-              buildKVRichText(
-                  context, '目前的分支: ', repository.defaultBranch ?? ''),
+              buildKVRichText(context, '目前的分支: ',
+                  curBranch.isEmpty ? repository.defaultBranch : curBranch,
+                  onClick: () {
+                gotoUserRepositoryBranch(context, widget.slug).then((value) {
+                  print("banch: " + value);
+                  setState(() {
+                    curBranch = value;
+                  });
+                });
+              }),
               buildPaddingInHV(0, 6.0),
               buildKVRichText(context, '浏览代码: ', repository.name ?? ''),
               buildDivider(context),
@@ -176,18 +200,22 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
   }
 }
 
-Text buildKVRichText(BuildContext context, String title, String content) {
-  return Text.rich(TextSpan(children: [
-    TextSpan(
-        text: title,
-        style: TextStyle(
-            fontSize: 14.0,
-            fontWeight: FontWeight.w500,
-            color: context.read<BaseModel>().themeData.primaryColor)),
-    TextSpan(
-        text: content,
-        style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700)),
-  ]));
+Widget buildKVRichText(BuildContext context, String title, String content,
+    {Function onClick}) {
+  return GestureDetector(
+    onTap: onClick,
+    child: Text.rich(TextSpan(children: [
+      TextSpan(
+          text: title,
+          style: TextStyle(
+              fontSize: 14.0,
+              fontWeight: FontWeight.w500,
+              color: context.read<BaseModel>().themeData.primaryColor)),
+      TextSpan(
+          text: content,
+          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700)),
+    ])),
+  );
 }
 
 Padding buildPaddingInHV(double h, double v) {
