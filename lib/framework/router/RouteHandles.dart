@@ -64,8 +64,11 @@ var userRepositoryBranch = Handler(
 
 var userRepositoryContents = Handler(
   handlerFunc: (context, parameters) {
-    final args = context.settings.arguments as String;
-    return RepoContent(args);
+    final args = context.settings.arguments as UserRepoContentRouterArguments;
+    return RepoContent(
+      args.treePath,
+      args.treeType,
+    );
   },
 );
 

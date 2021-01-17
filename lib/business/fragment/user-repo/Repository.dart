@@ -198,7 +198,7 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
               buildKVRichText(context, '浏览代码: ', repository.name ?? '',
                   onClick: () {
                 gotoUserRepositoryContent(
-                    context, curBranchInfo.commit.commit.tree.url);
+                    context, curBranchInfo.commit.commit.tree.url, 'tree');
               }),
               buildDivider(context),
               buildPaddingInHV(0, 5.0),
