@@ -107,4 +107,9 @@ void gotoUserRepository(BuildContext context, RepositorySlug slug) {
       ));
 }
 
+Map<String, dynamic> stringToJsonMap(String jsons) {
+  Map<String, dynamic> res = json.decode(jsons);
+  return res;
+}
+
 var MINE_REPO = RepositorySlug('ban-z', 'andHttps');
