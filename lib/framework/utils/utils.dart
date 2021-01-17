@@ -13,6 +13,13 @@ class FollowingPageRouterArguments {
   FollowingPageRouterArguments({this.curUser, this.pageTitle});
 }
 
+class UserRepoContentRouterArguments {
+  String treePath;
+  String treeType;
+
+  UserRepoContentRouterArguments(this.treePath, this.treeType);
+}
+
 typedef Widget CardCreator<W, M>(M m);
 
 typedef M ModelCreator<M>(Map<String, dynamic> json);
@@ -100,11 +107,31 @@ bool isSnapshotHasBody(AsyncSnapshot snapshot) {
   return hasBody;
 }
 
-void gotoUserRepository(BuildContext context, RepositorySlug slug) {
-  fluroRouter.navigateTo(context, RouterList.UserRepositoryHome.value,
+Future gotoUserRepository(BuildContext context, RepositorySlug slug) {
+  return fluroRouter.navigateTo(context, RouterList.UserRepositoryHome.value,
       routeSettings: RouteSettings(
         arguments: slug,
       ));
+}
+
+Future gotoUserRepositoryBranch(BuildContext context, RepositorySlug slug) {
+  return fluroRouter.navigateTo(context, RouterList.UserRepositoryBranch.value,
+      routeSettings: RouteSettings(
+        arguments: slug,
+      ));
+}
+
+Future gotoUserRepositoryContent(
+    BuildContext context, String treePath, String treeType) {
+  return fluroRouter.navigateTo(context, RouterList.UserRepositoryContent.value,
+      routeSettings: RouteSettings(
+        arguments: UserRepoContentRouterArguments(treePath, treeType),
+      ));
+}
+
+Map<String, dynamic> stringToJsonMap(String jsons) {
+  Map<String, dynamic> res = json.decode(jsons);
+  return res;
 }
 
 var MINE_REPO = RepositorySlug('ban-z', 'andHttps');

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/business/widgets/avatar.dart';
 import 'package:date_format/date_format.dart';
+import 'package:gitters/business/widgets/toast.dart';
 import 'package:gitters/framework/global/provider/BaseModel.dart';
+import 'package:gitters/framework/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class EventItem extends StatefulWidget {
@@ -65,42 +67,54 @@ class _EventItemState extends State<EventItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(
-              color: context.watch<BaseModel>().themeData.primaryColor,
-              width: 1.0),
-          borderRadius: BorderRadius.all(Radius.circular(12.0))),
-      margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-      padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              GitterAvatar(widget.event?.actor?.avatarUrl ?? '', width: 36.0),
-              Padding(padding: EdgeInsets.symmetric(horizontal: 12.0)),
-              Text(
-                widget.event?.actor?.login ?? '',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 24.0,
+    return GestureDetector(
+      onTap: () {
+        if (widget.event.repo.isPrivate) {
+          showToast('私有仓库，不可查看');
+        } else {
+          gotoUserRepository(
+              context,
+              RepositorySlug(
+                  widget.event.repo.owner.login, widget.event.repo.name));
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: context.watch<BaseModel>().themeData.primaryColor,
+                width: 1.0),
+            borderRadius: BorderRadius.all(Radius.circular(12.0))),
+        margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+        padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                GitterAvatar(widget.event?.actor?.avatarUrl ?? '', width: 36.0),
+                Padding(padding: EdgeInsets.symmetric(horizontal: 12.0)),
+                Text(
+                  widget.event?.actor?.login ?? '',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24.0,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
-          EventText('Event ID: ' + getIdByWidget()),
-          EventText('Event Name: ' + getEventTypeByWidget()),
-          EventText('Submit Repository: ' + getSubmitRepositoryByWidget()),
-          EventText('Payload Branch: ' + getPayloadBranchByWidget()),
-          EventText('Submit Time: ' + getSubmitTimeByWidget()),
-          // EventText('Payload Action: ' + getPayloadActionByWidget()),
-          EventText('Payload Head: ' + getPayloadHead()),
-          EventText('Payload Before: ' + getPayloadBeforeByWdget()),
-        ],
+              ],
+            ),
+            Padding(padding: EdgeInsets.symmetric(vertical: 5.0)),
+            EventText('Event ID: ' + getIdByWidget()),
+            EventText('Event Name: ' + getEventTypeByWidget()),
+            EventText('Submit Repository: ' + getSubmitRepositoryByWidget()),
+            EventText('Payload Branch: ' + getPayloadBranchByWidget()),
+            EventText('Submit Time: ' + getSubmitTimeByWidget()),
+            // EventText('Payload Action: ' + getPayloadActionByWidget()),
+            EventText('Payload Head: ' + getPayloadHead()),
+            EventText('Payload Before: ' + getPayloadBeforeByWdget()),
+          ],
+        ),
       ),
     );
   }
