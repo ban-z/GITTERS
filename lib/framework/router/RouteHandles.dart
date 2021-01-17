@@ -2,6 +2,8 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/business/fragment/profile/Profile.dart';
+import 'package:gitters/business/fragment/user-repo/Branches.dart';
+import 'package:gitters/business/fragment/user-repo/RepoContent.dart';
 import 'package:gitters/business/fragment/user-repo/Repository.dart';
 import 'package:gitters/business/home/HomePage.dart';
 import 'package:gitters/business/login/LoginPage.dart';
@@ -50,6 +52,23 @@ var userRepositoryHome = Handler(
   handlerFunc: (context, parameters) {
     final slug = context.settings.arguments as RepositorySlug;
     return UserRepositoryHome(slug);
+  },
+);
+
+var userRepositoryBranch = Handler(
+  handlerFunc: (context, parameters) {
+    final slug = context.settings.arguments as RepositorySlug;
+    return Branches(slug);
+  },
+);
+
+var userRepositoryContents = Handler(
+  handlerFunc: (context, parameters) {
+    final args = context.settings.arguments as UserRepoContentRouterArguments;
+    return RepoContent(
+      args.treePath,
+      args.treeType,
+    );
   },
 );
 
