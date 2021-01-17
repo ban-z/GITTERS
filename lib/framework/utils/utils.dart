@@ -13,6 +13,14 @@ class FollowingPageRouterArguments {
   FollowingPageRouterArguments({this.curUser, this.pageTitle});
 }
 
+class RepoContentRouterArguments {
+  RepositorySlug slug;
+  String branch;
+  String path;
+
+  RepoContentRouterArguments({this.slug, this.branch, this.path});
+}
+
 typedef Widget CardCreator<W, M>(M m);
 
 typedef M ModelCreator<M>(Map<String, dynamic> json);
@@ -111,6 +119,15 @@ Future gotoUserRepositoryBranch(BuildContext context, RepositorySlug slug) {
   return fluroRouter.navigateTo(context, RouterList.UserRepositoryBranch.value,
       routeSettings: RouteSettings(
         arguments: slug,
+      ));
+}
+
+Future gotoUserRepositoryContent(
+    BuildContext context, RepositorySlug slug, String branch, String path) {
+  return fluroRouter.navigateTo(context, RouterList.UserRepositoryBranch.value,
+      routeSettings: RouteSettings(
+        arguments:
+            RepoContentRouterArguments(slug: slug, branch: branch, path: path),
       ));
 }
 

@@ -8,6 +8,7 @@ import 'package:gitters/business/widgets/pages/error.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/global/provider/BaseModel.dart';
 import 'package:gitters/framework/utils/utils.dart';
+import 'package:gitters/models/branchInfo.dart';
 import 'package:gitters/models/readMe.dart';
 import 'package:provider/provider.dart';
 
@@ -22,14 +23,13 @@ class UserRepositoryHome extends StatefulWidget {
 
 class _UserRepositoryHomeState extends State<UserRepositoryHome> {
   GitHubFile readMe = GitHubFile();
-  String curBranch = '';
-  String SHA = '';
+  BranchInfo curBranchInfo;
   Future repoInfo;
 
   Future getRepositoryInfo(RepositorySlug slug) async {
-    String refsPath = '/repos/${slug.fullName}/git/refs';
-    String tagsPath = '/repos/${slug.fullName}/tags';
-    String branchesPath = '/repos/${slug.fullName}/branches';
+    // String refsPath = '/repos/${slug.fullName}/git/refs';
+    // String tagsPath = '/repos/${slug.fullName}/tags';
+    String branchConfig = '/repos/${slug.fullName}/branches/master';
     String readMePath = '/repos/${slug.fullName}/contents/README.md';
     return Future.wait([
       gitHubClient.repositories.getRepository(slug),
@@ -37,6 +37,7 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
       // gitHubClient.request('GET', tagsPath),
       // gitHubClient.request('GET', branchesPath),
       gitHubClient.request('GET', readMePath),
+      gitHubClient.request('GET', branchConfig),
     ]);
   }
 
@@ -75,7 +76,10 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
                 Repository repo = snapshot.data[0];
                 GitHubFile readMeFile =
                     GitHubFile.fromJson(stringToJsonMap(snapshot.data[1].body));
-                SHA = readMeFile.sha;
+                if (curBranchInfo == null) {
+                  curBranchInfo = BranchInfo.fromJson(
+                      stringToJsonMap(snapshot.data[2].body));
+                }
                 return buildRepoHome(repo, readMeFile);
               }
             }
@@ -169,18 +173,33 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
                 ),
               ),
               buildDivider(context),
-              buildKVRichText(context, '目前的分支: ',
-                  curBranch.isEmpty ? repository.defaultBranch : curBranch,
+              buildKVRichText(
+                  context,
+                  '目前的分支: ',
+                  curBranchInfo.name ??
+                      (curBranchInfo.name ?? (repository.defaultBranch ?? '')),
                   onClick: () {
-                gotoUserRepositoryBranch(context, widget.slug).then((value) {
-                  print("banch: " + value);
-                  setState(() {
-                    curBranch = value;
+                gotoUserRepositoryBranch(context, widget.slug)
+                    .then((curBranchName) {
+                  print("branch: " + curBranchName);
+                  gitHubClient
+                      .request('GET',
+                          '/repos/${widget.slug.fullName}/branches/${curBranchName}')
+                      .then((value) {
+                    BranchInfo branchInfo =
+                        BranchInfo.fromJson(stringToJsonMap(value.body));
+                    setState(() {
+                      curBranchInfo = branchInfo;
+                    });
                   });
                 });
               }),
               buildPaddingInHV(0, 6.0),
-              buildKVRichText(context, '浏览代码: ', repository.name ?? ''),
+              buildKVRichText(context, '浏览代码: ', repository.name ?? '',
+                  onClick: () {
+                gotoUserRepositoryContent(
+                    context, widget.slug, curBranchInfo.name, '');
+              }),
               buildDivider(context),
               buildPaddingInHV(0, 5.0),
               Text(

@@ -25,6 +25,8 @@ class RouterList {
       const RouterList._internal('/user/repository/home');
   static const UserRepositoryBranch =
       const RouterList._internal('/user/repository/branch');
+  static const UserRepositoryContent =
+      const RouterList._internal('/user/repository/content');
 }
 
 class RouterConfig {
@@ -52,6 +54,8 @@ class RouterConfig {
         handler: userRepositoryHome);
     router.define(RouterList.UserRepositoryBranch.value,
         handler: userRepositoryBranch);
+    router.define(RouterList.UserRepositoryContent.value,
+        handler: userRepositoryContents);
     router.notFoundHandler = emptyHandler; //空页面
   }
 }
