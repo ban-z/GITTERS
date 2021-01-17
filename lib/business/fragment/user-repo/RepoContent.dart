@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
+import 'package:gitters/business/fragment/user-repo/Repository.dart';
+import 'package:gitters/framework/utils/utils.dart';
+import 'package:gitters/models/repoDof.dart';
 
 class RepoContent extends StatelessWidget {
   String treePath;
@@ -33,7 +36,14 @@ class RepoContent extends StatelessWidget {
               if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               } else if (snapshot.hasData) {
-                return Text(snapshot.data.body);
+                RepoDof dof =
+                    RepoDof.fromJson(stringToJsonMap(snapshot.data.body));
+                return ListView.builder(
+                  itemCount: dof.tree.length,
+                  itemBuilder: (context, index) {
+                    return buildDirOrFileItem(dof.tree[index]);
+                  },
+                );
               }
             }
             //请求未完成时弹出loading
@@ -41,4 +51,28 @@ class RepoContent extends StatelessWidget {
           }),
     );
   }
+}
+
+String getTypeIcon(String type) {
+  if (type == 'blob') {
+    return 'images/file.png';
+  } else {
+    return 'images/dir.png';
+  }
+}
+
+Widget buildDirOrFileItem(Tree tree) {
+  return Container(
+    child: Row(
+      children: [
+        Image.asset(
+          getTypeIcon(tree.type),
+          width: 24.0,
+          height: 24.0,
+        ),
+        buildPaddingInHV(5.0, 0),
+        Text(tree.path)
+      ],
+    ),
+  );
 }
