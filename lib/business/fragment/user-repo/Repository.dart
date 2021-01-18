@@ -10,6 +10,7 @@ import 'package:gitters/framework/global/provider/BaseModel.dart';
 import 'package:gitters/framework/utils/utils.dart';
 import 'package:gitters/models/branchInfo.dart';
 import 'package:gitters/models/readMe.dart';
+import 'package:gitters/models/repoDof.dart';
 import 'package:provider/provider.dart';
 
 class UserRepositoryHome extends StatefulWidget {
@@ -198,7 +199,9 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
               buildKVRichText(context, '浏览代码: ', repository.name ?? '',
                   onClick: () {
                 gotoUserRepositoryContent(
-                    context, curBranchInfo.commit.commit.tree.url, 'tree');
+                    context,
+                    'https://api.github.com/repos/${repository.fullName}/contents?ref=${curBranchInfo.name ?? repository.defaultBranch}',
+                    Type.DIR);
               }),
               buildDivider(context),
               buildPaddingInHV(0, 5.0),
