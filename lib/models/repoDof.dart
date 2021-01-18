@@ -4,70 +4,102 @@
 
 import 'dart:convert';
 
-RepoDof repoDofFromJson(String str) => RepoDof.fromJson(json.decode(str));
+List<RepoDof> repoDofFromJson(String str) =>
+    List<RepoDof>.from(json.decode(str).map((x) => RepoDof.fromJson(x)));
 
-String repoDofToJson(RepoDof data) => json.encode(data.toJson());
+String repoDofToJson(List<RepoDof> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class RepoDof {
   RepoDof({
-    this.sha,
-    this.url,
-    this.tree,
-    this.truncated,
-  });
-
-  String sha;
-  String url;
-  List<Tree> tree;
-  bool truncated;
-
-  factory RepoDof.fromJson(Map<String, dynamic> json) => RepoDof(
-        sha: json["sha"],
-        url: json["url"],
-        tree: List<Tree>.from(json["tree"].map((x) => Tree.fromJson(x))),
-        truncated: json["truncated"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "sha": sha,
-        "url": url,
-        "tree": List<dynamic>.from(tree.map((x) => x.toJson())),
-        "truncated": truncated,
-      };
-}
-
-class Tree {
-  Tree({
+    this.name,
     this.path,
-    this.mode,
-    this.type,
     this.sha,
     this.size,
     this.url,
+    this.htmlUrl,
+    this.gitUrl,
+    this.downloadUrl,
+    this.type,
+    this.links,
   });
 
+  String name;
   String path;
-  String mode;
-  String type;
   String sha;
   int size;
   String url;
+  String htmlUrl;
+  String gitUrl;
+  String downloadUrl;
+  Type type;
+  Links links;
 
-  factory Tree.fromJson(Map<String, dynamic> json) => Tree(
+  factory RepoDof.fromJson(Map<String, dynamic> json) => RepoDof(
+        name: json["name"],
         path: json["path"],
-        mode: json["mode"],
-        type: json["type"],
         sha: json["sha"],
-        size: json["size"] == null ? null : json["size"],
+        size: json["size"],
         url: json["url"],
+        htmlUrl: json["html_url"],
+        gitUrl: json["git_url"],
+        downloadUrl: json["download_url"] == null ? null : json["download_url"],
+        type: typeValues.map[json["type"]],
+        links: Links.fromJson(json["_links"]),
       );
 
   Map<String, dynamic> toJson() => {
+        "name": name,
         "path": path,
-        "mode": mode,
-        "type": type,
         "sha": sha,
-        "size": size == null ? null : size,
+        "size": size,
         "url": url,
+        "html_url": htmlUrl,
+        "git_url": gitUrl,
+        "download_url": downloadUrl == null ? null : downloadUrl,
+        "type": typeValues.reverse[type],
+        "_links": links.toJson(),
       };
+}
+
+class Links {
+  Links({
+    this.self,
+    this.git,
+    this.html,
+  });
+
+  String self;
+  String git;
+  String html;
+
+  factory Links.fromJson(Map<String, dynamic> json) => Links(
+        self: json["self"],
+        git: json["git"],
+        html: json["html"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "self": self,
+        "git": git,
+        "html": html,
+      };
+}
+
+enum Type { FILE, DIR }
+
+final typeValues = EnumValues({"dir": Type.DIR, "file": Type.FILE});
+
+class EnumValues<T> {
+  Map<String, T> map;
+  Map<T, String> reverseMap;
+
+  EnumValues(this.map);
+
+  Map<T, String> get reverse {
+    if (reverseMap == null) {
+      reverseMap = map.map((k, v) => new MapEntry(v, k));
+    }
+    return reverseMap;
+  }
 }
