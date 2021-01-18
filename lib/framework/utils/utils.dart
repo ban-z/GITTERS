@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/framework/router/RouterConfig.dart';
+import 'package:gitters/models/branchInfo.dart';
+import 'package:gitters/models/repoDof.dart';
 
 class FollowingPageRouterArguments {
   String curUser;
@@ -15,7 +17,7 @@ class FollowingPageRouterArguments {
 
 class UserRepoContentRouterArguments {
   String treePath;
-  String treeType;
+  Type treeType;
 
   UserRepoContentRouterArguments(this.treePath, this.treeType);
 }
@@ -122,7 +124,7 @@ Future gotoUserRepositoryBranch(BuildContext context, RepositorySlug slug) {
 }
 
 Future gotoUserRepositoryContent(
-    BuildContext context, String treePath, String treeType) {
+    BuildContext context, String treePath, Type treeType) {
   return fluroRouter.navigateTo(context, RouterList.UserRepositoryContent.value,
       routeSettings: RouteSettings(
         arguments: UserRepoContentRouterArguments(treePath, treeType),

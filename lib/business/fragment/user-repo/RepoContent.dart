@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:github/github.dart';
@@ -6,10 +7,14 @@ import 'package:gitters/business/fragment/user-repo/Repository.dart';
 import 'package:gitters/framework/utils/utils.dart';
 import 'package:gitters/models/repoCOT.dart';
 import 'package:gitters/models/repoDof.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class RepoContent extends StatelessWidget {
+  Map<String, String> fileRquestHeaders = {
+    "Accept": 'application/vnd.github.html',
+  };
   String treePath;
-  String treeType; // tree / blob
+  Type treeType; // tree / blob
 
   RepoContent(this.treePath, this.treeType, {Key key}) : super(key: key);
 
@@ -19,11 +24,20 @@ class RepoContent extends StatelessWidget {
     return res;
   }
 
-  bool isTree(String treeType) {
-    if (treeType == 'tree') {
+  bool isTree(Type treeType) {
+    if (treeType == Type.DIR) {
       return true;
     }
     return false;
+  }
+
+  Future requestDof(Type treeType) {
+    if (treeType == Type.DIR) {
+      return gitHubClient.request('GET', getCurTreePath(treePath));
+    } else {
+      return gitHubClient.request('GET', getCurTreePath(treePath),
+          headers: fileRquestHeaders);
+    }
   }
 
   @override
@@ -33,7 +47,7 @@ class RepoContent extends StatelessWidget {
         title: Text('分支'),
       ),
       body: FutureBuilder(
-          future: gitHubClient.request('GET', getCurTreePath(treePath)),
+          future: requestDof(treeType),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.connectionState == ConnectionState.active ||
                 snapshot.connectionState == ConnectionState.waiting) {
@@ -47,21 +61,26 @@ class RepoContent extends StatelessWidget {
                 return Text(snapshot.error.toString());
               } else if (snapshot.hasData) {
                 if (isTree(treeType)) {
-                  RepoDof dof =
-                      RepoDof.fromJson(stringToJsonMap(snapshot.data.body));
+                  List<RepoDof> dofs = repoDofFromJson(snapshot.data.body);
                   return ListView.builder(
-                    itemCount: dof.tree.length,
+                    itemCount: dofs.length,
                     itemBuilder: (context, index) {
-                      return buildDirOrFileItem(dof.tree[index], onClick: () {
+                      return buildDirOrFileItem(dofs[index], onClick: () {
                         gotoUserRepositoryContent(
-                            context, dof.tree[index].url, dof.tree[index].type);
+                            context, dofs[index].url, dofs[index].type);
                       });
                     },
                   );
                 } else {
-                  RepoCot cot =
-                      RepoCot.fromJson(stringToJsonMap(snapshot.data.body));
-                  return Text(cot.content);
+                  // RepoCot cot =
+                  //     RepoCot.fromJson(stringToJsonMap(snapshot.data.body));
+                  // return Text(cot.content);
+                  return WebView(
+                    initialUrl: new Uri.dataFromString(snapshot.data.body,
+                            mimeType: 'text/html')
+                        .toString(),
+                    javascriptMode: JavascriptMode.unrestricted,
+                  );
                 }
               }
             }
@@ -72,28 +91,28 @@ class RepoContent extends StatelessWidget {
   }
 }
 
-String getTypeIcon(String type) {
-  if (type == 'blob') {
+String getTypeIcon(Type type) {
+  if (type == Type.FILE) {
     return 'images/file.png';
   } else {
     return 'images/dir.png';
   }
 }
 
-Widget buildDirOrFileItem(Tree tree, {Function onClick}) {
+Widget buildDirOrFileItem(RepoDof dof, {Function onClick}) {
   return GestureDetector(
     onTap: onClick,
     child: Container(
       child: Row(
         children: [
           Image.asset(
-            getTypeIcon(tree.type),
+            getTypeIcon(dof.type),
             width: 42.0,
             height: 42.0,
           ),
           buildPaddingInHV(5.0, 0),
           Text(
-            tree.path,
+            dof.name,
             style: TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.w500,
