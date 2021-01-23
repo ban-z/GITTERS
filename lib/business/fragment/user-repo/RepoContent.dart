@@ -75,19 +75,14 @@ class RepoContent extends StatelessWidget {
                   );
                 } else {
                   return SingleChildScrollView(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      color: Colors.blueGrey,
                       child: Html(
                         data: snapshot.data.body,
                         style: {
                           "div": Style(
-                              backgroundColor: Colors.blueGrey,
+                              backgroundColor: Colors.white,
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height),
                         },
-                      ),
                     ),
                   );
                 }
