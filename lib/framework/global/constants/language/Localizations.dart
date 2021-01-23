@@ -50,6 +50,8 @@ class GittersLocalizations {
       'btn_watch': "Watch",
       'cur_branch': 'Current Branch: ',
       'view_codes': 'View Codes: ',
+      'user': 'User',
+      'none_search': 'Search content cannot be empty!!',
       'no_readMe': 'The author of this repository does not have the README.md file...',
       'cannot_view_repo': 'Viewing such repositories is not supported at this time！',
     },
@@ -99,6 +101,8 @@ class GittersLocalizations {
       'cur_branch': '目前的分支: ',
       'view_codes': '浏览代码: ',
       'no_readMe': '此仓库作者暂无ReadMe.md文件...',
+      'user': '用户',
+      'none_search': '搜索内容不能为空!',
     },
   };
 
@@ -110,9 +114,20 @@ class GittersLocalizations {
     return _localizedValuesMap[locale.languageCode]['test_text'];
   }
 
+  get NoneSearch {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['none_search'];
+  }
+
+
   get NoDes {
     // 注意用 locale.toString()而非locale
     return _localizedValuesMap[locale.languageCode]['no_des'];
+  }
+
+  get User {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['user'];
   }
 
   get CloneUrl {
