@@ -41,6 +41,17 @@ class GittersLocalizations {
       'icon_followers': "Followers",
       'icon_repo': "Repositories",
       'repository': "Repository",
+      'no_des': 'No description yet...',
+      'clone_url': 'Clone Url: ',
+      'repo_stars': 'Repository Stars: ',
+      'repo_subscribe': 'Repository Watchs: ',
+      'repo_forks:': 'Repository Forks: ',
+      'btn_star': "Star",
+      'btn_watch': "Watch",
+      'cur_branch': 'Current Branch: ',
+      'view_codes': 'View Codes: ',
+      'no_readMe': 'The author of this repository does not have the README.md file...',
+      'cannot_view_repo': 'Viewing such repositories is not supported at this time！',
     },
     'zh': {
       'Application_name': 'Gitters',
@@ -77,6 +88,17 @@ class GittersLocalizations {
       'icon_followers': "粉丝",
       'icon_repo': "仓库",
       'repository': "仓库",
+      'cannot_view_repo': '暂时不支持查看此类仓库！',
+      'no_des': '暂时没有描述...',
+      'clone_url': '克隆 Url: ',
+      'repo_stars': '仓库关注人数: ',
+      'repo_subscribe': '仓库订阅人数: ',
+      'repo_forks:': '仓库复制人数: ',
+      'btn_star': 'Star',
+      'btn_watch': "Watch",
+      'cur_branch': '目前的分支: ',
+      'view_codes': '浏览代码: ',
+      'no_readMe': '此仓库作者暂无ReadMe.md文件...',
     },
   };
 
@@ -88,9 +110,63 @@ class GittersLocalizations {
     return _localizedValuesMap[locale.languageCode]['test_text'];
   }
 
+  get NoDes {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['no_des'];
+  }
+
+  get CloneUrl {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['clone_url'];
+  }
+
+  get RepoStar {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['repo_stars'];
+  }
+
+  get RepoSubscribe {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['repo_subscribe'];
+  }
+
+  get RepoForks {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['repo_forks'];
+  }
+
+  get StarButton {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['btn_star'];
+  }
+
+  get WatchButton {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['btn_watch'];
+  }
+
+  get CurBranch {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['cur_branch'];
+  }
+
+  get ViewCodes {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['view_codes'];
+  }
+
+  get NoReadMe {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['no_readMe'];
+  }
+
   get Repository {
     // 注意用 locale.toString()而非locale
     return _localizedValuesMap[locale.languageCode]['repository'];
+  }
+
+  get CannotViewRepo {
+    return _localizedValuesMap[locale.languageCode]['cannot_view_repo'];
   }
 
   get IconFollowingDes {
