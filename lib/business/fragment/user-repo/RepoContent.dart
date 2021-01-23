@@ -7,6 +7,7 @@ import 'package:gitters/business/fragment/user-repo/Repository.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/utils/utils.dart';
 import 'package:gitters/models/repoDof.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class RepoContent extends StatelessWidget {
   Map<String, String> fileRquestHeaders = {
@@ -74,19 +75,14 @@ class RepoContent extends StatelessWidget {
                   );
                 } else {
                   return SingleChildScrollView(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      color: Colors.blueGrey,
                       child: Html(
                         data: snapshot.data.body,
                         style: {
                           "div": Style(
-                              backgroundColor: Colors.blueGrey,
+                              backgroundColor: Colors.white,
                               width: MediaQuery.of(context).size.width,
                               height: MediaQuery.of(context).size.height),
                         },
-                      ),
                     ),
                   );
                 }
