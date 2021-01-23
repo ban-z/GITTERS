@@ -1,15 +1,16 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/avatar.dart';
-import 'package:gitters/business/widgets/pages/error.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/global/provider/BaseModel.dart';
 import 'package:gitters/framework/utils/utils.dart';
 import 'package:gitters/models/branchInfo.dart';
+<<<<<<< HEAD
 import 'package:gitters/models/readMe.dart';
+=======
+>>>>>>> feat-repo
 import 'package:gitters/models/repoDof.dart';
 import 'package:provider/provider.dart';
 
@@ -28,15 +29,10 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
   Future repoInfo;
 
   Future getRepositoryInfo(RepositorySlug slug) async {
-    // String refsPath = '/repos/${slug.fullName}/git/refs';
-    // String tagsPath = '/repos/${slug.fullName}/tags';
     String branchConfig = '/repos/${slug.fullName}/branches/master';
     String readMePath = '/repos/${slug.fullName}/contents/README.md';
     return Future.wait([
       gitHubClient.repositories.getRepository(slug),
-      // gitHubClient.request('GET', refsPath),
-      // gitHubClient.request('GET', tagsPath),
-      // gitHubClient.request('GET', branchesPath),
       gitHubClient.request('GET', readMePath),
       gitHubClient.request('GET', branchConfig),
     ]);
@@ -72,16 +68,24 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
 
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasError) {
-                return Text("目前不支持此类仓库的读取");
+                return Text(
+                    GittersLocalizations.of(context).CannotViewRepo.toString());
               } else if (snapshot.hasData) {
-                Repository repo = snapshot.data[0];
-                GitHubFile readMeFile =
-                    GitHubFile.fromJson(stringToJsonMap(snapshot.data[1].body));
-                if (curBranchInfo == null) {
-                  curBranchInfo = BranchInfo.fromJson(
-                      stringToJsonMap(snapshot.data[2].body));
+                try {
+                  Repository repo = snapshot.data[0];
+                  GitHubFile readMeFile = GitHubFile.fromJson(
+                      stringToJsonMap(snapshot.data[1].body));
+                  if (curBranchInfo == null) {
+                    curBranchInfo = BranchInfo.fromJson(
+                        stringToJsonMap(snapshot.data[2].body));
+                  }
+                  return buildRepoHome(repo, readMeFile);
+                } catch (e) {
+                  return Text(GittersLocalizations.of(context)
+                      .CannotViewRepo
+                      .toString());
                 }
-                return buildRepoHome(repo, readMeFile);
+                ;
               }
             }
             //请求未完成时弹出loading
@@ -147,42 +151,58 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
               ),
               buildPaddingInHV(0, 6.0),
               Text(
-                repository.description ?? '暂无描述...',
+                repository.description ??
+                    GittersLocalizations.of(context).NoDes.toString(),
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
               ),
               buildPaddingInHV(0, 6.0),
-              buildKVRichText(context, "克隆 Url: ", repository.cloneUrl),
+              buildKVRichText(
+                  context,
+                  GittersLocalizations.of(context).CloneUrl.toString(),
+                  repository.cloneUrl),
               buildDivider(context),
-              buildKVRichText(context, '仓库关注人数: ',
+              buildKVRichText(
+                  context,
+                  GittersLocalizations.of(context).RepoStar.toString(),
                   repository.stargazersCount.toString() ?? ''),
               buildPaddingInHV(0, 6),
-              buildKVRichText(context, '仓库订阅人数: ',
+              buildKVRichText(
+                  context,
+                  GittersLocalizations.of(context).RepoSubscribe.toString(),
                   repository.subscribersCount.toString() ?? ''),
               buildPaddingInHV(0, 6),
               buildKVRichText(
-                  context, '仓库复制人数: ', repository.forksCount.toString() ?? ''),
+                  context,
+                  GittersLocalizations.of(context).RepoForks.toString(),
+                  repository.forksCount.toString() ?? ''),
               buildDivider(context),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buildActionButton(context, Icons.star, "点击星标", () {}),
                     buildActionButton(
-                        context, Icons.remove_red_eye, "点击关注", () {}),
+                        context,
+                        Icons.star,
+                        GittersLocalizations.of(context).StarButton.toString(),
+                        () {}),
+                    buildActionButton(
+                        context,
+                        Icons.remove_red_eye,
+                        GittersLocalizations.of(context).WatchButton.toString(),
+                        () {}),
                   ],
                 ),
               ),
               buildDivider(context),
               buildKVRichText(
                   context,
-                  '目前的分支: ',
+                  GittersLocalizations.of(context).CurBranch.toString(),
                   curBranchInfo.name ??
                       (curBranchInfo.name ?? (repository.defaultBranch ?? '')),
                   onClick: () {
                 gotoUserRepositoryBranch(context, widget.slug)
                     .then((curBranchName) {
-                  print("branch: " + curBranchName);
                   gitHubClient
                       .request('GET',
                           '/repos/${widget.slug.fullName}/branches/${curBranchName}')
@@ -196,12 +216,19 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
                 });
               }),
               buildPaddingInHV(0, 6.0),
-              buildKVRichText(context, '浏览代码: ', repository.name ?? '',
-                  onClick: () {
+              buildKVRichText(
+                  context,
+                  GittersLocalizations.of(context).ViewCodes.toString(),
+                  repository.name ?? '', onClick: () {
                 gotoUserRepositoryContent(
                     context,
                     'https://api.github.com/repos/${repository.fullName}/contents?ref=${curBranchInfo.name ?? repository.defaultBranch}',
+<<<<<<< HEAD
                     Type.DIR);
+=======
+                    Type.DIR,
+                    repoContentTitle: curBranchInfo.name);
+>>>>>>> feat-repo
               }),
               buildDivider(context),
               buildPaddingInHV(0, 5.0),
@@ -214,7 +241,9 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
               ),
               buildPaddingInHV(0, 5.0),
               Expanded(
-                child: Markdown(data: readMeFile.text ?? '此仓库暂无ReadMe.md'),
+                child: Markdown(
+                    data: readMeFile.text ??
+                        GittersLocalizations.of(context).NoReadMe.toString()),
               )
             ],
           )),

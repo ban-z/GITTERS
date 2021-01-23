@@ -18,8 +18,12 @@ class FollowingPageRouterArguments {
 class UserRepoContentRouterArguments {
   String treePath;
   Type treeType;
+<<<<<<< HEAD
+=======
+  String repoContentTitle;
+>>>>>>> feat-repo
 
-  UserRepoContentRouterArguments(this.treePath, this.treeType);
+  UserRepoContentRouterArguments(this.treePath, this.treeType, {this.repoContentTitle});
 }
 
 typedef Widget CardCreator<W, M>(M m);
@@ -124,10 +128,21 @@ Future gotoUserRepositoryBranch(BuildContext context, RepositorySlug slug) {
 }
 
 Future gotoUserRepositoryContent(
+<<<<<<< HEAD
     BuildContext context, String treePath, Type treeType) {
+=======
+    BuildContext context, String treePath, Type treeType,
+    {String repoContentTitle}) {
+  UserRepoContentRouterArguments args;
+  if (repoContentTitle.isNotEmpty) {
+    args = UserRepoContentRouterArguments(treePath, treeType, repoContentTitle: repoContentTitle);
+  } else {
+    args = UserRepoContentRouterArguments(treePath, treeType);
+  }
+>>>>>>> feat-repo
   return fluroRouter.navigateTo(context, RouterList.UserRepositoryContent.value,
       routeSettings: RouteSettings(
-        arguments: UserRepoContentRouterArguments(treePath, treeType),
+        arguments: args,
       ));
 }
 
