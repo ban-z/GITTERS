@@ -136,7 +136,7 @@ class _MarketplaceState extends State<Marketplace> {
         gitHubClient.request('GET', '/user/starred'),
         (Repository repo) => RepoItem(repo, () {
               if (repo.isPrivate) {
-                showToast('似有仓库，不可查看');
+                showToast('私有仓库，不可查看');
               } else {
                 gotoUserRepository(
                     context, RepositorySlug(repo.owner.login, repo.name));
