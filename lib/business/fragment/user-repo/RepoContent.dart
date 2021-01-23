@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:github/github.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/fragment/user-repo/Repository.dart';
+import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/utils/utils.dart';
-import 'package:gitters/models/repoCOT.dart';
 import 'package:gitters/models/repoDof.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -13,10 +13,12 @@ class RepoContent extends StatelessWidget {
   Map<String, String> fileRquestHeaders = {
     "Accept": 'application/vnd.github.html',
   };
+
+  String repoContentTitle;
   String treePath;
   Type treeType; // tree / blob
 
-  RepoContent(this.treePath, this.treeType, {Key key}) : super(key: key);
+  RepoContent(this.treePath, this.treeType, {this.repoContentTitle, Key key}) : super(key: key);
 
   String getCurTreePath(String treePath) {
     String res;
@@ -44,7 +46,7 @@ class RepoContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('分支'),
+        title: Text(repoContentTitle ?? GittersLocalizations.of(context).Repository.toString()),
       ),
       body: FutureBuilder(
           future: requestDof(treeType),
@@ -67,19 +69,26 @@ class RepoContent extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return buildDirOrFileItem(dofs[index], onClick: () {
                         gotoUserRepositoryContent(
-                            context, dofs[index].url, dofs[index].type);
+                            context, dofs[index].url, dofs[index].type, repoContentTitle: dofs[index].name);
                       });
                     },
                   );
                 } else {
-                  // RepoCot cot =
-                  //     RepoCot.fromJson(stringToJsonMap(snapshot.data.body));
-                  // return Text(cot.content);
-                  return WebView(
-                    initialUrl: new Uri.dataFromString(snapshot.data.body,
-                            mimeType: 'text/html')
-                        .toString(),
-                    javascriptMode: JavascriptMode.unrestricted,
+                  return SingleChildScrollView(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      color: Colors.blueGrey,
+                      child: Html(
+                        data: snapshot.data.body,
+                        style: {
+                          "div": Style(
+                              backgroundColor: Colors.blueGrey,
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height),
+                        },
+                      ),
+                    ),
                   );
                 }
               }

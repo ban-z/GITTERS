@@ -50,6 +50,8 @@ dependencies:
   github: ^7.0.3
   # Flutter中WebView
   webview_flutter: ^1.0.7
+  # HTML展示工具
+  flutter_html: ^1.2.0
   # 使用时间格式化工具
   date_format: ^1.0.9
   # MarkDown 展示
@@ -57,7 +59,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.3
+  cupertino_icons: ^1.0.2
 
 dev_dependencies:
   flutter_test:
