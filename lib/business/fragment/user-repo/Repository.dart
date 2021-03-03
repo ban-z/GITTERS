@@ -125,7 +125,7 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
   Widget buildRepoHome(Repository repository, GitHubFile readMeFile) {
     return RefreshIndicator(
       onRefresh: () {
-        setState(() {});
+        refreshRepoInfo();
       },
       child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12.0),
@@ -163,7 +163,7 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
                                       .primaryColor)),
                           buildPaddingInHV(3, 0),
                           Text(
-                            repository.language ?? '',
+                            repository.language ?? '--',
                             style: TextStyle(
                                 fontSize: 16.0, fontWeight: FontWeight.w600),
                           ),
