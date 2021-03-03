@@ -22,7 +22,7 @@ class GittersLocalizations {
       'hint_input_password': 'Please enter your password...',
       'warning_null_account': 'The account cannot be empty!',
       'warning_null_password': 'The password cannot be empty!',
-      'solve_problem': '|Solve problem|',
+      'solve_problem': 'Solve problem',
       'app_theme_setting': 'App Theme Setting',
       'internationalization': 'internationalization',
       'about_app': 'About App',
@@ -47,10 +47,12 @@ class GittersLocalizations {
       'repo_subscribe': 'Repository Watchs: ',
       'repo_forks:': 'Repository Forks: ',
       'btn_star': "Star",
+      'btn_unstar': 'UnStar',
       'btn_watch': "Watch",
       'cur_branch': 'Current Branch: ',
       'view_codes': 'View Codes: ',
       'user': 'User',
+      'update_at': 'Update At: ',
       'none_search': 'Search content cannot be empty!!',
       'no_readMe': 'The author of this repository does not have the README.md file...',
       'cannot_view_repo': 'Viewing such repositories is not supported at this time！',
@@ -71,7 +73,7 @@ class GittersLocalizations {
       'hint_input_password': '请输入密码...',
       'warning_null_account': '账号不能为空!',
       'warning_null_password': '密码不能为空!',
-      'solve_problem': '|解决问题|',
+      'solve_problem': '解决问题',
       'app_theme_setting': '应用主题设置',
       'internationalization': '国际化',
       'about_app': '关于应用',
@@ -96,13 +98,15 @@ class GittersLocalizations {
       'repo_stars': '仓库关注人数: ',
       'repo_subscribe': '仓库订阅人数: ',
       'repo_forks:': '仓库复制人数: ',
-      'btn_star': 'Star',
+      'btn_star': '关注',
+      'btn_unstar': '取消关注',
       'btn_watch': "Watch",
       'cur_branch': '目前的分支: ',
       'view_codes': '浏览代码: ',
       'no_readMe': '此仓库作者暂无ReadMe.md文件...',
       'user': '用户',
       'none_search': '搜索内容不能为空!',
+      'update_at': '更新于: ',
     },
   };
 
@@ -117,6 +121,11 @@ class GittersLocalizations {
   get NoneSearch {
     // 注意用 locale.toString()而非locale
     return _localizedValuesMap[locale.languageCode]['none_search'];
+  }
+
+  get UpdateAt {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['update_at'];
   }
 
 
@@ -153,6 +162,11 @@ class GittersLocalizations {
   get StarButton {
     // 注意用 locale.toString()而非locale
     return _localizedValuesMap[locale.languageCode]['btn_star'];
+  }
+
+  get UnStarButton {
+    // 注意用 locale.toString()而非locale
+    return _localizedValuesMap[locale.languageCode]['btn_unstar'];
   }
 
   get WatchButton {
