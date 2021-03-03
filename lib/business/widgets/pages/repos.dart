@@ -8,8 +8,10 @@ import 'package:gitters/framework/utils/utils.dart';
 
 class FollowingRepos extends StatefulWidget {
   String user;
+  String avatorUrl;
   String title;
-  FollowingRepos(this.user, {this.title, Key key}) : super(key: key);
+  FollowingRepos(this.user, this.avatorUrl, {this.title, Key key})
+      : super(key: key);
 
   @override
   _FollowingReposState createState() => _FollowingReposState();
@@ -24,45 +26,61 @@ class _FollowingReposState extends State<FollowingRepos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(getPageTitle(context)),
-        ),
-        body: FutureBuilder<List<Repository>>(
-            future: gitHubClient.repositories
-                .listUserRepositories(widget.user)
-                .toList(),
-            builder: (BuildContext context,
-                AsyncSnapshot<List<Repository>> snapshot) {
-              if (snapshot.connectionState == ConnectionState.active ||
-                  snapshot.connectionState == ConnectionState.waiting) {
-                return new Center(
-                  child: new CircularProgressIndicator(),
-                );
-              }
+        body: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return [
+                SliverAppBar(
+                  expandedHeight: 280.0,
+                  pinned: true,
+                  elevation: 99.0,
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Text(getPageTitle(context)),
+                    background: Image.network(
+                      widget.avatorUrl,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                )
+              ];
+            },
+            body: FutureBuilder<List<Repository>>(
+                future: gitHubClient.repositories
+                    .listUserRepositories(widget.user)
+                    .toList(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Repository>> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.active ||
+                      snapshot.connectionState == ConnectionState.waiting) {
+                    return new Center(
+                      child: new CircularProgressIndicator(),
+                    );
+                  }
 
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                } else if (snapshot.hasData) {
-                  List<Repository> followingRepos = snapshot.data;
-                  return ListView.builder(
-                    itemCount: followingRepos.length,
-                    itemBuilder: (context, index) {
-                      Repository repo = followingRepos[index];
-                      return RepoItem(repo, () {
-                        if (repo.isPrivate) {
-                          showToast('似有仓库，不可查看');
-                        } else {
-                          gotoUserRepository(context,
-                              RepositorySlug(repo.owner.login, repo.name));
-                        }
-                      });
-                    },
-                  );
-                }
-              }
-              //请求未完成时弹出loading
-              return CircularProgressIndicator();
-            }));
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    } else if (snapshot.hasData) {
+                      List<Repository> followingRepos = snapshot.data;
+                      return ListView.builder(
+                        padding: EdgeInsets.only(top: 5.0),
+                        itemCount: followingRepos.length,
+                        itemBuilder: (context, index) {
+                          Repository repo = followingRepos[index];
+                          return RepoItem(repo, () {
+                            if (repo.isPrivate) {
+                              showToast('私有仓库，不可查看');
+                            } else {
+                              gotoUserRepository(context,
+                                  RepositorySlug(repo.owner.login, repo.name));
+                            }
+                          });
+                        },
+                      );
+                    }
+                  }
+                  //请求未完成时弹出loading
+                  return CircularProgressIndicator();
+                })));
   }
 }

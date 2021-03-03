@@ -121,7 +121,9 @@ class SearchBarDelegate extends SearchDelegate {
                 RouterList.FollowingRepos.value,
                 routeSettings: RouteSettings(
                     arguments: FollowingPageRouterArguments(
-                        curUser: curUser.login, pageTitle: curUser.login)),
+                        curUser: curUser.login,
+                        avatorUrl: curUser.avatarUrl,
+                        pageTitle: curUser.login)),
               );
             },
           );
