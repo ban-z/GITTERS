@@ -127,7 +127,7 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
       onRefresh: () {
         refreshRepoInfo();
       },
-      child: Container(
+      child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 12.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -323,10 +323,10 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
                     fontWeight: FontWeight.w900),
               ),
               buildPaddingInHV(0, 5.0),
-              Expanded(
-                child: Markdown(
-                    data: readMeFile.text ??
-                        GittersLocalizations.of(context).NoReadMe.toString()),
+              Center(
+                child: MarkdownBody(
+                  data: readMeFile.text ??
+                      GittersLocalizations.of(context).NoReadMe.toString()),
               )
             ],
           )),
