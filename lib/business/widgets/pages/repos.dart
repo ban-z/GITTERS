@@ -118,7 +118,10 @@ class _FollowingReposState extends State<FollowingRepos> {
                                   .read<BaseModel>()
                                   .themeData
                                   .backgroundColor,
-                              child: new Text('Following: ${following}'),
+                              child: new Text(GittersLocalizations.of(context)
+                                      .TabFollow
+                                      .toString() +
+                                  ': ${following}'),
                             );
                             break;
                           case 1:
@@ -128,7 +131,10 @@ class _FollowingReposState extends State<FollowingRepos> {
                                   .read<BaseModel>()
                                   .themeData
                                   .backgroundColor,
-                              child: new Text('Followers: ${followers}'),
+                              child: new Text(GittersLocalizations.of(context)
+                                      .TabFollowers
+                                      .toString() +
+                                  ': ${followers}'),
                             );
                             break;
                           case 2:
