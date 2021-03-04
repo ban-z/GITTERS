@@ -52,14 +52,18 @@ class GitterIconButtonTB extends StatelessWidget {
   IconData iconData;
   String iconDes;
   String iconContent;
+  Function onClick;
 
-  GitterIconButtonTB(this.iconData, this.iconDes, this.iconContent, {Key key})
+  GitterIconButtonTB(this.iconData, this.iconDes, this.iconContent,
+      {this.onClick, Key key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        onClick();
+      },
       child: Container(
         child: Container(
           child: Column(
