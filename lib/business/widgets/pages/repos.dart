@@ -141,6 +141,10 @@ class _FollowingReposState extends State<FollowingRepos> {
                               child: FlatButton(
                                 clipBehavior: Clip.hardEdge,
                                 onPressed: () {
+                                  setState(() {
+                                    starConfig.starIcon = Icons.autorenew;
+                                    starConfig.starHint = '';
+                                  });
                                   if (starConfig.isStar) {
                                     gitHubClient.users
                                         .unfollowUser(widget.user)

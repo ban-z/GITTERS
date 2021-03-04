@@ -225,6 +225,10 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
                         ],
                       ),
                       onPressed: () {
+                        setState(() {
+                          starConfig = StarConfig(
+                              starConfig.isStar, '', Icons.autorenew, true);
+                        });
                         if (starConfig.isStar) {
                           gitHubClient.activity.unstar(widget.slug).then((res) {
                             // 取消关注成功
@@ -325,8 +329,8 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
               buildPaddingInHV(0, 5.0),
               Center(
                 child: MarkdownBody(
-                  data: readMeFile.text ??
-                      GittersLocalizations.of(context).NoReadMe.toString()),
+                    data: readMeFile.text ??
+                        GittersLocalizations.of(context).NoReadMe.toString()),
               )
             ],
           )),
