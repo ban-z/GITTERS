@@ -50,7 +50,9 @@ class _MarketplaceState extends State<Marketplace> {
                     RouterList.FollowingRepos.value,
                     routeSettings: RouteSettings(
                         arguments: FollowingPageRouterArguments(
-                            curUser: curUser.login, pageTitle: curUser.login)),
+                            curUser: curUser.login,
+                            avatorUrl: curUser.avatarUrl,
+                            pageTitle: curUser.login)),
                   );
                 },
               );
@@ -82,7 +84,9 @@ class _MarketplaceState extends State<Marketplace> {
                     RouterList.FollowingRepos.value,
                     routeSettings: RouteSettings(
                         arguments: FollowingPageRouterArguments(
-                            curUser: curUser.login, pageTitle: curUser.login)),
+                            curUser: curUser.login,
+                            avatorUrl: curUser.avatarUrl,
+                            pageTitle: curUser.login)),
                   );
                 },
               );
@@ -157,21 +161,32 @@ class _MarketplaceState extends State<Marketplace> {
             // TabBar 默认将会在 Widget 树中向上寻找离它最近的一个 DefaultTabController 节点作为自己的 TabController
             // 如果想手动创建 TabController，那必须将它作为参数传给 TabBar
             bottom: TabBar(
-              isScrollable: true,
-              onTap: (index) {
-                if (index == 3) {
-                  showToast('Popular频道目前为测试频道，数据来源较为复杂，可能存在不能查看的情况!');
-                }
-              },
-              tabs: [
-              Tab(text: GittersLocalizations.of(context).TabFollow.toString()),
-              Tab(
-                  text:
-                      GittersLocalizations.of(context).TabFollowers.toString()),
-              Tab(text: GittersLocalizations.of(context).TabStar.toString()),
-              Tab(text: GittersLocalizations.of(context).TabPopular.toString()),
-              Tab(text: GittersLocalizations.of(context).TabMine.toString()),
-            ]),
+                isScrollable: true,
+                onTap: (index) {
+                  if (index == 3) {
+                    showToast('Popular频道目前为测试频道，数据来源较为复杂，可能存在不能查看的情况!');
+                  }
+                },
+                tabs: [
+                  Tab(
+                      text: GittersLocalizations.of(context)
+                          .TabFollow
+                          .toString()),
+                  Tab(
+                      text: GittersLocalizations.of(context)
+                          .TabFollowers
+                          .toString()),
+                  Tab(
+                      text:
+                          GittersLocalizations.of(context).TabStar.toString()),
+                  Tab(
+                      text: GittersLocalizations.of(context)
+                          .TabPopular
+                          .toString()),
+                  Tab(
+                      text:
+                          GittersLocalizations.of(context).TabMine.toString()),
+                ]),
           ),
           body: TabBarView(children: [
             buildFollowTabContent(context),

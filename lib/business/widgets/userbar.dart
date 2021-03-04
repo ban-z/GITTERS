@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:github/github.dart';
 import 'package:gitters/business/widgets/avatar.dart';
 import 'package:gitters/business/widgets/iconBtn.dart';
+import 'package:gitters/business/widgets/toast.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/global/provider/BaseModel.dart';
 import 'package:provider/provider.dart';
@@ -72,23 +73,29 @@ class _UserBarState extends State<UserBar> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GitterIconButtonTB(
-                    Icons.accessibility_new,
-                    GittersLocalizations.of(context)
-                        .IconFollowingDes
-                        .toString(),
-                    widget.user.followingCount.toString()),
+                  Icons.accessibility_new,
+                  GittersLocalizations.of(context).IconFollowingDes.toString(),
+                  widget.user.followingCount.toString(),
+                  onClick: () {
+                    showToast('关注功能暂时在Home页查看!');
+                  },
+                ),
                 GitterIconButtonTB(
-                    Icons.people,
-                    GittersLocalizations.of(context)
-                        .IconFollowersDes
-                        .toString(),
-                    widget.user.followersCount.toString()),
+                  Icons.people,
+                  GittersLocalizations.of(context).IconFollowersDes.toString(),
+                  widget.user.followersCount.toString(),
+                  onClick: () {
+                    showToast('粉丝功能暂时在Home页查看!');
+                  },
+                ),
                 GitterIconButtonTB(
-                    Icons.home_filled,
-                    GittersLocalizations.of(context)
-                        .IconRepositoryDes
-                        .toString(),
-                    widget.user.publicReposCount.toString()),
+                  Icons.home_filled,
+                  GittersLocalizations.of(context).IconRepositoryDes.toString(),
+                  widget.user.publicReposCount.toString(),
+                  onClick: () {
+                    showToast('个人仓库列表功能暂时在Home页或者个人页第一个Tab查看!');
+                  },
+                ),
               ],
             ),
           ),

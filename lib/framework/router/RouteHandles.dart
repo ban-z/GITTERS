@@ -41,8 +41,10 @@ var followingReposHandler = Handler(
     final args = context.settings.arguments as FollowingPageRouterArguments;
     String curUserLogin = args.curUser;
     String pageTitle = args?.pageTitle ?? '';
+    String avatorUrl = args?.avatorUrl ?? '';
     return FollowingRepos(
       curUserLogin,
+      avatorUrl,
       title: pageTitle,
     );
   },
@@ -67,10 +69,10 @@ var userRepositoryContents = Handler(
     final args = context.settings.arguments as UserRepoContentRouterArguments;
     if (args.repoContentTitle.isNotEmpty) {
       return RepoContent(
-      args.treePath,
-      args.treeType,
-      repoContentTitle: args.repoContentTitle,
-    );
+        args.treePath,
+        args.treeType,
+        repoContentTitle: args.repoContentTitle,
+      );
     }
     return RepoContent(
       args.treePath,

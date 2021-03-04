@@ -10,9 +10,10 @@ import 'package:gitters/models/repoDof.dart';
 class FollowingPageRouterArguments {
   String curUser;
   String pageTitle;
+  String avatorUrl;
   Set set;
 
-  FollowingPageRouterArguments({this.curUser, this.pageTitle});
+  FollowingPageRouterArguments({this.curUser, this.pageTitle, this.avatorUrl});
 }
 
 class UserRepoContentRouterArguments {
@@ -20,7 +21,8 @@ class UserRepoContentRouterArguments {
   Type treeType;
   String repoContentTitle;
 
-  UserRepoContentRouterArguments(this.treePath, this.treeType, {this.repoContentTitle});
+  UserRepoContentRouterArguments(this.treePath, this.treeType,
+      {this.repoContentTitle});
 }
 
 typedef Widget CardCreator<W, M>(M m);
@@ -129,7 +131,8 @@ Future gotoUserRepositoryContent(
     {String repoContentTitle}) {
   UserRepoContentRouterArguments args;
   if (repoContentTitle.isNotEmpty) {
-    args = UserRepoContentRouterArguments(treePath, treeType, repoContentTitle: repoContentTitle);
+    args = UserRepoContentRouterArguments(treePath, treeType,
+        repoContentTitle: repoContentTitle);
   } else {
     args = UserRepoContentRouterArguments(treePath, treeType);
   }
