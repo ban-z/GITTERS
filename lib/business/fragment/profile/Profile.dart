@@ -82,6 +82,7 @@ class ProfileState extends State<Profile> {
                               routeSettings: RouteSettings(
                                   arguments: FollowingPageRouterArguments(
                                       curUser: curUser.login,
+                                      avatorUrl: curUser.avatarUrl,
                                       pageTitle: curUser.login)));
                         },
                       ),
@@ -128,6 +129,7 @@ class ProfileState extends State<Profile> {
               ],
             );
           }
+          return Container();
         });
   }
 }

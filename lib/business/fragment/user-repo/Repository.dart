@@ -3,12 +3,22 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:github/github.dart';
 import 'package:gitters/application.dart';
 import 'package:gitters/business/widgets/avatar.dart';
+import 'package:gitters/business/widgets/toast.dart';
 import 'package:gitters/framework/global/constants/language/Localizations.dart';
 import 'package:gitters/framework/global/provider/BaseModel.dart';
 import 'package:gitters/framework/utils/utils.dart';
 import 'package:gitters/models/branchInfo.dart';
 import 'package:gitters/models/repoDof.dart';
 import 'package:provider/provider.dart';
+
+class StarConfig {
+  bool isStar;
+  String starHint;
+  IconData starIcon;
+  bool isUpdate;
+
+  StarConfig(this.isStar, this.starHint, this.starIcon, this.isUpdate);
+}
 
 class UserRepositoryHome extends StatefulWidget {
   RepositorySlug slug;
@@ -24,6 +34,17 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
   BranchInfo curBranchInfo;
   Future repoInfo;
 
+  StarConfig starConfig = StarConfig(false, '--', Icons.star_border, false);
+  IconData watchIcon;
+
+  @override
+  void initState() {
+    super.initState();
+    repoInfo = getRepositoryInfo(widget.slug);
+
+    watchIcon = Icons.remove_red_eye_outlined;
+  }
+
   Future getRepositoryInfo(RepositorySlug slug) async {
     String branchConfig = '/repos/${slug.fullName}/branches/master';
     String readMePath = '/repos/${slug.fullName}/contents/README.md';
@@ -31,6 +52,7 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
       gitHubClient.repositories.getRepository(slug),
       gitHubClient.request('GET', readMePath),
       gitHubClient.request('GET', branchConfig),
+      gitHubClient.activity.isStarred(slug),
     ]);
   }
 
@@ -38,12 +60,6 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
     setState(() {
       repoInfo = getRepositoryInfo(widget.slug);
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    repoInfo = getRepositoryInfo(widget.slug);
   }
 
   @override
@@ -75,6 +91,22 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
                     curBranchInfo = BranchInfo.fromJson(
                         stringToJsonMap(snapshot.data[2].body));
                   }
+                  if (snapshot.data[3] && !starConfig.isUpdate) {
+                    starConfig = StarConfig(
+                        true,
+                        GittersLocalizations.of(context)
+                            .UnStarButton
+                            .toString(),
+                        Icons.star,
+                        false);
+                  } else if (!snapshot.data[3] && !starConfig.isUpdate) {
+                    starConfig = StarConfig(
+                        false,
+                        GittersLocalizations.of(context).StarButton.toString(),
+                        Icons.star_border,
+                        false);
+                  }
+                  print(starConfig.toString());
                   return buildRepoHome(repo, readMeFile);
                 } catch (e) {
                   return Text(GittersLocalizations.of(context)
@@ -93,9 +125,9 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
   Widget buildRepoHome(Repository repository, GitHubFile readMeFile) {
     return RefreshIndicator(
       onRefresh: () {
-        setState(() {});
+        refreshRepoInfo();
       },
-      child: Container(
+      child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 12.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -131,7 +163,7 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
                                       .primaryColor)),
                           buildPaddingInHV(3, 0),
                           Text(
-                            repository.language ?? '',
+                            repository.language ?? '--',
                             style: TextStyle(
                                 fontSize: 16.0, fontWeight: FontWeight.w600),
                           ),
@@ -167,26 +199,89 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
                   GittersLocalizations.of(context).RepoSubscribe.toString(),
                   repository.subscribersCount.toString() ?? ''),
               buildPaddingInHV(0, 6),
+              // buildKVRichText(
+              //     context,
+              //     GittersLocalizations.of(context).RepoForks.toString(),
+              //     repository.forksCount.toString() ?? ''),
+              // buildDivider(context),
               buildKVRichText(
                   context,
-                  GittersLocalizations.of(context).RepoForks.toString(),
-                  repository.forksCount.toString() ?? ''),
+                  GittersLocalizations.of(context).UpdateAt.toString(),
+                  repository.updatedAt.toString() ?? ''),
               buildDivider(context),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 5.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buildActionButton(
-                        context,
-                        Icons.star,
-                        GittersLocalizations.of(context).StarButton.toString(),
-                        () {}),
-                    buildActionButton(
-                        context,
-                        Icons.remove_red_eye,
-                        GittersLocalizations.of(context).WatchButton.toString(),
-                        () {}),
+                    FlatButton(
+                      color: context.read<BaseModel>().themeData.primaryColor,
+                      clipBehavior: Clip.hardEdge,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(starConfig.starIcon),
+                          Text(starConfig.starHint)
+                        ],
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          starConfig = StarConfig(
+                              starConfig.isStar, '', Icons.autorenew, true);
+                        });
+                        if (starConfig.isStar) {
+                          gitHubClient.activity.unstar(widget.slug).then((res) {
+                            // 取消关注成功
+                            StarConfig config = StarConfig(
+                                false,
+                                GittersLocalizations.of(context)
+                                    .StarButton
+                                    .toString(),
+                                Icons.star_border,
+                                true);
+                            setState(() {
+                              starConfig = config;
+                              print('');
+                            });
+                          }).catchError((err) {
+                            showToast('Network Error: ' + err.toString());
+                          });
+                        } else {
+                          gitHubClient.activity.star(widget.slug).then((res) {
+                            // 关注成功
+                            StarConfig config = StarConfig(
+                                true,
+                                GittersLocalizations.of(context)
+                                    .UnStarButton
+                                    .toString(),
+                                Icons.star,
+                                true);
+                            setState(() {
+                              starConfig = config;
+                              print('');
+                            });
+                          }).catchError((err) {
+                            showToast('Network Error: ' + err.toString());
+                          });
+                        }
+                      },
+                    ),
+                    FlatButton(
+                      color: context.read<BaseModel>().themeData.primaryColor,
+                      clipBehavior: Clip.hardEdge,
+                      onPressed: () {
+                        showToast('暂无 API，此功能未开放!');
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Icon(watchIcon),
+                          Text(GittersLocalizations.of(context)
+                              .WatchButton
+                              .toString())
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -232,8 +327,8 @@ class _UserRepositoryHomeState extends State<UserRepositoryHome> {
                     fontWeight: FontWeight.w900),
               ),
               buildPaddingInHV(0, 5.0),
-              Expanded(
-                child: Markdown(
+              Center(
+                child: MarkdownBody(
                     data: readMeFile.text ??
                         GittersLocalizations.of(context).NoReadMe.toString()),
               )
