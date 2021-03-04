@@ -12,8 +12,9 @@ class StarConfig {
   bool isStar;
   String starHint;
   IconData starIcon;
+  bool isNotInited;
 
-  StarConfig(this.isStar, this.starHint, this.starIcon);
+  StarConfig(this.isStar, this.starHint, this.starIcon, this.isNotInited);
 }
 
 class FollowingRepos extends StatefulWidget {
@@ -29,7 +30,7 @@ class FollowingRepos extends StatefulWidget {
 
 class _FollowingReposState extends State<FollowingRepos> {
   User curUser;
-  StarConfig starConfig = StarConfig(false, '--', Icons.star_border);
+  StarConfig starConfig = StarConfig(false, '', Icons.autorenew, true);
   Future userReposInfoFuture;
 
   String following;
@@ -59,20 +60,24 @@ class _FollowingReposState extends State<FollowingRepos> {
     });
 
     gitHubClient.users.isFollowingUser(widget.user).then((res) {
-      starConfig.isStar = res;
+      setState(() {
+        starConfig.isStar = res;
+        starConfig.isNotInited = false;
+      });
     }).catchError((err) {
       starConfig.isStar = false;
+      starConfig.isNotInited = true;
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (starConfig.isStar) {
+    if (!starConfig.isNotInited && starConfig.isStar) {
       starConfig.starHint =
           GittersLocalizations.of(context).UnStarButton.toString();
       starConfig.starIcon = Icons.star;
-    } else {
+    } else if (!starConfig.isNotInited && !starConfig.isStar) {
       starConfig.starHint =
           GittersLocalizations.of(context).StarButton.toString();
       starConfig.starIcon = Icons.star_border;
@@ -161,7 +166,8 @@ class _FollowingReposState extends State<FollowingRepos> {
                                             GittersLocalizations.of(context)
                                                 .StarButton
                                                 .toString(),
-                                            Icons.star_border);
+                                            Icons.star_border,
+                                            false);
                                         // followers =
                                         //     (curUser?.followersCount - 1)
                                         //             ?.toString() ??
@@ -179,7 +185,8 @@ class _FollowingReposState extends State<FollowingRepos> {
                                             GittersLocalizations.of(context)
                                                 .UnStarButton
                                                 .toString(),
-                                            Icons.star);
+                                            Icons.star,
+                                            false);
                                         // followers =
                                         //     (curUser?.followersCount + 1)
                                         //             ?.toString() ??
