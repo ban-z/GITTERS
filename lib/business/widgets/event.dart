@@ -69,13 +69,12 @@ class _EventItemState extends State<EventItem> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.event.repo.isPrivate) {
+        bool isPrivate = widget.event?.repo?.isPrivate ?? false;
+        if (isPrivate) {
           showToast('私有仓库，不可查看');
         } else {
-          gotoUserRepository(
-              context,
-              RepositorySlug(
-                  widget.event.repo.owner.login, widget.event.repo.name));
+          gotoUserRepository(context,
+              RepositorySlug(widget.event.actor.login, widget.event.repo.name));
         }
       },
       child: Container(
